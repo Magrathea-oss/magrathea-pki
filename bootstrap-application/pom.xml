@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.magrathea</groupId>
+        <artifactId>trust-engine</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>bootstrap-application</artifactId>
+    <packaging>jar</packaging>
+
+    <name>bootstrap-application</name>
+    <description>Trust Engine Bootstrap — Spring Boot reactive composition root</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.magrathea</groupId>
+            <artifactId>trust-engine-domain</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.magrathea</groupId>
+            <artifactId>trust-engine-application</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.magrathea</groupId>
+            <artifactId>trust-engine-infrastructure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.magrathea</groupId>
+            <artifactId>trust-engine-api-adapter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.magrathea</groupId>
+            <artifactId>trust-engine-cli-adapter</artifactId>
+        </dependency>
+
+        <!-- Spring Boot reactive -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- Dev profile dependencies -->
+        <dependency>
+            <groupId>io.r2dbc</groupId>
+            <artifactId>r2dbc-h2</artifactId>
+        </dependency>
+
+        <!-- Test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

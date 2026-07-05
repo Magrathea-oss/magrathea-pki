@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# javaspec launcher for the magrathea-pki project.
+#
+# Runs the javaspec CLI inside the project build container, mounting the
+# current working directory as /work and the local Maven repository so the
+# upstream bin/javaspec launcher resolves the installed snapshot jar.
+#
+# Usage (from the module you want to operate on):
+#   cd trust-engine-domain
+#   ../bin/javaspec describe com.magrathea.trustengine.domain.kms.Key
+#   ../bin/javaspec run --generate --compile
+set -euo pipefail
+
+image="localhost/magrathea-build:fedora42"
+javaspec_repo="${JAVASPEC_REPO:-${HOME}/workspace/javaspec}"
+launcher="${javaspec_repo}/bin/javaspec"
+
+if [ ! -f "${launcher}" ]; then
+  printf 'javaspec: upstream launcher not found at %s\n' "${launcher}" >&2
+  printf 'Set JAVASPEC_REPO to the javaspec repository root.\n' >&2
+  exit 1
+fi
+
+exec podman run --rm \
+  -v "$(pwd)":/work \
+  -v "${HOME}/.m2/repository":/root/.m2/repository \
+  -v "${launcher}":/usr/local/bin/javaspec:ro \
+  -w /work \
+  "${image}" \
+  javaspec "$@"

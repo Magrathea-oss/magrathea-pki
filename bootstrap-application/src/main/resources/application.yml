@@ -1,0 +1,56 @@
+# Default dev profile — software backend, H2 in-memory database
+# Switch profile to hsm or tpm for hardware-backed operations
+
+spring:
+  profiles:
+    active: dev
+  r2dbc:
+    url: r2dbc:h2:mem:///trustengine
+    username: sa
+    password:
+  webflux:
+    base-path: /api
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+trust-engine:
+  backend: software
+  keystore:
+    type: PKCS12
+    path: classpath:keystore.p12
+    password: changeit
+
+---
+# HSM profile — PKCS#11 Nitrokey
+spring:
+  profiles: hsm
+
+trust-engine:
+  backend: hsm
+  pkcs11:
+    library: /usr/lib/x86_64-linux-gnu/pkcs11/libcryptoki.so
+    slot: 0
+    pin: 1234
+
+---
+# TPM profile — TPM 2.0 simulator
+spring:
+  profiles: tpm
+
+trust-engine:
+  backend: tpm
+  tpm2:
+    simulator:
+      host: localhost
+      port: 2321
+    device: /dev/tpm0

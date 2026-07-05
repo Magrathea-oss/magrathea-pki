@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.magrathea</groupId>
+    <artifactId>trust-engine</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>trust-engine</name>
+    <description>Magrathea PKI Trust Engine — Reactive certificate validation, KMS, HSM, and TPM management</description>
+    <url>https://github.com/magrathea/trust-engine</url>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.4.4</version>
+        <relativePath/>
+    </parent>
+
+    <properties>
+        <java.version>21</java.version>
+        <maven.version>3.9</maven.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- Reactor -->
+        <reactor-bom.version>2024.0.0</reactor-bom.version>
+
+        <!-- Bouncy Castle -->
+        <bouncycastle.version>1.80</bouncycastle.version>
+
+        <!-- Testing -->
+        <cucumber.version>7.18.1</cucumber.version>
+        <javaspec.version>0.1.0-SNAPSHOT</javaspec.version>
+        <jacoco.version>0.8.12</jacoco.version>
+
+        <!-- CLI -->
+        <picocli.version>7.2.0</picocli.version>
+
+        <!-- R2DBC -->
+        <r2dbc-h2.version>1.0.0.RELEASE</r2dbc-h2.version>
+    </properties>
+
+    <modules>
+        <module>trust-engine-domain</module>
+        <module>trust-engine-application</module>
+        <module>trust-engine-infrastructure</module>
+        <module>trust-engine-api-adapter</module>
+        <module>trust-engine-cli-adapter</module>
+        <module>bootstrap-application</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Reactor BOM -->
+            <dependency>
+                <groupId>io.projectreactor</groupId>
+                <artifactId>reactor-bom</artifactId>
+                <version>${reactor-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Bouncy Castle -->
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcpkix-jdk18on</artifactId>
+                <version>${bouncycastle.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk18on</artifactId>
+                <version>${bouncycastle.version}</version>
+            </dependency>
+
+            <!-- Cucumber -->
+            <dependency>
+                <groupId>io.cucumber</groupId>
+                <artifactId>cucumber-java</artifactId>
+                <version>${cucumber.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.cucumber</groupId>
+                <artifactId>cucumber-spring</artifactId>
+                <version>${cucumber.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.cucumber</groupId>
+                <artifactId>cucumber-junit-platform-engine</artifactId>
+                <version>${cucumber.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- javaspec -->
+            <dependency>
+                <groupId>io.github.jvmspec</groupId>
+                <artifactId>javaspec</artifactId>
+                <version>${javaspec.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.github.jvmspec</groupId>
+                <artifactId>javaspec-junit-platform-engine</artifactId>
+                <version>${javaspec.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- Picocli -->
+            <dependency>
+                <groupId>info.picocli</groupId>
+                <artifactId>picocli</artifactId>
+                <version>${picocli.version}</version>
+            </dependency>
+
+            <!-- R2DBC H2 -->
+            <dependency>
+                <groupId>io.r2dbc</groupId>
+                <artifactId>r2dbc-h2</artifactId>
+                <version>${r2dbc-h2.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <!-- Internal module dependencies -->
+            <dependency>
+                <groupId>com.magrathea</groupId>
+                <artifactId>trust-engine-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.magrathea</groupId>
+                <artifactId>trust-engine-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.magrathea</groupId>
+                <artifactId>trust-engine-infrastructure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.magrathea</groupId>
+                <artifactId>trust-engine-api-adapter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.magrathea</groupId>
+                <artifactId>trust-engine-cli-adapter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <!-- JaCoCo -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <!-- Dev profile: software backend, H2, no hardware -->
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>io.r2dbc</groupId>
+                    <artifactId>r2dbc-h2</artifactId>
+                </dependency>
+            </dependencies>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.magrathea</groupId>
+                        <artifactId>trust-engine-infrastructure</artifactId>
+                        <version>${project.version}</version>
+                        <classifier>software</classifier>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+        </profile>
+
+        <!-- HSM profile: PKCS#11 Nitrokey -->
+        <profile>
+            <id>hsm</id>
+            <dependencies>
+                <!-- PKCS#11 wrapper -->
+                <dependency>
+                    <groupId>org.cryptoki</groupId>
+                    <artifactId>cryptoki-java</artifactId>
+                    <version>1.0.0</version>
+                </dependency>
+            </dependencies>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.magrathea</groupId>
+                        <artifactId>trust-engine-infrastructure</artifactId>
+                        <version>${project.version}</version>
+                        <classifier>pkcs11</classifier>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+        </profile>
+
+        <!-- TPM profile: TPM 2.0 simulator -->
+        <profile>
+            <id>tpm</id>
+            <dependencies>
+                <!-- TPM 2.0 TSS -->
+                <dependency>
+                    <groupId>com.github.tpm2-tss</groupId>
+                    <artifactId>tpm2-tss</artifactId>
+                    <version>1.0.0</version>
+                </dependency>
+            </dependencies>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.magrathea</groupId>
+                        <artifactId>trust-engine-infrastructure</artifactId>
+                        <version>${project.version}</version>
+                        <classifier>tpm2</classifier>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+        </profile>
+    </profiles>
+</project>

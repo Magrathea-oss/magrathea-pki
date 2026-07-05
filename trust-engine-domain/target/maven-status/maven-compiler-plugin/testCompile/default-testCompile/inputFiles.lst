@@ -1,0 +1,6 @@
+/work/trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/domain/kms/AlgorithmSpec.java
+/work/trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/domain/kms/KeySpec.java
+/work/trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/domain/kms/KeyUsageSpec.java
+/work/trust-engine-domain/target/generated-sources/javaspec/spec/com/magrathea/trustengine/domain/kms/AlgorithmSpecSupport.java
+/work/trust-engine-domain/target/generated-sources/javaspec/spec/com/magrathea/trustengine/domain/kms/KeySpecSupport.java
+/work/trust-engine-domain/target/generated-sources/javaspec/spec/com/magrathea/trustengine/domain/kms/KeyUsageSpecSupport.java
