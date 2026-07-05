@@ -18,5 +18,4 @@ public enum Algorithm {
     public int keySize() {
         return keySize;
     }
-
 }
