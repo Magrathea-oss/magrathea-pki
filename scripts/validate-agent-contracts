@@ -35,6 +35,7 @@ for name, body in agent_text.items():
 require('externally meaningful Java domain behavior' in agent_text['spec-driven'], 'spec-driven semantic behavior language missing')
 require('pure-domain development agent' in agent_text['spec-driven'], 'spec-driven pure-domain role missing')
 require('structured handoff' in agent_text['spec-driven'], 'spec-driven handoff language missing')
+require('MULTI_AGENT_TRACE_ID' in agent_text['spec-driven'], 'spec-driven raw-capture gate missing')
 require('javaspec' in agent_text['spec-driven'], 'spec-driven javaspec language missing')
 require('application, scenario, adapter, and integration agent' in agent_text['story-driven'], 'story-driven role missing')
 require('MISSING_DOMAIN_BEHAVIOR' in agent_text['story-driven'], 'story-driven missing-domain stop missing')
@@ -42,10 +43,12 @@ require('extract -> delegate -> response' in agent_text['story-driven'], 'story-
 require('independent dataset recorder' in agent_text['dataset-writer'], 'dataset-writer role missing')
 require('must never directly alter implementation source' in agent_text['dataset-writer'], 'dataset-writer source-modification prohibition missing')
 require('CURATED_SFT' in agent_text['dataset-writer'], 'dataset-writer curation language missing')
+require('sealed trace path' in agent_text['dataset-writer'], 'dataset-writer sealed-trace requirement missing')
 
 wf = text(WORKFLOW)
-require('agent: story-driven' in wf and 'agent: dataset-writer' in wf, 'bdd-java workflow missing story/dataset relationship text')
-require(wf.count('agent: dataset-writer') >= 2, 'dataset-writer should be child of both implementation agents in bdd-java')
+require('agent: story-driven' in wf and 'agent: dataset-writer' in wf, 'bdd-java workflow missing implementation/dataset agents')
+require(wf.count('agent: dataset-writer') == 1, 'dataset-writer should be a direct planner child exactly once in bdd-java')
+require('dataset-writer (validates sealed implementation trajectories)' in wf, 'bdd-java sealed-trajectory routing missing')
 
 registry = json.loads(text(REGISTRY) or '{}')
 rules = registry.get('fileRules', [])
