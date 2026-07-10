@@ -15,7 +15,7 @@ DATASET = ROOT / 'docs/dataset'
 MANIFEST = DATASET / 'manifest.jsonl'
 SCHEMA = DATASET / 'schema/episode-v2.schema.json'
 TERMINATIONS = {
-    'VERIFIED_SUCCESS','FRAMEWORK_INCOHERENCE','UNSUPPORTED_JAVA_CONSTRUCT','SPECIFICATION_AMBIGUITY',
+    'VERIFIED_SUCCESS','TRAINING_CAPTURE_UNAVAILABLE','FRAMEWORK_INCOHERENCE','UNSUPPORTED_JAVA_CONSTRUCT','SPECIFICATION_AMBIGUITY',
     'DOMAIN_MODEL_INCONSISTENCY','MODEL_TOOL_ERROR','MODEL_REASONING_ERROR','BASELINE_FAILURE',
     'BUILD_ENVIRONMENT_FAILURE','QUALITY_GATE_FAILURE','SECURITY_RISK','REGRESSION_DETECTED',
     'UNAUTHORIZED_FILE_CHANGE','CONTEXT_LIMIT_REACHED','HUMAN_DECISION_REQUIRED','CHECKPOINT'
@@ -48,6 +48,7 @@ require(MANIFEST.is_file(), 'missing dataset manifest')
 legacy_files = sorted(DATASET.glob('00[0-3][0-9]-*.jsonl'))
 legacy_files = [p for p in legacy_files if re.match(r'00[0-3][0-9]-', p.name) and int(p.name[:4]) <= 33]
 v2_files = sorted((DATASET / 'raw/v2').glob('*.json'))
+incident_files = sorted((DATASET / 'incidents').glob('*.json'))
 require(len(legacy_files) == 33, f'expected 33 legacy files, found {len(legacy_files)}')
 
 entries = []
@@ -59,7 +60,7 @@ if MANIFEST.is_file():
             entries.append(json.loads(line))
         except json.JSONDecodeError as exc:
             failures.append(f'manifest line {line_no} invalid JSON: {exc}')
-expected_entry_count = len(legacy_files) + len(v2_files)
+expected_entry_count = len(legacy_files) + len(v2_files) + len(incident_files)
 require(len(entries) == expected_entry_count, f'expected {expected_entry_count} manifest entries, found {len(entries)}')
 
 def rel(path):
@@ -76,17 +77,20 @@ def validate_file_reference(ref, owner):
         require(sha256(p) == ref.get('sha256'), f'{owner} artifact sha mismatch {path}')
         require(p.stat().st_size == ref.get('byteSize'), f'{owner} artifact byte size mismatch {path}')
 
-expected_paths = {rel(p) for p in legacy_files + v2_files}
+expected_paths = {rel(p) for p in legacy_files + v2_files + incident_files}
 seen = set()
 legacy_entries = 0
 v2_entries = 0
+incident_entries = 0
 for entry in entries:
     path = entry.get('path')
     require(path not in seen, f'duplicate manifest path {path}')
     seen.add(path)
     require(entry.get('curationStatus') in CURATION, f'invalid curation status for {path}')
-    for field in ['knownIssues','replayability','behaviorVerification','codeQualityStatus','sftEligibility','evaluationEligibility','sha256','byteSize']:
+    for field in ['knownIssues','replayability','behaviorVerification','sftEligibility','evaluationEligibility','sha256','byteSize']:
         require(field in entry, f'manifest entry {path} missing {field}')
+    if entry.get('entryType') in {'legacyRawV1', 'rawV2'}:
+        require('codeQualityStatus' in entry, f'manifest entry {path} missing codeQualityStatus')
     if path:
         p = ROOT / path
         require(p.is_file(), f'manifest path missing {path}')
@@ -123,15 +127,30 @@ for entry in entries:
                 validate_file_reference(ref, path)
             for ref in episode.get('verification', {}).get('evidence', []):
                 validate_file_reference(ref, path)
+    elif entry_type == 'incident':
+        incident_entries += 1
+        require(path in {rel(p) for p in incident_files}, f'incident manifest path is not under docs/dataset/incidents: {path}')
+        require(entry.get('terminationType') in TERMINATIONS, f'incident entry invalid terminationType for {path}')
+        require(entry.get('suspectedOwner') in OWNERS, f'incident entry invalid suspectedOwner for {path}')
+        if path and (ROOT / path).is_file():
+            incident = json.loads((ROOT / path).read_text())
+            require(incident.get('schemaVersion') == 'incident-v1', f'incident {path} invalid schemaVersion')
+            require(entry.get('incidentId') == incident.get('incidentId'), f'manifest incidentId mismatch {path}')
+            require(entry.get('terminationType') == incident.get('termination', {}).get('type'), f'manifest incident termination mismatch {path}')
+            require(entry.get('suspectedOwner') == incident.get('termination', {}).get('suspectedOwner'), f'manifest incident suspectedOwner mismatch {path}')
+            require(entry.get('curationStatus') == incident.get('admission', {}).get('curationStatus'), f'manifest incident curation mismatch {path}')
+            for ref in incident.get('artifacts', []):
+                validate_file_reference(ref, path)
     else:
         require(False, f'unsupported manifest entryType {entry_type} for {path}')
 require(seen == expected_paths, f'manifest paths do not match dataset files; missing={sorted(expected_paths - seen)} extra={sorted(seen - expected_paths)}')
 require(legacy_entries == len(legacy_files), f'expected {len(legacy_files)} legacy manifest entries, found {legacy_entries}')
 require(v2_entries == len(v2_files), f'expected {len(v2_files)} rawV2 manifest entries, found {v2_entries}')
+require(incident_entries == len(incident_files), f'expected {len(incident_files)} incident manifest entries, found {incident_entries}')
 
 # Check metadata files for obvious private home paths or common secret labels.
 secret_re = re.compile(r'(PRIVATE KEY|BEGIN RSA|AWS_SECRET|SECRET_ACCESS_KEY|/home/[^/\s]+)', re.I)
-for path in [MANIFEST, SCHEMA, DATASET / 'README.md', DATASET / 'artifacts/dataset-v2-layout-validation.json', *v2_files]:
+for path in [MANIFEST, SCHEMA, DATASET / 'README.md', DATASET / 'artifacts/dataset-v2-layout-validation.json', *v2_files, *incident_files]:
     if path.is_file():
         require(not secret_re.search(path.read_text(errors='ignore')), f'private path or secret-like text in {path}')
 
@@ -141,4 +160,4 @@ if failures:
         print('-', failure)
     sys.exit(1)
 print('validate-dataset: PASS')
-print(f'legacy_files={len(legacy_files)} v2_episodes={len(v2_files)} manifest_entries={len(entries)}')
+print(f'legacy_files={len(legacy_files)} v2_episodes={len(v2_files)} incidents={len(incident_files)} manifest_entries={len(entries)}')
