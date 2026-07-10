@@ -13,6 +13,10 @@ ADR bodies are owned by adr-writer and are not generated in this chapter. This c
 | link:../adr/0001-use-content-addressed-yaml-for-certificate-profiles.md[ADR 0001 — Use content-addressed YAML for certificate profiles]
 | Accepted
 | Certificate profiles are immutable, content-addressed YAML resources. Profile IDs use a versioned semantic canonical hash such as `x509-profile-v1-sha256-<digest>`.
+
+| link:../adr/0002-use-git-backed-governed-event-store-for-certificate-profile-lifecycle.md[ADR 0002 — Use a Git-backed governed event store for certificate profile registry lifecycle]
+| Accepted architectural direction / not implemented
+| Git is selected only as a governed, low-throughput source for certificate profile registry/lifecycle events and immutable artifact/manifest publication. CQRS keeps read models replaceable, and the Event Sourcing path remains open through structured event envelopes and replayable projections. No Git event-store implementation or projectors/read models exist yet.
 |===
 
 == 9.2 Decisions That Need ADRs
@@ -46,6 +50,6 @@ ADR bodies are owned by adr-writer and are not generated in this chapter. This c
 | FIPS, eIDAS, ETSI, and Common Criteria targets require explicit scope and evidence decisions.
 
 | X.509 profile canonicalization and trusted reference distribution
-| actionable
-| ADR 0001 records the content-addressed YAML decision; exact semantic canonicalization rules and trusted expected-ID/reference distribution still need follow-up decisions.
+| partially addressed / needs follow-up
+| ADR 0001 records content-addressed YAML and profile ID canonicalization. ADR 0002 records the Git-backed governed lifecycle/event-source direction. Follow-up decisions still need exact Git stream layout, event types, signing/trust model, projector/read-model design, and environment-specific trusted reference distribution.
 |===

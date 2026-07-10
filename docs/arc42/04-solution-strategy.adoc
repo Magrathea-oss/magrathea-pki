@@ -55,6 +55,10 @@ Remaining behavior is not implemented, including integration of these value obje
 | planned
 | Application ports and adapters should support reactive flows where required by WebFlux and operational scalability.
 
+| Certificate profile registry/lifecycle source
+| confirmed design / not implemented
+| link:../adr/0002-use-git-backed-governed-event-store-for-certificate-profile-lifecycle.md[ADR 0002] chooses a Git-backed governed event store as the low-throughput source for certificate profile registry/lifecycle events and immutable profile artifact/manifest publication. CQRS keeps reads replaceable: simple Git-derived reads/caches may be used first, while PostgreSQL, OpenSearch, cache projections, or a dedicated event store remain available later. No Git event-store adapter, event envelopes, projectors, or read models exist yet.
+
 | Build/scaffold
 | implementation-informed
 | Existing Maven modules express domain, application, infrastructure, API adapter, CLI adapter, and bootstrap layers, but do not define C4 containers. Full reactor packaging has passed with Spring Boot 4.1.0 and Java 21.
@@ -87,12 +91,14 @@ Remaining behavior is not implemented, including integration of these value obje
 
 == 4.6 Architecture Decisions
 
-Status: actionable.
+Status: implementation-informed.
 
-No ADR files were found. Major strategy decisions still need ADRs, especially for:
+Existing strategy decisions are indexed in chapter 9, including link:../adr/0001-use-content-addressed-yaml-for-certificate-profiles.md[ADR 0001] for content-addressed YAML certificate profiles and link:../adr/0002-use-git-backed-governed-event-store-for-certificate-profile-lifecycle.md[ADR 0002] for the Git-backed governed profile lifecycle event-store direction.
+
+Major strategy decisions still need ADRs, especially for:
 
 * bounded-context boundaries;
 * Spring Boot 4 LTS platform baseline and dependency-management policy;
 * key custody profiles and cryptographic boundary rules;
-* audit storage and immutability;
+* broader audit storage and immutability beyond the governed profile lifecycle source;
 * compliance evidence approach.

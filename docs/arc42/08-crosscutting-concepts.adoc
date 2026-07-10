@@ -98,7 +98,29 @@ Lifecycle states are `draft`, `active`, `deprecated`, `revoked`, and `archived`.
 
 The first release does not necessarily require a signed manifest, but the manifest format is prepared for later signing. Later hardening may add `profiles/profiles.manifest.sig`, software signatures in development, HSM signatures in production, and Git signed commits as optional additional protection.
 
-== 8.9 Testing and Documentation Conventions
+== 8.9 Governed Profile Lifecycle Event Store and CQRS Projections
+
+Status: confirmed design / not implemented.
+
+link:../adr/0002-use-git-backed-governed-event-store-for-certificate-profile-lifecycle.md[ADR 0002] chooses Git as a governed, low-throughput event store/source for certificate profile registry/lifecycle events and immutable profile artifact/manifest publication. The rationale is Git's Merkle DAG and hash-linked history, which can provide Bitcoin-like tamper-evidence properties when protected refs, signatures, and operational governance are enforced.
+
+This concept is intentionally bounded:
+
+* Git is not the runtime certificate issuance database.
+* Git is not a high-volume event store.
+* Git is not a consensus ledger.
+* Git is not a query engine.
+* No secrets may be stored in Git.
+
+Required stream and publication controls are protected refs with no force-push, signed commits or tags for published/activatable profile states, expected-head / compare-and-swap writes for concurrency, one aggregate stream per ref/path or an equivalent deterministic ordering rule, and no uncontrolled merges in event streams.
+
+Profile lifecycle events are planned to use a structured event envelope containing `eventId`, `aggregateId`, `aggregateVersion`, `eventType`, `occurredAt`, `actor`, `causationId`, `correlationId`, `schemaVersion`, and `payload`.
+
+CQRS read models must be idempotent and replayable. Simple Git-derived reads or caches may be sufficient first; PostgreSQL, OpenSearch, cache projections, or a dedicated event store remain later options if query complexity, latency, or operational scale requires them. The Git adapter belongs to infrastructure behind ports so it can be replaced without changing domain behavior.
+
+Anti-fake status: no Git event-store adapter, event streams, event envelopes, projectors, read models, replay validation, or standard database/search/cache projections exist yet.
+
+== 8.10 Testing and Documentation Conventions
 
 Status: confirmed.
 

@@ -180,9 +180,9 @@ end note
 
 | [[UC-X509-PROFILE]]`UC-X509-PROFILE`
 | Registration Authority Operator
-| Define and manage X.509 certificate profiles and issuance policy inputs.
-| X.509 planned first / not implemented.
-| No Gherkin feature file observed yet.
+| Define and manage X.509 certificate profiles, lifecycle states, immutable artifact/manifest publication, and issuance policy inputs.
+| X.509 planned first / not implemented. link:../adr/0002-use-git-backed-governed-event-store-for-certificate-profile-lifecycle.md[ADR 0002] records a Git-backed governed event-store/CQRS architectural direction for the registry lifecycle, but no implementation or executable profile-management feature exists yet.
+| No Gherkin feature file observed yet for profile registry/lifecycle management. ADR 0002 is architectural decision evidence only; no Git event-store adapter, event streams, projectors, or read models exist yet.
 
 | [[UC-X509-PROFILE-INTEGRITY]]`UC-X509-PROFILE-INTEGRITY`
 | Registration Authority Operator
@@ -250,7 +250,7 @@ Remaining behavior is not implemented, including integration of these value obje
 | _missing_
 | _none_
 | planned / not implemented
-| Add X.509 profile feature(s) before implementation can be claimed.
+| Add X.509 profile registry/lifecycle feature(s) before implementation can be claimed. ADR 0002 defines the planned Git-backed governed event-store/CQRS direction, but it is not executable requirement or runtime-support evidence.
 
 | <<UC-X509-PROFILE-INTEGRITY,UC-X509-PROFILE-INTEGRITY>>
 | `features/x509/certificate-profile-integrity.feature`
@@ -591,7 +591,7 @@ Rules:
 
 | actionable
 | X.509 profile integrity is now represented by `features/x509/certificate-profile-integrity.feature`; the first scenario has RED Cucumber story wiring and 29 valid pure-domain behaviors cover `CertificateProfileId`, limited one-field `CertificateProfile(int validityDays)` canonical JSON/hash/profile-ID/matching-ID behavior, and standalone canonical rendering for key usages, extended key usages, public key algorithms, and basic constraints,
-but the application use case, integration of these value objects into `CertificateProfile`, full multi-field semantic canonicalization, schema/default expansion/validation, deterministic complete-profile hashing, manifest comparison, YAML parsing/adapter behavior, and audit emission are not implemented. Create feature coverage for `UC-X509-PROFILE`, `UC-X509-ISSUE`, `UC-X509-REVOKE`, and `UC-X509-VALIDATE`, implement the profile-integrity use case, and keep all X.509 support claims as not implemented until validation passes.
+but the application use case, integration of these value objects into `CertificateProfile`, full multi-field semantic canonicalization, schema/default expansion/validation, deterministic complete-profile hashing, manifest comparison, YAML parsing/adapter behavior, and audit emission are not implemented. Create feature coverage for `UC-X509-PROFILE`, `UC-X509-ISSUE`, `UC-X509-REVOKE`, and `UC-X509-VALIDATE`, implement the profile-integrity use case, and keep all X.509 support claims as not implemented until validation passes. ADR 0002 adds a planned Git-backed governed profile lifecycle event store with CQRS projections, but no feature file, Git adapter, event streams, event envelope, projector, or read model exists yet.
 
 | blocked/actionable
 | CVC and SSH requirements are planned later according to roadmap priority. They need stable use-case IDs and feature files when that roadmap phase starts.

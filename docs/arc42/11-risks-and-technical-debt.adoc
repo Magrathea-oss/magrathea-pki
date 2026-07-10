@@ -43,6 +43,12 @@ Remaining behavior is not implemented, including application behavior, integrati
 | Define audit store, immutability mechanism, retention, and export requirements.
 | security architect / compliance officer
 
+| Git-backed profile lifecycle event store not implemented
+| risk / confirmed design
+| link:../adr/0002-use-git-backed-governed-event-store-for-certificate-profile-lifecycle.md[ADR 0002] chooses Git as a governed, low-throughput source for certificate profile registry/lifecycle events and immutable artifact/manifest publication, but no Git adapter, protected stream layout, signed publication workflow, expected-head/CAS write path, structured event envelope, CQRS projector, read model, or replay validation exists yet. Documentation could overstate support if this remains unclear.
+| Add executable requirements and implementation slices before claiming support. Define stream layout, signing/trust model, server-side controls, event schema, projector idempotency/replay checks, and the threshold for replacing Git-derived reads with PostgreSQL/OpenSearch/cache projections or a standard event store.
+| security architect / story-driven / adr-writer
+
 | X.509 profile canonicalization uncertainty
 | partially resolved risk
 | The canonical semantic pipeline and rules are now confirmed, but implementation drift could still compute incompatible profile IDs.
@@ -119,6 +125,9 @@ Remaining behavior is not implemented, including integration of these value obje
 
 | needs-review
 | Confirm exact lifecycle edge cases for `draft`, `active`, `deprecated`, `revoked`, and `archived` profiles, including alias movement and issuance restrictions.
+
+| needs-review
+| Confirm the Git-backed profile lifecycle stream layout, protected-ref/no-force-push controls, signed publication model, expected-head/CAS behavior, event-envelope schema, and CQRS projection/replay validation approach before implementation support is claimed.
 |===
 
 == 11.2 Recently Resolved Items
@@ -133,7 +142,7 @@ Remaining behavior is not implemented, including integration of these value obje
 
 | X.509 profile ID canonicalization and expected-ID location
 | partially resolved/confirmed design
-| ADR 0001 now confirms the semantic canonicalization pipeline, `x509-profile-v1-sha256-<digest>` format, canonicalization rules, separate `profiles/profiles.manifest.yaml`, tamper-detection audit behavior, and lifecycle states. Open follow-ups are limited to manifest signing/trusted distribution and exact lifecycle edge cases.
+| ADR 0001 now confirms the semantic canonicalization pipeline, `x509-profile-v1-sha256-<digest>` format, canonicalization rules, separate `profiles/profiles.manifest.yaml`, tamper-detection audit behavior, and lifecycle states. ADR 0002 now adds the confirmed Git-backed governed profile lifecycle event-store direction with CQRS/read-model replaceability, while preserving anti-fake status because no Git adapter, event streams, projectors, or read models exist. Open follow-ups include manifest signing/trusted distribution, exact lifecycle edge cases, Git stream layout, signing model, and projector/replay validation.
 
 | Host Maven availability for story validation
 | resolved/implementation-informed

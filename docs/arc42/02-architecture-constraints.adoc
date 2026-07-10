@@ -35,6 +35,10 @@ Status: implementation-informed, with confirmed product constraints and the Spri
 | Compliance targets
 | confirmed
 | Architecture and implementation decisions must consider FIPS, eIDAS, ETSI, and Common Criteria expectations.
+
+| Git-backed governed profile event store guardrails
+| confirmed design / not implemented
+| link:../adr/0002-use-git-backed-governed-event-store-for-certificate-profile-lifecycle.md[ADR 0002] permits Git only as a governed, low-throughput source for certificate profile registry/lifecycle events and immutable artifact/manifest publication. It forbids secrets in Git, force-pushed event streams, uncontrolled stream merges, and use of Git as a runtime issuance database, high-volume event store, consensus ledger, or query engine. Git integration must remain replaceable infrastructure behind ports.
 |===
 
 == 2.2 Organizational and Process Constraints
