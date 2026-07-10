@@ -1,0 +1,198 @@
+{
+  "schemaVersion": "incident-v1",
+  "incidentId": "workflow-policy-conflict-lifecycle-envelope-occurred-at-2026-07-10",
+  "createdAt": "2026-07-10T21:10:08Z",
+  "recordedBy": "dataset-writer",
+  "datasetWriterStatus": "INCIDENT_ONLY",
+  "workflow": "bdd-java",
+  "sourceAgent": "spec-driven",
+  "termination": {
+    "type": "HUMAN_DECISION_REQUIRED",
+    "suspectedOwner": "TOOLING",
+    "summary": "Under the then-effective bdd-java-spec-driven-v4 contract, a coherent dry-run proved that the Instant occurredAt record structure was absent, but safe generation added the component and implicit accessor so the assertion passed immediately. Because v4 and the delegated task required a post-generation assertion RED, the agent correctly refused to manufacture a defect, reverted all changes, and stopped for workflow-policy review."
+  },
+  "task": {
+    "candidateBehavior": "CertificateProfileLifecycleEventEnvelope.occurredAt",
+    "behaviorScope": "Expose the supplied lifecycle occurrence Instant through an immutable record component/accessor.",
+    "canonicalDelegatedTaskLanguage": "en",
+    "requirementAnchors": [
+      "features/x509/certificate-profile-lifecycle.feature @req-x509-profile-lifecycle-001",
+      "docs/adr/0002-use-git-backed-governed-event-store-for-certificate-profile-lifecycle.md"
+    ],
+    "instruction": "Record one truthful non-training workflow-policy incident; do not create numbered behavior episode 0035 or mark the trace SFT eligible."
+  },
+  "provenance": {
+    "captureMode": "RAW_EVENT_STREAM",
+    "traceId": "8c79b311-1a6e-4e17-b88f-d888eaac63d7",
+    "traceSchemaVersion": "multi-agent-trajectory-v1",
+    "traceStartedAt": "2026-07-10T21:02:03.891Z",
+    "traceSealedAt": "2026-07-10T21:06:18.893Z",
+    "eventsSha256": "b423974acc53b066bd8099906561eb1b3c2387fb71fdd880951a8ddd285cf7e6",
+    "metadataSha256": "0fcdab52565d6f5ea550e735da6b6fe93eab32829c96e822b6759bdfb11c413b",
+    "sealSha256": "a8ccc383f333d99a4f0a7ddd9f487285e3147f96e40e0b85d224e0e19da8dff7",
+    "sealFinalEventHash": "fa46a54ff1d7757f14e0ce091954f839b4378af4b4be8868707dd7dba8acba6f",
+    "eventCount": 251,
+    "implementationPromptVersion": "bdd-java-spec-driven-v4",
+    "agentDefinitionSha256": "f7265db508f2dfa459e80005f045252e80ef8047a8614fb6802597ec375ca1d0",
+    "toolRegistryFingerprint": "58f9fb4ff63c4ac748fcf030b843b8687a38b4aab2362dd8974d2b5b32f7776b",
+    "effectiveModel": "openai-codex/gpt-5.6-sol",
+    "sourceUserMessageIncluded": false,
+    "javaspecLauncherVersion": "1.0.0-RC1",
+    "javaspecSelectedJarSha256": "8522dc72ab0ca87a508436419c4ed430e0ad470375445c689fa871218a8ab501",
+    "javaspecRepositoryHead": "cd7ff8d1379aabdfcfadc964b3a6473f38383c66",
+    "javaspecRequiredFixesPresent": [
+      "5b65099",
+      "5662797"
+    ],
+    "initialGit": {
+      "head": "e5232940528522ae86d204840a2861d732795366",
+      "tree": "5ab887b26c4ed7cda82594e5c484373e77f7df3e",
+      "statusPorcelainV2": ""
+    },
+    "finalGit": {
+      "head": "e5232940528522ae86d204840a2861d732795366",
+      "tree": "5ab887b26c4ed7cda82594e5c484373e77f7df3e",
+      "statusPorcelainV2": "",
+      "changedFiles": []
+    }
+  },
+  "admission": {
+    "decision": "NON_TRAINING_WORKFLOW_POLICY_INCIDENT_ACCEPTED",
+    "numberedEpisodeCreated": false,
+    "episode0035Created": false,
+    "behaviorVerified": false,
+    "trainingEligible": false,
+    "curationStatus": "QUALITY_REJECTED",
+    "sftEligibility": {
+      "status": "NOT_ELIGIBLE",
+      "reason": "Although the trace is a valid RAW_EVENT_STREAM, its effective v4 contract ended in a policy stop, the candidate production behavior was reverted, and no admitted RED/GREEN completion exists."
+    },
+    "evaluationEligibility": {
+      "status": "NOT_ELIGIBLE",
+      "reason": "This workflow-policy incident has not been independently approved as an evaluation case."
+    },
+    "replayability": {
+      "status": "TRACE_INTEGRITY_VERIFIED",
+      "reason": "The sealed trajectory, structural dry-run, coherent generated pass, policy stop, restoration, and final clean Git state are cryptographically and chronologically explainable; no independent execution replay was performed."
+    }
+  },
+  "validation": {
+    "status": "PASS",
+    "canonicalEnglishTaskExact": true,
+    "sourceUserMessageIncluded": false,
+    "thinkingContentPresent": false,
+    "credentialOrSecretFound": false,
+    "rawTraceContainsMachineLocalPaths": true,
+    "rawTraceCopiedToDataset": false,
+    "hashChainValid": true,
+    "sealValid": true,
+    "chronologicalToolExecutionPairs": 40,
+    "toolExecutionPairErrors": 0,
+    "promptToolModelGitProvenanceComplete": true,
+    "repositoryArtifactsSanitized": true
+  },
+  "incidentEvidence": {
+    "baseline": {
+      "fullJavaspec": "34 passed, 0 failed, 0 broken, 0 skipped, 0 pending",
+      "exitCode": 0
+    },
+    "preGenerationStructuralRed": {
+      "status": "DRY_RUN_PENDING_STRUCTURE",
+      "exitCode": 1,
+      "missingBehavior": "Committed record lacked the sixth java.time.Instant occurredAt component/constructor slot.",
+      "filesWritten": false
+    },
+    "safeGeneration": {
+      "selectedExample": "it_exposes_when_the_lifecycle_event_occurred",
+      "status": "PASSED_IMMEDIATELY",
+      "selectedCommandExitCode": 0,
+      "constructorOrderPreserved": true,
+      "recordComponentAppended": "java.time.Instant occurredAt",
+      "typedImplicitAccessorCount": 1,
+      "pendingProductionStubCount": 0,
+      "postGenerationAssertionRed": false
+    },
+    "typedStop": {
+      "effectiveContract": "bdd-java-spec-driven-v4",
+      "status": "CORRECT_POLICY_STOP",
+      "manufacturedDefectAttempted": false,
+      "greenAdmitted": false
+    },
+    "finalState": {
+      "attemptedProductionChangeReverted": true,
+      "attemptedSpecificationChangeReverted": true,
+      "restoredFullJavaspec": "34 passed, 0 failed, 0 broken, 0 skipped, 0 pending",
+      "restoredMaven": "34 tests, 0 failures, 0 errors, 0 skipped, BUILD SUCCESS",
+      "pendingStubCount": 0,
+      "changedFileCount": 0,
+      "repositoryClean": true
+    },
+    "genericContractRevision": {
+      "promptVersion": "bdd-java-spec-driven-v5",
+      "sourcePackCommit": "e57021fde02a4f4cf4b764d6c5c8a8793ecfacf3",
+      "acceptsPreGenerationStructuralRed": true,
+      "prohibitsManufacturedDefects": true,
+      "installedDefinitionSha256": "4fea1a3bbd6649ddac7d319e47444cb25859c538dfea33b42cc679cd14178468",
+      "installedMatchesSourcePack": true,
+      "retroactivelySftEligible": false
+    }
+  },
+  "relevantFileHashes": [
+    {
+      "path": "trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelope.java",
+      "sha256": "f3863042d355dda188eab605e36ec0a74d67493d2b7e9497c491c3311cb760cc"
+    },
+    {
+      "path": "trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelopeSpec.java",
+      "sha256": "63269a18fd6dcc4cb50e2ca3d344c9fd9d245910acdebb141e9c65dbe51a1ad7"
+    },
+    {
+      "path": "features/x509/certificate-profile-lifecycle.feature",
+      "sha256": "072d852a5fc3e0aa56bde81290c55d4f2c8db240cb3bb61b982be500a0569157"
+    },
+    {
+      "path": "docs/adr/0002-use-git-backed-governed-event-store-for-certificate-profile-lifecycle.md",
+      "sha256": "43cc9d679ea3e0660f026a78e74dea459c3be15c2622c62fd346f4b4135f6784"
+    }
+  ],
+  "contextMetrics": {
+    "metricCollectionStatus": "PARTIAL",
+    "maximumContextTokens": null,
+    "peakContextTokens": 32023,
+    "totalInputTokens": 53279,
+    "cachedInputTokens": 710656,
+    "outputTokens": 9748,
+    "uniqueSourceBytesRead": null,
+    "repeatedSourceBytesRead": null,
+    "toolOutputBytesPresentedToModel": 59502,
+    "compactionCount": 0,
+    "iterationCount": 41
+  },
+  "artifacts": [
+    {
+      "path": "docs/dataset/artifacts/workflow-policy-conflict-lifecycle-envelope-occurred-at-2026-07-10/trace-validation.json",
+      "sha256": "b91fb08cd2a246cd2de422f868de061ae609c79137f301c1ba49a810d56de311",
+      "mediaType": "application/json",
+      "byteSize": 4654,
+      "sanitized": true
+    },
+    {
+      "path": "docs/dataset/artifacts/workflow-policy-conflict-lifecycle-envelope-occurred-at-2026-07-10/incident-evidence.json",
+      "sha256": "1d8f1343dad7e1d1ce97cc22b1231ce1d24d245a05024e082f0ba96ca4bdef62",
+      "mediaType": "application/json",
+      "byteSize": 5122,
+      "sanitized": true
+    },
+    {
+      "path": "docs/dataset/artifacts/workflow-policy-conflict-lifecycle-envelope-occurred-at-2026-07-10/resume-capsule.md",
+      "sha256": "7def0a40f959db461256603b844aaee4cd36048de6ace2a491652becea2eba58",
+      "mediaType": "text/markdown",
+      "byteSize": 2981,
+      "sanitized": true
+    }
+  ],
+  "resumeCapsule": {
+    "path": "docs/dataset/artifacts/workflow-policy-conflict-lifecycle-envelope-occurred-at-2026-07-10/resume-capsule.md",
+    "summary": "Start a new sealed bdd-java-spec-driven-v5 slice from the clean state; preserve the pre-generation structural RED and accept coherent safe generation as candidate GREEN without manufacturing a defect."
+  }
+}

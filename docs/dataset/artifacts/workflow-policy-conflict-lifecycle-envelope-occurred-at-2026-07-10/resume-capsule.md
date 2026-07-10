@@ -1,0 +1,25 @@
+# Resume capsule — occurredAt structural-RED policy conflict
+
+- **Termination:** `HUMAN_DECISION_REQUIRED` (historical v4 workflow-policy conflict)
+- **Suspected owner:** `TOOLING`
+- **Owning implementation agent:** `spec-driven`
+- **Effective implementation contract:** `bdd-java-spec-driven-v4`
+- **Requirement:** `req-x509-profile-lifecycle-001`
+- **Decision:** `ADR-0002`
+- **Behavior:** `CertificateProfileLifecycleEventEnvelope` exposes the supplied lifecycle occurrence timestamp as `Instant occurredAt`.
+- **Commit/tree:** `e5232940528522ae86d204840a2861d732795366` / `5ab887b26c4ed7cda82594e5c484373e77f7df3e`
+- **Final Git state:** clean; initial and final commit/tree match.
+- **Production hash:** `f3863042d355dda188eab605e36ec0a74d67493d2b7e9497c491c3311cb760cc`
+- **Specification hash:** `63269a18fd6dcc4cb50e2ca3d344c9fd9d245910acdebb141e9c65dbe51a1ad7`
+- **Javaspec:** launcher `1.0.0-RC1`; selected JAR SHA-256 `8522dc72ab0ca87a508436419c4ed430e0ad470375445c689fa871218a8ab501`; repository HEAD `cd7ff8d1379aabdfcfadc964b3a6473f38383c66`; ancestors `5b65099` and `5662797` present.
+- **Last structural RED evidence:** selected dry-run exited 1 because the committed record lacked the requested constructor/component update; no files were written by dry-run.
+- **Safe-generation result:** generation appended `java.time.Instant occurredAt`, preserved constructor order, supplied exactly one typed implicit accessor, and the selected assertion passed 1/1 immediately.
+- **Last verified result:** after reversion, full JavaSpec passed 34/34, Maven passed 34 tests, pending production stub count was zero, and Git was clean.
+- **Last stop:** effective v4 required a post-generation assertion RED. The agent correctly refused to manufacture a null accessor, duplicate stub, or temporary production regression and reverted both allowed files.
+- **Dataset disposition:** incident only; no episode `0035`; not SFT-eligible.
+- **Generic contract resolution:** source-pack commit `e57021fde02a4f4cf4b764d6c5c8a8793ecfacf3` introduced `bdd-java-spec-driven-v5`, which explicitly accepts coherent pre-generation structural RED and prohibits manufactured defects. Installed and source definitions match at SHA-256 `4fea1a3bbd6649ddac7d319e47444cb25859c538dfea33b42cc679cd14178468`.
+- **Unresolved project work:** the occurredAt behavior remains absent because the v4 attempt was reverted.
+- **Allowed implementation files on a future slice:**
+  - `trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelope.java`
+  - `trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelopeSpec.java`
+- **Next permitted action:** start a new sealed `bdd-java-spec-driven-v5` slice from the clean repository state; preserve pre-generation structural RED, inspect coherent generation, then complete selected/full/domain verification without manufacturing an assertion defect.
