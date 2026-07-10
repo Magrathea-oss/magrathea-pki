@@ -1,0 +1,116 @@
+= 2. Architecture Constraints
+
+Status: implementation-informed, with confirmed product constraints and the Spring Boot 4 scaffold baseline.
+
+== 2.1 Technical Constraints
+
+[cols="1,1,3",options="header"]
+|===
+| Constraint | Status | Consequence
+
+| Java 21 target runtime
+| confirmed
+| Production code and build configuration must remain compatible with Java 21.
+
+| Spring Boot 4 LTS target with Spring Reactive/WebFlux
+| confirmed/implementation-informed
+| Adapter and bootstrap work use the Spring Boot 4.1.0 reactive stack on Java 21. Spring Boot manages Reactor and related platform dependency versions.
+
+| DDD bounded contexts
+| confirmed
+| X.509 CA, CVC CA, SSH CA, KMS, HSM Key Custody, and TPM Attestation are modeled as separate bounded contexts.
+
+| Protocol-specific PKI models
+| confirmed
+| X.509, CVC, and SSH certificate concepts must not be collapsed into one generic certificate model.
+
+| Shared kernels only for truly shared capabilities
+| confirmed
+| Shared PKI Kernel, Crypto/Key Custody Kernel, Policy Kernel, and Audit Kernel may share language and behavior, but they are not C4 containers and must not erase protocol boundaries.
+
+| HSM and TPM boundary rule
+| confirmed
+| Product-owned or product-managed HSM and TPM capabilities are inside the Magrathea PKI solution boundary. Physical placement is documented in the Deployment View, not in the system context.
+
+| Compliance targets
+| confirmed
+| Architecture and implementation decisions must consider FIPS, eIDAS, ETSI, and Common Criteria expectations.
+|===
+
+== 2.2 Organizational and Process Constraints
+
+[cols="1,1,3",options="header"]
+|===
+| Constraint | Status | Consequence
+
+| BDD-first development
+| confirmed
+| Gherkin feature files are the executable plan and the source of truth for requirements.
+
+| Red test before production behavior
+| confirmed
+| At least one meaningful RED test must exist before production code changes.
+
+| Multi-runner rule
+| confirmed
+| Feature text is not duplicated for different validation modes; runners, glue, profiles, or adapters define validation differences.
+
+| Thin adapter rule
+| confirmed
+| Adapters extract request data, delegate, and form responses. They must not contain domain rules, orchestration, persistence logic, cryptographic decisions, or production state.
+
+| Anti-fake completion rule
+| confirmed
+| Support status must be explicit. Current KMS scenarios are tagged `@not-implemented` and must not be reported as supported behavior.
+
+| English generated artifacts
+| confirmed
+| Documentation, ADRs, source comments, and user-facing generated text are written in English.
+|===
+
+== 2.3 Architecture Modeling Constraints
+
+[cols="1,1,3",options="header"]
+|===
+| Constraint | Status | Consequence
+
+| C4 containers are bounded contexts
+| confirmed
+| Containers represent deployable, independently releasable, or intentionally extractable bounded contexts. Maven modules, JARs, WARs, Docker images, and shared kernels are not C4 containers.
+
+| C4 diagrams owned by c4model
+| confirmed
+| ARC42 integrates `docs/c4/workspace.dsl`; diagram creation or structural changes are handled by the c4model agent.
+
+| Deployment details separated from C2
+| confirmed
+| Packaging artifacts and physical HSM/TPM placement belong to Chapter 7, not the C2 container model.
+|===
+
+== 2.4 Current Scaffold Constraints and Gaps
+
+[cols="1,1,3",options="header"]
+|===
+| Item | Status | Constraint or Gap
+
+| Current Maven scaffold
+| implementation-informed
+| Modules exist for domain, application, infrastructure, API adapter, CLI adapter, and bootstrap application.
+
+| Spring Boot platform baseline
+| confirmed/implementation-informed
+| Root `pom.xml` uses Spring Boot 4.1.0 with Java 21. The explicit Reactor BOM override was removed so Boot manages Reactor; explicit `r2dbc-h2` version management was removed and runtime scope is set where needed. Cucumber is 7.34.4 and Picocli is 4.7.7.
+
+| Missing intended modules
+| implementation-informed
+| `trust-engine-admin-adapter` and `trust-engine-test-support` are expected by repository policy but are not present yet.
+
+| Feature coverage
+| implementation-informed
+| Existing feature files cover X.509 profile integrity and KMS. Broader X.509 profile management/issuance/revocation/validation, CVC, SSH, HSM custody, and TPM attestation requirements are not yet represented as executable features.
+
+| Implementation depth
+| implementation-informed
+| The bootstrap entry point exists, and X.509 profile integrity has 29 valid pure domain behaviors through datasets 0001-0029. `CertificateProfileId` remains valid through datasets 0001-0020. Datasets 0021-0025 add limited one-field `CertificateProfile(int validityDays)` support: `validityDays()`, deterministic canonical JSON `{"validityDays":397}`, SHA-256 digest hex `fa0dfb6bc1f41bff05587eacab336c16a778eff23ec79b565d09a5023b48ac51`, content-addressed `CertificateProfileId` `x509-profile-v1-sha256-fa0dfb6bc1f41bff05587eacab336c16a778eff23ec79b565d09a5023b48ac51`, and `hasProfileId(CertificateProfileId)` recognition for the matching expected ID. Standalone value-object evidence now also covers sorted canonical JSON arrays for unordered `CertificateProfileKeyUsages` (`["digitalSignature","keyEncipherment"]`), `CertificateProfileExtendedKeyUsages` (`["clientAuth","serverAuth"]`), and `CertificateProfilePublicKeyAlgorithms` (`["EC_P256","RSA_3072"]`), plus deterministic canonical JSON object rendering for `CertificateProfileBasicConstraints` (`{"ca":false}`).
+Application behavior and remaining profile-integrity behavior are not implemented, including integration of these value objects into `CertificateProfile`, full multi-field `CertificateProfile` canonical JSON, subject templates, defaults and schema/default expansion/validation, manifest validation/comparison, audit emission, YAML parsing/adapter behavior, and application use cases.
+|===

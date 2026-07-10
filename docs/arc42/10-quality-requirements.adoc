@@ -1,0 +1,129 @@
+= 10. Quality Requirements
+
+Status: confirmed priorities with planned and implementation-informed validation scenarios.
+
+== 10.1 Quality Tree
+
+[cols="1,1,3",options="header"]
+|===
+| Priority | Quality | Meaning for Magrathea PKI
+
+| 1
+| Security
+| Protect keys, trust decisions, certificate lifecycle operations, custody profiles, and administrative access.
+
+| 2
+| Correctness
+| Enforce PKI protocol rules, key usage rules, policy decisions, and lifecycle transitions accurately.
+
+| 3
+| Auditability
+| Produce reliable evidence for security, compliance, and operational review.
+
+| 4
+| Modularity
+| Keep X.509, CVC, SSH, custody, policy, and audit concerns independently evolvable.
+
+| 5
+| Testability
+| Validate behavior through BDD-first executable specifications and focused Java behavior tests.
+
+| 6
+| Operability
+| Support reliable operation, diagnostics, and deployment across supported trust profiles.
+|===
+
+== 10.2 Quality Scenarios
+
+[cols="1,1,1,3",options="header"]
+|===
+| Quality | Scenario | Status | Source / Notes
+
+| Security
+| A key without `SIGN` usage cannot sign a digest.
+| planned
+| `features/kms/key-signing.feature`, `@not-implemented`.
+
+| Security
+| A key policy requiring HSM denies use when only software custody is available.
+| planned
+| `features/kms/key-policy.feature`, `@not-implemented`.
+
+| Correctness
+| Decryption with a different key than the encryption key fails.
+| planned
+| `features/kms/key-encryption.feature`, `@not-implemented`.
+
+| Correctness
+| Destroyed key handles become invalid for future operations.
+| planned
+| `features/kms/key-lifecycle.feature`, `@not-implemented`.
+
+| Auditability
+| Key creation, signing, destruction, and policy denial create audit events.
+| planned
+| `features/kms/key-audit.feature`, `@not-implemented`.
+
+| Auditability
+| Audit events are append-only and cannot be modified or deleted.
+| planned
+| `features/kms/key-audit.feature`, `@not-implemented`.
+
+| Security / Auditability
+| Before X.509 certificate issuance, profile YAML is parsed, schema validated, converted to the canonical semantic `CertificateProfile` model, hashed as `x509-profile-v1-sha256-<digest>`, and compared with `profiles/profiles.manifest.yaml`; unchanged semantic content is accepted, while manifest mismatches, unknown fields, and YAML aliases are rejected with `PROFILE_INTEGRITY_FAILED` audit evidence.
+| RED story-wired; 29 valid pure-domain behaviors green / use case not implemented
+| `features/x509/certificate-profile-integrity.feature`, the content-addressed YAML ADR, `@not-implemented`; first scenario `@req-x509-profile-integrity-001` has executable Maven RED Cucumber validation through `X509CertificateProfileIntegrityCucumberTest`, `CertificateProfileIntegritySteps`, and `CucumberSpringContextConfiguration`. Command: `mvn -pl trust-engine-api-adapter -am -Dtest=X509CertificateProfileIntegrityCucumberTest -Dsurefire.failIfNoSpecifiedTests=false test` on Apache Maven 3.9.16 / Java 21.0.11. Evidence: `1 scenarios (1 failed), 8 steps (3 passed, 4 skipped, 1 failed)` and Surefire `Tests run: 5, Failures: 1, Errors: 0, Skipped: 4`. Implementation-informed domain support is limited to 29 valid behaviors: `CertificateProfileId` remains valid through datasets 0001-0020; `CertificateProfile(int validityDays)` exposes `validityDays()`, renders deterministic one-field canonical JSON `{"validityDays":397}`, computes SHA-256 digest hex `fa0dfb6bc1f41bff05587eacab336c16a778eff23ec79b565d09a5023b48ac51`, builds `x509-profile-v1-sha256-fa0dfb6bc1f41bff05587eacab336c16a778eff23ec79b565d09a5023b48ac51`, and recognizes that matching expected `CertificateProfileId`; standalone `CertificateProfileKeyUsages`, `CertificateProfileExtendedKeyUsages`, and `CertificateProfilePublicKeyAlgorithms` render unordered sets as sorted canonical JSON arrays such as `["digitalSignature","keyEncipherment"]`, `["clientAuth","serverAuth"]`, and `["EC_P256","RSA_3072"]`; `CertificateProfileBasicConstraints` renders the CA flag as deterministic canonical JSON object `{"ca":false}`.
+Domain Maven evidence through dataset 0029: `mvn test -pl trust-engine-domain -am` `BUILD SUCCESS`, tests run 29, failures 0, errors 0; javaspec passed 29/29. Valid datasets are `docs/dataset/0001-certificate-profile-id-sha256-record-algorithm.jsonl` through `docs/dataset/0029-certificate-profile-basic-constraints-canonical-json-object.jsonl`, including replayed valid continuation datasets 0006-0013.
+Remaining behavior is absent unless introduced with valid dataset evidence. Therefore integration of these value objects into `CertificateProfile`, full multi-field `CertificateProfile` canonical JSON, subject templates, defaults and schema/default expansion/validation, manifest comparison, audit emission, YAML parsing/adapter behavior, and application use-case behavior are not implemented yet.
+
+| Modularity
+| X.509, CVC, and SSH maintain separate protocol-specific models.
+| confirmed architectural constraint
+| Chapter 1 and C4 container model.
+
+| Testability
+| Feature text is reused across validation modes instead of duplicated.
+| confirmed process constraint
+| Repository policy.
+
+| Testability
+| Full Maven reactor packaging succeeds on the Java 21 / Spring Boot 4.1.0 baseline.
+| implementation-informed
+| `/tmp/apache-maven-3.9.11/bin/mvn -DskipTests clean package` completed with `BUILD SUCCESS`; all 7 modules succeeded.
+
+| Operability
+| Platform dependency versions are managed by Spring Boot rather than explicit Reactor/R2DBC overrides.
+| implementation-informed
+| Explicit Reactor BOM and `r2dbc-h2` version overrides were removed during the Spring Boot 4 conversion.
+
+| Operability
+| Custody backend health and audit failures are observable.
+| needs-review
+| No executable scenario or operational design yet.
+|===
+
+== 10.3 Measurement Gaps
+
+[cols="1,3",options="header"]
+|===
+| Status | Gap
+
+| actionable
+| Define measurable security acceptance criteria for custody boundaries and operator authorization.
+
+| actionable
+| Define audit retention, tamper-evidence, and evidence-export requirements.
+
+| actionable
+| Complete `UC-X509-PROFILE-INTEGRITY` beyond the current 29 valid pure-domain behaviors:
+integrate standalone value objects into `CertificateProfile`, add full multi-field `CertificateProfile` canonical JSON, add subject templates and schema/default expansion/validation, manifest comparison, audit evidence, YAML parsing/adapter behavior, and GREEN application/story validation only through clean RED/GREEN slices with valid evidence; keep X.509 profile integrity as not implemented until Maven Cucumber validation turns GREEN for real use-case behavior.
+
+| needs-review
+| Define the first-release trust/distribution model for `profiles/profiles.manifest.yaml` and the trigger for later signed-manifest hardening.
+
+| actionable
+| Define operational SLOs and observability requirements.
+
+| blocked
+| Additional protocol-specific quality scenarios for X.509 issuance/revocation/validation and for CVC and SSH require feature coverage.
+|===

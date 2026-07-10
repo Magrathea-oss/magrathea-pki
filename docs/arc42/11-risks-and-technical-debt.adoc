@@ -1,0 +1,141 @@
+= 11. Risks and Technical Debt
+
+Status: implementation-informed and needs-review.
+
+[cols="1,1,2,2,1",options="header"]
+|===
+| Item | Status | Impact | Mitigation / Next Action | Owner
+
+| Missing `trust-engine-admin-adapter` and `trust-engine-test-support`
+| debt
+| Repository policy describes modules that the scaffold does not yet contain.
+| Decide whether to add modules or update policy; do not assume they exist.
+| bdd-java-scaffolder
+
+| Partial X.509 feature coverage
+| risk
+| X.509-first roadmap is now reflected only by profile-integrity executable requirements; profile management, issuance, revocation, and validation scenarios remain missing. The first profile-integrity scenario is Maven RED-verified, and 29 valid pure-domain behaviors are GREEN through datasets 0001-0029: `CertificateProfileId`, limited one-field `CertificateProfile(int validityDays)` canonical JSON/hash/profile-ID/matching-ID behavior, and standalone canonical rendering for key usages, extended key usages, public key algorithms, and basic constraints.
+Remaining behavior is not implemented, including application behavior, integration of these value objects into `CertificateProfile`, full multi-field semantic canonicalization, subject templates, schema/default expansion/validation, manifest comparison, YAML parsing/adapter behavior, and audit emission.
+| Add the remaining X.509 feature slices; continue domain slices and implement `features/x509/certificate-profile-integrity.feature` through RED story/use-case validation before claiming support.
+| bdd-java-planner / story-driven
+
+| All observed KMS scenarios are `@not-implemented`
+| risk
+| Documentation could overstate current product support.
+| Keep implementation status explicit until semantic validation passes.
+| story-driven / spec-driven
+
+| Broad compliance targets without scoped certification strategy
+| risk
+| FIPS, eIDAS, ETSI, and Common Criteria can impose conflicting or expensive obligations.
+| Define compliance scope, evidence model, and target assurance levels.
+| product owner / security architect / compliance officer
+
+| Key custody profile details unresolved
+| risk
+| Software, HSM, and TPM profiles affect security boundary, deployment, and testing.
+| Write ADRs for custody boundaries and supported provider profiles.
+| security architect / adr-writer
+
+| Audit immutability design not specified
+| risk
+| Auditability is a priority but storage, retention, and tamper evidence are undefined.
+| Define audit store, immutability mechanism, retention, and export requirements.
+| security architect / compliance officer
+
+| X.509 profile canonicalization uncertainty
+| partially resolved risk
+| The canonical semantic pipeline and rules are now confirmed, but implementation drift could still compute incompatible profile IDs.
+| Anti-fake rollback remains enforced, and continuation work has now advanced through valid dataset evidence up to 29 pure-domain behavior micro-slices. Valid datasets are `docs/dataset/0001-certificate-profile-id-sha256-record-algorithm.jsonl` through `docs/dataset/0029-certificate-profile-basic-constraints-canonical-json-object.jsonl`, including replayed valid continuation datasets 0006-0013; `mvn test -pl trust-engine-domain -am` passed with tests run 29 and javaspec passed 29/29. Continue only by implementing and testing remaining behavior through clean RED/GREEN javaspec cycles with valid dataset evidence before claiming support. The confirmed end-to-end `YAML -> parse -> schema validation -> CertificateProfile model -> normalize fields -> deterministic canonical JSON -> SHA-256 -> manifest comparison -> audit/use-case result` pipeline remains absent. Do not treat any removed invalid dataset or implementation as support evidence.
+| security architect / spec-driven / story-driven
+
+| javaspec constructor support blocker for `value()` slice
+| recently resolved debt
+| The previous javaspec record-constructor lookup blocker for `CertificateProfileId.value()` has been fixed externally. The historical value-access slice verifies `beConstructedWith(validId); value().shouldReturn(validId)` against `record CertificateProfileId(String value)`, and later valid continuation datasets now reach 0029 with javaspec 29/29 and domain Maven tests run 29.
+| Keep the resolved blocker visible as recent history, but continue treating semantic profile canonicalization, deterministic profile hashing, manifest comparison, audit emission, and application/use-case behavior as absent until clean RED/GREEN evidence exists.
+| spec-driven / dataset-writer
+
+| javaspec duplicate support blocker for `isCanonicalText(null)` slice
+| recently resolved debt
+| The duplicate support generation blocker for `isCanonicalText((String) null).shouldReturn(false)` has been resolved by updating/installing the javaspec snapshot. The `CertificateProfileId` null-guard slice remains valid within the accepted dataset range, and later continuation datasets now reach 0029.
+| Keep the resolved blocker visible as recent history; continue remaining semantic canonicalization, deterministic profile hashing, manifest comparison, audit emission, and application/use-case behavior only through clean RED/GREEN cycles with valid dataset evidence.
+| spec-driven / javaspec tooling
+
+| Manifest signing and trusted distribution unresolved
+| risk
+| A content hash is only tamper-evident when compared with a trusted expected ID from `profiles/profiles.manifest.yaml`; an attacker who can change both profile YAML and manifest can bypass detection unless manifest distribution and protection are trustworthy.
+| Decide the first-release trust/distribution model and when to require `profiles.manifest.sig`, software signatures in development, HSM signatures in production, Git signed commits, append-only audit, or transparency logs.
+| security architect / compliance officer / operations
+
+| X.509 profile lifecycle edge cases unresolved
+| risk
+| Ambiguous transitions among `draft`, `active`, `deprecated`, `revoked`, and `archived` could cause unsafe issuance or unclear historical traceability.
+| Define exact lifecycle transition rules, alias movement rules, rollback behavior, and issuance behavior for deprecated or revoked profiles.
+| security architect / product owner / story-driven
+
+| ADR coverage incomplete
+| debt
+| ADR 0001 exists, but other major architectural decisions are still undocumented as durable records.
+| Continue ADR set for bounded contexts, platform baseline, custody, policy, audit, compliance evidence, profile canonicalization, and trusted reference distribution.
+| adr-writer / arc42
+
+| No deployment view
+| gap
+| HSM/TPM placement, runtime topology, and operator access boundaries remain unclear.
+| Confirm deployment profiles and ask c4model to add deployment view.
+| c4model / operations
+
+| C4 model ahead of implementation
+| risk
+| C4 containers and KMS components are planned design elements, not confirmed implementation.
+| Keep status markers and update C4 after implementation slices.
+| c4model / arc42
+
+| Minimal production implementation
+| debt
+| Only bootstrap source plus 29 valid X.509 pure-domain behaviors are observed through datasets 0001-0029: `CertificateProfileId` behavior, limited one-field `CertificateProfile(int validityDays)` canonical JSON/hash/profile-ID/matching-ID behavior, and standalone canonical rendering for key usages, extended key usages, public key algorithms, and basic constraints.
+Remaining behavior is not implemented, including integration of these value objects into `CertificateProfile`, full multi-field semantic profile canonicalization, subject templates, schema/default expansion/validation, manifest validation/comparison, YAML parsing/adapter behavior, audit emission, and application/use-case behavior.
+| Continue BDD-first slices with RED tests before broader production behavior.
+| spec-driven / story-driven
+|===
+
+== 11.1 Human Review Points
+
+[cols="1,3",options="header"]
+|===
+| Status | Review Point
+
+| needs-review
+| Confirm the next X.509 feature coverage priority after profile integrity, especially profile management, issuance, revocation, and validation slices.
+
+| needs-review
+| Confirm compliance scope and whether certification is a product goal or design-alignment target.
+
+| needs-review
+| Confirm supported HSM/TPM vendors, interfaces, and operational ownership model.
+
+| needs-review
+| Confirm the first-release trust and distribution model for `profiles/profiles.manifest.yaml` and whether unsigned manifests are acceptable in each environment.
+
+| needs-review
+| Confirm exact lifecycle edge cases for `draft`, `active`, `deprecated`, `revoked`, and `archived` profiles, including alias movement and issuance restrictions.
+|===
+
+== 11.2 Recently Resolved Items
+
+[cols="1,1,3",options="header"]
+|===
+| Item | Status | Evidence
+
+| Spring Boot 3.4.4 scaffold vs Spring Boot 4 LTS target
+| resolved/implementation-informed
+| Parent POM now uses Spring Boot 4.1.0 with Java 21. Reactor and R2DBC versions are managed by Spring Boot, Cucumber is 7.34.4, Picocli is 4.7.7, the invalid `info.picocli:picocli-spring-boot-autoconfigure:7.2.0` dependency was removed, and `/tmp/apache-maven-3.9.11/bin/mvn -DskipTests clean package` completed with `BUILD SUCCESS` across all 7 modules.
+
+| X.509 profile ID canonicalization and expected-ID location
+| partially resolved/confirmed design
+| ADR 0001 now confirms the semantic canonicalization pipeline, `x509-profile-v1-sha256-<digest>` format, canonicalization rules, separate `profiles/profiles.manifest.yaml`, tamper-detection audit behavior, and lifecycle states. Open follow-ups are limited to manifest signing/trusted distribution and exact lifecycle edge cases.
+
+| Host Maven availability for story validation
+| resolved/implementation-informed
+| Host Maven is available as Apache Maven 3.9.16 on Java 21.0.11. The RED story now runs through `mvn -pl trust-engine-api-adapter -am -Dtest=X509CertificateProfileIntegrityCucumberTest -Dsurefire.failIfNoSpecifiedTests=false test` after minimal Cucumber/Spring wiring in `trust-engine-api-adapter/src/test/java/com/magrathea/trustengine/apiadapter/x509/CucumberSpringContextConfiguration.java`; expected RED evidence remains `1 scenarios (1 failed), 8 steps (3 passed, 4 skipped, 1 failed)` and Surefire `Tests run: 5, Failures: 1, Errors: 0, Skipped: 4`.
+|===

@@ -1,0 +1,607 @@
+= Appendix: Requirements
+
+Status: implementation-informed from current Gherkin feature files under `features/x509` and `features/kms` and planned from the confirmed product roadmap. This appendix owns the executable use-case catalogue, use-case overview diagram, and use-case-to-Gherkin mapping.
+
+Current evidence rule: observed X.509 and KMS feature files exist, but all observed scenarios remain tagged `@functional-requirement @not-implemented`. The first X.509 profile-integrity scenario is story-wired as RED validation. Current valid pure domain implementation-informed support is limited to 29 behaviors through datasets 0001-0029: `CertificateProfileId` remains valid through datasets 0001-0020; datasets 0021-0025 add one-field `CertificateProfile(int validityDays)` behavior for `validityDays()`, deterministic canonical JSON `{"validityDays":397}`, SHA-256 digest hex `fa0dfb6bc1f41bff05587eacab336c16a778eff23ec79b565d09a5023b48ac51`, content-addressed ID `x509-profile-v1-sha256-fa0dfb6bc1f41bff05587eacab336c16a778eff23ec79b565d09a5023b48ac51`, and matching expected-ID recognition. Standalone value-object evidence now also covers sorted canonical JSON arrays for unordered `CertificateProfileKeyUsages` (`["digitalSignature","keyEncipherment"]`), `CertificateProfileExtendedKeyUsages` (`["clientAuth","serverAuth"]`), and `CertificateProfilePublicKeyAlgorithms` (`["EC_P256","RSA_3072"]`), plus deterministic canonical JSON object rendering for `CertificateProfileBasicConstraints` (`{"ca":false}`).
+Javaspec passed 29/29 and `mvn test -pl trust-engine-domain -am` passed with tests run 29. Valid datasets are `docs/dataset/0001-certificate-profile-id-sha256-record-algorithm.jsonl` through `docs/dataset/0029-certificate-profile-basic-constraints-canonical-json-object.jsonl`, including replayed valid continuation datasets 0006-0013.
+Remaining behavior is still absent unless introduced with valid dataset evidence; integration of these value objects into `CertificateProfile`, full multi-field `CertificateProfile` canonical JSON, subject templates, defaults and schema/default expansion/validation, manifest validation/comparison, audit emission, YAML parsing/adapter behavior, and application use-case behavior are not implemented. CVC and SSH feature files are not present yet and must be treated as planned / not implemented.
+
+== A.1 Documentation Ownership and Traceability
+
+* The use-case overview diagram and use-case-to-Gherkin mapping belong in this appendix, not in Chapter 3.
+* Chapter 3 describes actors, neighboring systems, interfaces, and the system boundary. It may reference this appendix for the executable use-case catalogue.
+* Use cases, application orchestration, Cucumber validation, inbound adapters, and outbound infrastructure adapters are owned by `story-driven`.
+* Pure domain rules and invariants remain owned by `spec-driven`; they should not replace use-case validation.
+* Use-case Javadocs created by implementation work should include lightweight traceability to:
+** the stable use-case ID in this appendix, for example `docs/arc42/appendix-requirements.adoc#UC-KMS-SIGN`;
+** the mapped feature file, for example `features/kms/key-signing.feature`;
+** the validation status when useful.
+* This appendix uses PlantUML for requirements diagrams.
+
+Status labels used here:
+
+[cols="1,3",options="header"]
+|===
+| Status | Meaning
+
+| planned
+| Roadmap intent exists, but executable scenarios or implementation are not complete.
+
+| implementation-informed
+| Backed by repository evidence such as feature files, tags, source structure, or build artifacts.
+
+| not implemented
+| Requirements or roadmap items must not be reported as supported behavior.
+
+| RED story-wired
+| Cucumber runner and step glue exist and fail for the expected missing application behavior; this is validation evidence, not implemented support.
+
+| needs-review
+| Requires human review or later architectural/requirements clarification.
+|===
+
+== A.2 Roadmap and Coverage Summary
+
+[cols="1,1,1,2",options="header"]
+|===
+| Area | Roadmap Order | Evidence | Current Status
+
+| X.509 CA
+| first
+| `features/x509/certificate-profile-integrity.feature` observed for profile integrity; other X.509 use cases are not yet represented by feature files.
+| implementation-informed requirement exists for `UC-X509-PROFILE-INTEGRITY`; the first scenario is RED story-wired through Cucumber, and 29 pure-domain behaviors are GREEN through datasets 0001-0029: `CertificateProfileId`, limited one-field `CertificateProfile(int validityDays)` canonical JSON/hash/profile-ID/matching-ID behavior, and standalone canonical rendering for key usages, extended key usages, public key algorithms, and basic constraints.
+The use case remains not implemented because application validation, integration of these value objects into `CertificateProfile`, full multi-field semantic canonicalization, schema/default expansion/validation, manifest comparison, YAML parsing/adapter behavior, and audit emission are missing. Remaining X.509 use cases are planned / not implemented. Observed X.509 scenarios are tagged `@not-implemented`.
+
+| CVC CA
+| later
+| No `features/cvc` files observed.
+| planned later / not implemented.
+
+| SSH CA
+| later
+| No `features/ssh` files observed.
+| planned later / not implemented.
+
+| KMS
+| supporting capability
+| `features/kms/*.feature` observed.
+| implementation-informed requirements exist, but all observed scenarios are tagged `@not-implemented`.
+
+| HSM Key Custody
+| supporting capability
+| Key policy scenarios mention backend type `HSM`.
+| planned / partially represented by KMS policy requirements; concrete HSM custody scenarios are missing.
+
+| Audit
+| supporting capability
+| `features/kms/key-audit.feature` observed.
+| implementation-informed requirements exist for key-operation audit events; audit review workflows remain planned.
+|===
+
+[cols="1,1,1,1",options="header"]
+|===
+| Feature Area | Feature File | Scenario Count | Declared Status
+
+| X.509 Certificate Profile Integrity
+| `features/x509/certificate-profile-integrity.feature`
+| 5
+| `@not-implemented`; first scenario RED story-wired (`@req-x509-profile-integrity-001`); 29 pure-domain behaviors are green for `CertificateProfileId`, limited one-field `CertificateProfile(int validityDays)` canonical JSON/hash/profile-ID/matching-ID behavior, and standalone canonical rendering for key usages, extended key usages, public key algorithms, and basic constraints;
+integration of these value objects into `CertificateProfile`, full profile hashing/canonicalization pipeline, schema/default expansion/validation, manifest comparison, audit emission, YAML parsing/adapter behavior, and application behavior remain not implemented
+
+| KMS Key Lifecycle Management
+| `features/kms/key-lifecycle.feature`
+| 7
+| `@not-implemented`
+
+| KMS Key Signing and Signature Verification
+| `features/kms/key-signing.feature`
+| 4
+| `@not-implemented`
+
+| KMS Key Encryption and Decryption
+| `features/kms/key-encryption.feature`
+| 4
+| `@not-implemented`
+
+| KMS Key Policy Enforcement
+| `features/kms/key-policy.feature`
+| 5
+| `@not-implemented`
+
+| KMS Audit Trail for Key Operations
+| `features/kms/key-audit.feature`
+| 5
+| `@not-implemented`
+|===
+
+== A.3 Use Case Overview
+
+The following PlantUML diagram is a requirements overview, not a C4 diagram. It shows stable use-case IDs and primary actors for roadmap and Gherkin traceability.
+
+[plantuml,magrathea-pki-use-case-overview,svg]
+----
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "PKI Consumer" as Consumer
+actor "Registration Authority\nOperator" as RA
+actor "Certificate Authority\nOperator" as CA
+actor "Compliance Officer" as Compliance
+actor "KMS Administrator" as KMSAdmin
+
+rectangle "Magrathea PKI Trust Engine" {
+  usecase "UC-X509-PROFILE\nManage X.509 certificate profile" as UC_X509_PROFILE
+  usecase "UC-X509-PROFILE-INTEGRITY\nVerify profile integrity before issuance" as UC_X509_PROFILE_INTEGRITY
+  usecase "UC-X509-ISSUE\nIssue X.509 certificate" as UC_X509_ISSUE
+  usecase "UC-X509-REVOKE\nRevoke X.509 certificate" as UC_X509_REVOKE
+  usecase "UC-X509-VALIDATE\nValidate X.509 certificate" as UC_X509_VALIDATE
+
+  usecase "UC-KMS-KEY-LIFECYCLE\nManage KMS key lifecycle" as UC_KMS_KEY_LIFECYCLE
+  usecase "UC-KMS-SIGN\nSign and verify with KMS key" as UC_KMS_SIGN
+  usecase "UC-KMS-ENCRYPT\nEncrypt and decrypt with KMS key" as UC_KMS_ENCRYPT
+  usecase "UC-AUDIT-REVIEW\nReview audit evidence" as UC_AUDIT_REVIEW
+  usecase "UC-CUSTODY-CONFIG\nConfigure key policy and custody" as UC_CUSTODY_CONFIG
+}
+
+RA --> UC_X509_PROFILE
+RA --> UC_X509_PROFILE_INTEGRITY
+RA --> UC_X509_ISSUE
+CA --> UC_X509_REVOKE
+Consumer --> UC_X509_VALIDATE
+Consumer --> UC_KMS_SIGN
+Consumer --> UC_KMS_ENCRYPT
+KMSAdmin --> UC_KMS_KEY_LIFECYCLE
+KMSAdmin --> UC_CUSTODY_CONFIG
+Compliance --> UC_AUDIT_REVIEW
+
+UC_X509_ISSUE .> UC_X509_PROFILE : <<uses>>
+UC_X509_ISSUE .> UC_X509_PROFILE_INTEGRITY : <<verifies before issuance>>
+UC_X509_PROFILE_INTEGRITY .> UC_X509_PROFILE : <<uses canonical profile model>>
+UC_X509_ISSUE .> UC_KMS_SIGN : <<uses>>
+UC_X509_REVOKE .> UC_AUDIT_REVIEW : <<records evidence>>
+UC_KMS_SIGN .> UC_CUSTODY_CONFIG : <<constrained by>>
+UC_KMS_ENCRYPT .> UC_CUSTODY_CONFIG : <<constrained by>>
+UC_KMS_KEY_LIFECYCLE .> UC_AUDIT_REVIEW : <<records evidence>>
+UC_CUSTODY_CONFIG .> UC_AUDIT_REVIEW : <<records evidence>>
+
+note bottom
+  Roadmap: X.509 first; CVC and SSH planned later.
+  X.509 profile integrity and KMS feature files exist, but observed scenarios are @not-implemented.
+end note
+@enduml
+----
+
+== A.4 Use Case Catalogue
+
+[cols="1,1,2,2,2",options="header"]
+|===
+| Use Case ID | Primary Actor | Goal | Roadmap / Support Status | Requirement Evidence
+
+| [[UC-X509-PROFILE]]`UC-X509-PROFILE`
+| Registration Authority Operator
+| Define and manage X.509 certificate profiles and issuance policy inputs.
+| X.509 planned first / not implemented.
+| No Gherkin feature file observed yet.
+
+| [[UC-X509-PROFILE-INTEGRITY]]`UC-X509-PROFILE-INTEGRITY`
+| Registration Authority Operator
+| Verify that the YAML certificate profile loaded for issuance matches the trusted expected content-addressed profile ID before certificate issuance.
+| implementation-informed requirement exists / not implemented.
+| `features/x509/certificate-profile-integrity.feature` and ADR 0001. The confirmed design computes `CertificateProfileId` from the canonical semantic model via `YAML -> parse -> schema validation -> CertificateProfile model -> normalize fields -> deterministic canonical JSON -> SHA-256`, compares it with `profiles/profiles.manifest.yaml`, rejects mismatches for issuance, and emits `PROFILE_INTEGRITY_FAILED`. First RED story wiring is observed in `trust-engine-api-adapter/src/test/java/com/magrathea/trustengine/apiadapter/x509/X509CertificateProfileIntegrityCucumberTest.java`, `trust-engine-api-adapter/src/test/java/com/magrathea/trustengine/apiadapter/x509/CertificateProfileIntegritySteps.java`, and `trust-engine-api-adapter/src/test/java/com/magrathea/trustengine/apiadapter/x509/CucumberSpringContextConfiguration.java`. Implementation-informed domain support in `trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile` is limited to 29 valid behaviors: `CertificateProfileId` remains valid through datasets 0001-0020; `CertificateProfile` covers only `validityDays`, one-field canonical JSON, SHA-256 digest, content-addressed ID, and matching expected-ID recognition; standalone value objects render key usages, extended key usages, public key algorithms, and basic constraints canonically.
+Remaining behavior is not implemented, including integration of these value objects into `CertificateProfile`, full multi-field canonical semantic model creation, subject templates, schema/default expansion/validation, manifest comparison, audit emission, YAML parsing/adapter behavior, and application use-case behavior.
+
+| [[UC-X509-ISSUE]]`UC-X509-ISSUE`
+| Registration Authority Operator
+| Issue an X.509 certificate after request/profile validation and required approvals.
+| X.509 planned first / not implemented.
+| No Gherkin feature file observed yet. Expected to use KMS signing when implemented.
+
+| [[UC-X509-REVOKE]]`UC-X509-REVOKE`
+| Certificate Authority Operator
+| Revoke an issued X.509 certificate and produce revocation/audit evidence.
+| X.509 planned first / not implemented.
+| No Gherkin feature file observed yet.
+
+| [[UC-X509-VALIDATE]]`UC-X509-VALIDATE`
+| PKI Consumer
+| Validate X.509 certificate status, chain, and policy conformance.
+| X.509 planned first / not implemented.
+| No Gherkin feature file observed yet.
+
+| [[UC-KMS-KEY-LIFECYCLE]]`UC-KMS-KEY-LIFECYCLE`
+| KMS Administrator
+| Generate, import, list, inspect, disable, and destroy KMS keys.
+| implementation-informed requirements exist / not implemented.
+| `features/kms/key-lifecycle.feature`.
+
+| [[UC-KMS-SIGN]]`UC-KMS-SIGN`
+| PKI Consumer
+| Sign digests and verify signatures using permitted asymmetric KMS keys.
+| implementation-informed requirements exist / not implemented.
+| `features/kms/key-signing.feature`.
+
+| [[UC-KMS-ENCRYPT]]`UC-KMS-ENCRYPT`
+| PKI Consumer
+| Encrypt plaintext and decrypt ciphertext using permitted symmetric KMS keys.
+| implementation-informed requirements exist / not implemented.
+| `features/kms/key-encryption.feature`.
+
+| [[UC-AUDIT-REVIEW]]`UC-AUDIT-REVIEW`
+| Compliance Officer
+| Review audit evidence for key operations, denials, and custody-sensitive activity.
+| implementation-informed audit-event requirements exist / review workflow planned / not implemented.
+| `features/kms/key-audit.feature` covers audit event creation and immutability. Dedicated audit-review scenarios are missing.
+
+| [[UC-CUSTODY-CONFIG]]`UC-CUSTODY-CONFIG`
+| KMS Administrator
+| Configure key policies, usage constraints, backend requirements, and approval requirements.
+| implementation-informed KMS policy requirements exist / HSM custody detail planned / not implemented.
+| `features/kms/key-policy.feature`.
+|===
+
+== A.5 Use Case to Gherkin Mapping
+
+[cols="1,2,3,1,2",options="header"]
+|===
+| Use Case ID | Feature File(s) | Mapped Scenarios | Declared Tags / Status | Notes
+
+| <<UC-X509-PROFILE,UC-X509-PROFILE>>
+| _missing_
+| _none_
+| planned / not implemented
+| Add X.509 profile feature(s) before implementation can be claimed.
+
+| <<UC-X509-PROFILE-INTEGRITY,UC-X509-PROFILE-INTEGRITY>>
+| `features/x509/certificate-profile-integrity.feature`
+| Accept an unchanged approved YAML profile when the computed ID matches the manifest ID; Reject a tampered YAML profile when the computed ID differs from the manifest ID; Ignore raw formatting and comment-only changes when canonical semantic content is unchanged; Reject a YAML profile with unknown fields before canonicalization; Reject a YAML profile that uses aliases before canonicalization.
+| `@x509 @certificate-profile @integrity @not-implemented @uc-x509-profile-integrity`, scenario tags `@functional-requirement @not-implemented`
+| Implementation-informed by observed Gherkin, the content-addressed YAML ADR, Maven RED Cucumber wiring, and 29 valid pure-domain behaviors. Runner `X509CertificateProfileIntegrityCucumberTest` selects `@req-x509-profile-integrity-001`; glue `CertificateProfileIntegritySteps` fails the `When` step with `UC-X509-PROFILE-INTEGRITY is not implemented: no application use case validates an approved manifest profile ID against parsed, schema-validated, normalized, canonical CertificateProfile content for certificate issuance yet.` Maven RED evidence on Apache Maven 3.9.16 / Java 21.0.11: `mvn -pl trust-engine-api-adapter -am -Dtest=X509CertificateProfileIntegrityCucumberTest -Dsurefire.failIfNoSpecifiedTests=false test` produced `1 scenarios (1 failed), 8 steps (3 passed, 4 skipped, 1 failed)` and Surefire `Tests run: 5, Failures: 1, Errors: 0, Skipped: 4`. Domain support is limited to `CertificateProfileId` behavior, one-field `CertificateProfile(int validityDays)` canonical JSON/hash/profile-ID/matching-ID behavior, and standalone canonical rendering for key usages, extended key usages, public key algorithms, and basic constraints (`mvn test -pl trust-engine-domain -am`: `BUILD SUCCESS`, tests run 29; javaspec passed 29/29; valid datasets `docs/dataset/0001-certificate-profile-id-sha256-record-algorithm.jsonl` through `docs/dataset/0029-certificate-profile-basic-constraints-canonical-json-object.jsonl`, including replayed valid continuation datasets 0006-0013).
+Remaining behavior is still absent unless introduced with valid evidence; integration of these value objects into `CertificateProfile`, full multi-field semantic profile construction, deterministic hash computation from complete profile content, manifest validation/comparison, audit emission, YAML parsing/adapter behavior, and application use-case behavior are not implemented yet.
+
+| <<UC-X509-ISSUE,UC-X509-ISSUE>>
+| _missing_
+| _none_
+| planned / not implemented
+| Add X.509 issuance feature(s). Expected runtime dependencies include profile validation, policy, KMS signing, and audit events.
+
+| <<UC-X509-REVOKE,UC-X509-REVOKE>>
+| _missing_
+| _none_
+| planned / not implemented
+| Add X.509 revocation feature(s) and revocation evidence scenarios.
+
+| <<UC-X509-VALIDATE,UC-X509-VALIDATE>>
+| _missing_
+| _none_
+| planned / not implemented
+| Add X.509 validation feature(s) for certificate status, chain, and policy behavior.
+
+| <<UC-KMS-KEY-LIFECYCLE,UC-KMS-KEY-LIFECYCLE>>
+| `features/kms/key-lifecycle.feature`
+| Generate a signing key; Generate an encryption key; Import an existing key; List all keys; Read key metadata by KeyHandle; Disable a key prevents its use; Destroy a key removes it permanently.
+| `@functional-requirement @not-implemented`
+| Implementation-informed by observed Gherkin only; no support claim.
+
+| <<UC-KMS-SIGN,UC-KMS-SIGN>>
+| `features/kms/key-signing.feature`
+| Sign a digest with an asymmetric key; Verify a signature against a digest; Sign operation denied for key without SIGN usage; Verify with wrong key fails.
+| `@functional-requirement @not-implemented`
+| Implementation-informed by observed Gherkin only; no support claim.
+
+| <<UC-KMS-ENCRYPT,UC-KMS-ENCRYPT>>
+| `features/kms/key-encryption.feature`
+| Encrypt plaintext with a symmetric key; Decrypt ciphertext with the same key; Encrypt denied for key without ENCRYPT_DECRYPT usage; Decrypt with wrong key fails.
+| `@functional-requirement @not-implemented`
+| Implementation-informed by observed Gherkin only; no support claim.
+
+| <<UC-AUDIT-REVIEW,UC-AUDIT-REVIEW>>
+| `features/kms/key-audit.feature`
+| Key creation generates KEY_CREATED event; Key signing generates KEY_USED_FOR_SIGN event; Key destruction generates KEY_DESTROYED event; Policy denial generates POLICY_DENIED_OPERATION event; Audit events are append-only and immutable.
+| `@functional-requirement @not-implemented`
+| Current Gherkin covers audit-event production and immutability, not a full compliance review workflow.
+
+| <<UC-CUSTODY-CONFIG,UC-CUSTODY-CONFIG>>
+| `features/kms/key-policy.feature`
+| Policy allows only SIGN usage; Policy denies ENCRYPT when only SIGN is allowed; Policy requires HSM backend; Policy requires approval; Policy-denied operation generates audit event.
+| `@functional-requirement @not-implemented`
+| Current Gherkin covers KMS policy constraints and a backend requirement. Dedicated HSM custody configuration is still missing.
+|===
+
+== A.6 X.509 Gherkin Scenario Catalogue
+
+=== A.6.1 X.509 Certificate Profile Integrity
+
+Source: `features/x509/certificate-profile-integrity.feature`.
+
+Validation evidence: first RED story wiring exists for `@req-x509-profile-integrity-001` through `trust-engine-api-adapter/src/test/java/com/magrathea/trustengine/apiadapter/x509/X509CertificateProfileIntegrityCucumberTest.java`, `trust-engine-api-adapter/src/test/java/com/magrathea/trustengine/apiadapter/x509/CertificateProfileIntegritySteps.java`, and `trust-engine-api-adapter/src/test/java/com/magrathea/trustengine/apiadapter/x509/CucumberSpringContextConfiguration.java`. Maven RED verification now runs on Apache Maven 3.9.16 / Java 21.0.11 with `mvn -pl trust-engine-api-adapter -am -Dtest=X509CertificateProfileIntegrityCucumberTest -Dsurefire.failIfNoSpecifiedTests=false test`. The expected RED result is `1 scenarios (1 failed), 8 steps (3 passed, 4 skipped, 1 failed)` and Surefire `Tests run: 5, Failures: 1, Errors: 0, Skipped: 4`. The failure is meaningful at the `When` step: `UC-X509-PROFILE-INTEGRITY is not implemented: no application use case validates an approved manifest profile ID against parsed, schema-validated, normalized, canonical CertificateProfile content for certificate issuance yet.`
+
+Domain implementation evidence: `trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileId.java` remains valid for the identifier behavior from datasets 0001-0020. `CertificateProfile` is currently a limited `record CertificateProfile(int validityDays)` with one-field evidence for `validityDays()`, deterministic canonical JSON `{"validityDays":397}`, SHA-256 digest hex `fa0dfb6bc1f41bff05587eacab336c16a778eff23ec79b565d09a5023b48ac51`, content-addressed `CertificateProfileId` `x509-profile-v1-sha256-fa0dfb6bc1f41bff05587eacab336c16a778eff23ec79b565d09a5023b48ac51`, and `hasProfileId(CertificateProfileId)` returning true for the matching expected ID. Standalone value-object evidence covers `CertificateProfileKeyUsages` sorted array rendering such as `["digitalSignature","keyEncipherment"]`, `CertificateProfileExtendedKeyUsages` sorted array rendering such as `["clientAuth","serverAuth"]`, `CertificateProfilePublicKeyAlgorithms` sorted array rendering such as `["EC_P256","RSA_3072"]`, and `CertificateProfileBasicConstraints` deterministic object rendering `{"ca":false}`.
+Maven verification `mvn test -pl trust-engine-domain -am` succeeded with tests run 29, failures 0, errors 0, and javaspec passed 29/29. Valid development datasets are `docs/dataset/0001-certificate-profile-id-sha256-record-algorithm.jsonl` through `docs/dataset/0029-certificate-profile-basic-constraints-canonical-json-object.jsonl`, including replayed valid continuation datasets 0006-0013. Anti-fake status: replay work beyond the rollback boundary is accepted only through valid continuation dataset evidence. Therefore integration of these value objects into `CertificateProfile`, full multi-field `CertificateProfile` canonical JSON, subject templates, defaults and schema/default expansion/validation, manifest validation/comparison, audit emission, YAML parsing/adapter behavior, and application use-case behavior are not implemented.
+
+Business need: verify X.509 certificate profiles against trusted content-addressed identifiers so certificate issuance cannot use a tampered or semantically ambiguous profile.
+
+Rules:
+
+* Certificate profiles are immutable YAML resources referenced by a separate manifest at `profiles/profiles.manifest.yaml`.
+* The profile identifier has the format `x509-profile-v1-sha256-<digest>`.
+* The identifier is computed from the canonical semantic `CertificateProfile` model, not from raw YAML bytes.
+* The integrity pipeline is YAML parse, schema validation, `CertificateProfile` model creation, field normalization, deterministic canonical JSON, SHA-256, and profile ID comparison.
+* A profile whose computed identifier differs from the manifest identifier is rejected for certificate issuance.
+* A rejected profile records a `PROFILE_INTEGRITY_FAILED` audit event.
+* The first release does not require manifest signatures.
+
+[cols="2,1,1,1,1",options="header"]
+|===
+| Scenario | Requirement ID | Use Case ID | Classification | Declared Status
+
+| Accept an unchanged approved YAML profile when the computed ID matches the manifest ID
+| `REQ-X509-PROFILE-INTEGRITY-001`
+| <<UC-X509-PROFILE-INTEGRITY,UC-X509-PROFILE-INTEGRITY>>
+| functional requirement
+| RED story-wired; 29 valid pure-domain behaviors green / use case not implemented
+
+| Reject a tampered YAML profile when the computed ID differs from the manifest ID
+| `REQ-X509-PROFILE-INTEGRITY-002`
+| <<UC-X509-PROFILE-INTEGRITY,UC-X509-PROFILE-INTEGRITY>>
+| functional requirement
+| not implemented
+
+| Ignore raw formatting and comment-only changes when canonical semantic content is unchanged
+| `REQ-X509-PROFILE-INTEGRITY-003`
+| <<UC-X509-PROFILE-INTEGRITY,UC-X509-PROFILE-INTEGRITY>>
+| functional requirement
+| not implemented
+
+| Reject a YAML profile with unknown fields before canonicalization
+| `REQ-X509-PROFILE-INTEGRITY-004`
+| <<UC-X509-PROFILE-INTEGRITY,UC-X509-PROFILE-INTEGRITY>>
+| functional requirement
+| not implemented
+
+| Reject a YAML profile that uses aliases before canonicalization
+| `REQ-X509-PROFILE-INTEGRITY-005`
+| <<UC-X509-PROFILE-INTEGRITY,UC-X509-PROFILE-INTEGRITY>>
+| functional requirement
+| not implemented
+|===
+
+== A.7 KMS Gherkin Scenario Catalogue
+
+=== A.7.1 KMS Key Lifecycle Management
+
+Source: `features/kms/key-lifecycle.feature`.
+
+Business need: manage the full lifecycle of cryptographic keys so keys can be generated, imported, used, and retired securely.
+
+Rules:
+
+* A generated key is created with a specific algorithm, usage, and label.
+* A KeyHandle uniquely identifies a key within the KMS.
+* Key metadata is accessible via KeyHandle at any time after creation.
+* A disabled key cannot be used for sign/verify/encrypt/decrypt operations.
+* A destroyed key is permanently removed and its KeyHandle becomes invalid.
+
+[cols="1,1,1,1",options="header"]
+|===
+| Scenario | Use Case ID | Classification | Declared Status
+
+| Generate a signing key
+| <<UC-KMS-KEY-LIFECYCLE,UC-KMS-KEY-LIFECYCLE>>
+| functional requirement
+| not implemented
+
+| Generate an encryption key
+| <<UC-KMS-KEY-LIFECYCLE,UC-KMS-KEY-LIFECYCLE>>
+| functional requirement
+| not implemented
+
+| Import an existing key
+| <<UC-KMS-KEY-LIFECYCLE,UC-KMS-KEY-LIFECYCLE>>
+| functional requirement
+| not implemented
+
+| List all keys
+| <<UC-KMS-KEY-LIFECYCLE,UC-KMS-KEY-LIFECYCLE>>
+| functional requirement
+| not implemented
+
+| Read key metadata by KeyHandle
+| <<UC-KMS-KEY-LIFECYCLE,UC-KMS-KEY-LIFECYCLE>>
+| functional requirement
+| not implemented
+
+| Disable a key prevents its use
+| <<UC-KMS-KEY-LIFECYCLE,UC-KMS-KEY-LIFECYCLE>>
+| functional requirement
+| not implemented
+
+| Destroy a key removes it permanently
+| <<UC-KMS-KEY-LIFECYCLE,UC-KMS-KEY-LIFECYCLE>>
+| functional requirement
+| not implemented
+|===
+
+=== A.7.2 KMS Key Signing and Signature Verification
+
+Source: `features/kms/key-signing.feature`.
+
+Ability: sign digests with asymmetric keys and verify signatures so data integrity and authenticity can be ensured.
+
+Rules:
+
+* A key with SIGN usage can sign a digest and produce a signature.
+* A signature can be verified against a digest using the corresponding public key.
+* A key without SIGN usage denies the sign operation.
+* Verification with a different key than the one used for signing fails.
+
+[cols="1,1,1,1",options="header"]
+|===
+| Scenario | Use Case ID | Classification | Declared Status
+
+| Sign a digest with an asymmetric key
+| <<UC-KMS-SIGN,UC-KMS-SIGN>>
+| functional requirement
+| not implemented
+
+| Verify a signature against a digest
+| <<UC-KMS-SIGN,UC-KMS-SIGN>>
+| functional requirement
+| not implemented
+
+| Sign operation denied for key without SIGN usage
+| <<UC-KMS-SIGN,UC-KMS-SIGN>>
+| functional requirement
+| not implemented
+
+| Verify with wrong key fails
+| <<UC-KMS-SIGN,UC-KMS-SIGN>>
+| functional requirement
+| not implemented
+|===
+
+=== A.7.3 KMS Key Encryption and Decryption
+
+Source: `features/kms/key-encryption.feature`.
+
+Ability: encrypt plaintext and decrypt ciphertext with symmetric keys so data can be protected at rest and recovered by authorized consumers.
+
+Rules:
+
+* A key with ENCRYPT_DECRYPT usage can encrypt plaintext and decrypt ciphertext.
+* Encryption produces ciphertext that can be decrypted with the same key.
+* A key without ENCRYPT_DECRYPT usage denies the encrypt operation.
+* Decryption with a different key than the one used for encryption fails.
+
+[cols="1,1,1,1",options="header"]
+|===
+| Scenario | Use Case ID | Classification | Declared Status
+
+| Encrypt plaintext with a symmetric key
+| <<UC-KMS-ENCRYPT,UC-KMS-ENCRYPT>>
+| functional requirement
+| not implemented
+
+| Decrypt ciphertext with the same key
+| <<UC-KMS-ENCRYPT,UC-KMS-ENCRYPT>>
+| functional requirement
+| not implemented
+
+| Encrypt denied for key without ENCRYPT_DECRYPT usage
+| <<UC-KMS-ENCRYPT,UC-KMS-ENCRYPT>>
+| functional requirement
+| not implemented
+
+| Decrypt with wrong key fails
+| <<UC-KMS-ENCRYPT,UC-KMS-ENCRYPT>>
+| functional requirement
+| not implemented
+|===
+
+=== A.7.4 KMS Key Policy Enforcement
+
+Source: `features/kms/key-policy.feature`.
+
+Business need: define and enforce key policies so that keys are used only for their intended purposes and within approved constraints.
+
+Rules:
+
+* A key policy specifies allowed usages (`SIGN`, `ENCRYPT_DECRYPT`).
+* A key policy can require a specific backend type (`HSM`, `SOFTWARE`).
+* A key policy can require approval before use.
+* Policy-denied operations produce audit events.
+
+[cols="1,1,1,1",options="header"]
+|===
+| Scenario | Use Case ID | Classification | Declared Status
+
+| Policy allows only SIGN usage
+| <<UC-CUSTODY-CONFIG,UC-CUSTODY-CONFIG>>
+| functional requirement
+| not implemented
+
+| Policy denies ENCRYPT when only SIGN is allowed
+| <<UC-CUSTODY-CONFIG,UC-CUSTODY-CONFIG>>
+| functional requirement
+| not implemented
+
+| Policy requires HSM backend
+| <<UC-CUSTODY-CONFIG,UC-CUSTODY-CONFIG>>
+| functional requirement
+| not implemented
+
+| Policy requires approval
+| <<UC-CUSTODY-CONFIG,UC-CUSTODY-CONFIG>>
+| functional requirement
+| not implemented
+
+| Policy-denied operation generates audit event
+| <<UC-CUSTODY-CONFIG,UC-CUSTODY-CONFIG>>
+| functional requirement
+| not implemented
+|===
+
+=== A.7.5 KMS Audit Trail for Key Operations
+
+Source: `features/kms/key-audit.feature`.
+
+Business need: provide a complete audit trail of all key-related operations so key usage can be monitored, reviewed, and compliance can be demonstrated.
+
+Rules:
+
+* Every key lifecycle operation generates an audit event with a specific event type.
+* Audit events include the KeyHandle, operation type, timestamp, and identity.
+* Audit events are append-only and cannot be modified or deleted after creation.
+
+[cols="1,1,1,1",options="header"]
+|===
+| Scenario | Use Case ID | Classification | Declared Status
+
+| Key creation generates KEY_CREATED event
+| <<UC-AUDIT-REVIEW,UC-AUDIT-REVIEW>>
+| functional requirement
+| not implemented
+
+| Key signing generates KEY_USED_FOR_SIGN event
+| <<UC-AUDIT-REVIEW,UC-AUDIT-REVIEW>>
+| functional requirement
+| not implemented
+
+| Key destruction generates KEY_DESTROYED event
+| <<UC-AUDIT-REVIEW,UC-AUDIT-REVIEW>>
+| functional requirement
+| not implemented
+
+| Policy denial generates POLICY_DENIED_OPERATION event
+| <<UC-AUDIT-REVIEW,UC-AUDIT-REVIEW>>
+| functional requirement
+| not implemented
+
+| Audit events are append-only and immutable
+| <<UC-AUDIT-REVIEW,UC-AUDIT-REVIEW>>
+| functional requirement
+| not implemented
+|===
+
+== A.8 Requirement Gaps
+
+[cols="1,3",options="header"]
+|===
+| Status | Gap
+
+| actionable
+| X.509 profile integrity is now represented by `features/x509/certificate-profile-integrity.feature`; the first scenario has RED Cucumber story wiring and 29 valid pure-domain behaviors cover `CertificateProfileId`, limited one-field `CertificateProfile(int validityDays)` canonical JSON/hash/profile-ID/matching-ID behavior, and standalone canonical rendering for key usages, extended key usages, public key algorithms, and basic constraints,
+but the application use case, integration of these value objects into `CertificateProfile`, full multi-field semantic canonicalization, schema/default expansion/validation, deterministic complete-profile hashing, manifest comparison, YAML parsing/adapter behavior, and audit emission are not implemented. Create feature coverage for `UC-X509-PROFILE`, `UC-X509-ISSUE`, `UC-X509-REVOKE`, and `UC-X509-VALIDATE`, implement the profile-integrity use case, and keep all X.509 support claims as not implemented until validation passes.
+
+| blocked/actionable
+| CVC and SSH requirements are planned later according to roadmap priority. They need stable use-case IDs and feature files when that roadmap phase starts.
+
+| actionable
+| HSM Key Custody and TPM Attestation need executable requirements before implementation can be claimed. Current `UC-CUSTODY-CONFIG` only maps to KMS key-policy scenarios.
+
+| actionable
+| Dedicated audit-review workflows are missing. Current `UC-AUDIT-REVIEW` maps to audit event creation and immutability, not end-user review/search/export behavior.
+
+| needs-review
+| Non-functional requirements for compliance evidence, operator authentication, observability, deployment, and external evidence export are not yet fully represented as executable scenarios.
+|===

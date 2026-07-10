@@ -1,0 +1,97 @@
+= 3. System Scope and Context
+
+Status: planned and implementation-informed from `docs/c4/workspace.dsl`.
+
+C4 reference: `../c4/workspace.dsl`, view `SystemContext`.
+
+== 3.1 Business Context
+
+Magrathea PKI is a product-owned PKI trust engine. Its confirmed roadmap starts with X.509, then CVC, then SSH.
+
+Executable use-case details are intentionally not duplicated in this chapter. The use-case overview diagram, stable use-case IDs, and use-case-to-Gherkin mapping are maintained in `appendix-requirements.adoc`.
+
+[cols="1,1,3",options="header"]
+|===
+| Neighbor | Type | Relationship
+
+| PKI Consumer
+| Person / consuming system role
+| Uses Magrathea PKI capabilities for certificates, signatures, encryption, key custody, or attestation.
+
+| Registration Authority Operator
+| Person
+| Validates registration evidence and certificate requests before issuance.
+
+| Certificate Authority Operator
+| Person
+| Operates CA lifecycle, issuance policy, revocation, and protocol-specific CA administration.
+
+| Compliance Officer
+| Person
+| Reviews policy conformance, audit evidence, and regulated operation.
+|===
+
+== 3.2 System Boundary
+
+Inside the Magrathea PKI solution boundary, when product-owned or product-managed:
+
+* X.509 CA bounded context;
+* CVC CA bounded context;
+* SSH CA bounded context;
+* KMS bounded context;
+* HSM Key Custody bounded context;
+* TPM Attestation bounded context;
+* shared kernels for PKI, crypto/key custody, policy, and audit concerns.
+
+Outside the current confirmed system boundary:
+
+* physical deployment nodes and physical placement of HSM/TPM devices, which belong to Chapter 7;
+* customer-owned systems that call Magrathea PKI;
+* external identity providers, ticketing systems, SIEM systems, or regulatory portals, unless later confirmed by requirements or ADRs.
+
+== 3.3 Technical Context
+
+[cols="1,1,3",options="header"]
+|===
+| Interface | Status | Notes
+
+| HTTPS API
+| planned
+| C4 currently shows HTTPS for consumer and operator interactions. Concrete API contracts are not yet documented.
+
+| CLI
+| implementation-informed/planned
+| A CLI adapter Maven module exists. Operator command behavior is not yet described by executable scenarios.
+
+| Internal bounded-context APIs
+| planned
+| X.509, CVC, and SSH CA contexts use KMS signing and key references through internal APIs or ports.
+
+| HSM integration
+| planned
+| HSM Key Custody is inside the solution boundary when product-owned or product-managed. Concrete PKCS#11/vendor/API details require later ADRs or deployment decisions.
+
+| TPM integration
+| planned
+| TPM Attestation is inside the solution boundary when product-owned or product-managed. TPM device placement and trust roots require later deployment decisions.
+
+| Audit evidence export
+| needs-review
+| Compliance stakeholders need audit evidence, but export protocols and storage targets are not yet specified.
+|===
+
+== 3.4 Open Context Questions
+
+[cols="1,3",options="header"]
+|===
+| Status | Question
+
+| needs-review
+| Which external identity and access-management system authenticates operators and consumers?
+
+| needs-review
+| Are external SIEM, audit archive, or evidence-submission systems in scope?
+
+| needs-review
+| Which HSM and TPM devices or vendor APIs are target deployment profiles?
+|===

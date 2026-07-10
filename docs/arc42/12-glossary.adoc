@@ -1,0 +1,122 @@
+= 12. Glossary
+
+Status: confirmed/planned terms from Chapter 1, repository policy, C4 model, and KMS feature files.
+
+[cols="1,1,3,2",options="header"]
+|===
+| Term | Status | Definition | Source / Scope
+
+| Magrathea PKI
+| confirmed
+| Product for building and operating PKI and trust-management capabilities.
+| Chapter 1
+
+| X.509 CA
+| confirmed/planned
+| Bounded context for X.509 certificate authority capabilities, including issuance, hierarchy, revocation, and lifecycle operations.
+| Chapter 1, C4
+
+| CVC CA
+| confirmed/planned
+| Bounded context for Card Verifiable Certificate capabilities.
+| Chapter 1, C4
+
+| SSH CA
+| confirmed/planned
+| Bounded context for SSH certificate capabilities.
+| Chapter 1, C4
+
+| KMS
+| planned / feature-informed
+| Key Management Service bounded context for key lifecycle, signing, encryption, policy enforcement, audit, and custody backend selection.
+| C4, `features/kms`
+
+| HSM Key Custody
+| confirmed/planned
+| Product-owned or product-managed HSM-backed custody and cryptographic operation bounded context.
+| Chapter 1, C4
+
+| TPM Attestation
+| confirmed/planned
+| Product-owned or product-managed TPM-backed trust, attestation, and key sealing bounded context.
+| Chapter 1, C4
+
+| Shared PKI Kernel
+| confirmed/planned
+| Shared language and behavior for common PKI concerns that do not erase protocol-specific semantics.
+| Chapter 1
+
+| Crypto/Key Custody Kernel
+| confirmed/planned
+| Shared language and behavior for cryptographic keys, key handles, custody references, and backend-neutral custody concepts.
+| Chapter 1
+
+| Policy Kernel
+| confirmed/planned
+| Shared language and behavior for policy rules, allowed usage, approvals, backend requirements, and denial reasons.
+| Chapter 1, KMS features
+
+| Audit Kernel
+| confirmed/planned
+| Shared language and behavior for audit events and compliance evidence.
+| Chapter 1, KMS features
+
+| KeyHandle
+| feature-informed
+| Identifier returned by KMS to reference a key and retrieve metadata or perform permitted operations.
+| `key-lifecycle.feature`
+
+| Key metadata
+| feature-informed
+| Algorithm, usage, label, state, and related attributes associated with a key.
+| `key-lifecycle.feature`
+
+| Key policy
+| feature-informed
+| Rules that constrain allowed key usage, required backend type, and approvals before use.
+| `key-policy.feature`
+
+| Backend type
+| feature-informed
+| Required or available custody/crypto backend, currently described in requirements as `HSM` or `SOFTWARE`.
+| `key-policy.feature`
+
+| Audit event
+| feature-informed
+| Append-only record of a key operation, policy denial, or audit-related failure.
+| `key-audit.feature`
+
+| RA Operator
+| confirmed
+| Registration Authority operator who validates registration evidence and certificate requests.
+| Chapter 1
+
+| CA Operator
+| confirmed
+| Certificate Authority operator who operates CA lifecycle, issuance policy, revocation, and CA administration.
+| Chapter 1
+
+| Compliance Officer
+| confirmed
+| Stakeholder who reviews evidence for compliance targets and internal controls.
+| Chapter 1
+|===
+
+== 12.1 Terms Needing Clarification
+
+[cols="1,3",options="header"]
+|===
+| Term | Clarification Needed
+
+| External customer
+| Which product personas and integration modes are required?
+
+| Software key custody
+| Which cryptographic provider, storage, wrapping, and rotation rules apply?
+
+| Approval
+| Which actor grants approval, how is it authenticated, and how long is it valid?
+
+| Identity
+| KMS audit requirements mention identity, but identity source and subject model are not specified.
+|===

@@ -1,0 +1,91 @@
+= 1. Introduction and Goals
+
+== 1.1 Requirements Overview
+
+Magrathea PKI is a product for building and operating public-key infrastructure and trust-management capabilities.
+
+The product supports protocol-specific PKI domains without collapsing them into a generic certificate model:
+
+* X.509 certificate authority and lifecycle capabilities;
+* CVC certificate capabilities;
+* SSH certificate capabilities.
+
+The delivery roadmap starts with X.509, then adds CVC, then SSH.
+
+Magrathea PKI supports multiple key custody and trust profiles:
+
+* software-based key custody;
+* optional HSM-backed key custody;
+* optional TPM-backed trust and attestation profiles.
+
+When HSM or TPM capabilities are product-owned or product-managed, they are inside the Magrathea PKI solution boundary. Their physical placement is described in the Deployment View.
+
+The architecture follows DDD and BDD-first development. C4 containers represent deployable bounded contexts, not packaging artifacts.
+
+Shared kernels provide common capabilities where appropriate:
+
+* Shared PKI Kernel;
+* Crypto/Key Custody Kernel;
+* Policy Kernel;
+* Audit Kernel.
+
+Compliance targets include FIPS, eIDAS, ETSI, and Common Criteria.
+
+== 1.2 Quality Goals
+
+[cols="1,2",options="header"]
+|===
+| Priority | Quality Goal
+
+| 1
+| Security: protect keys, trust decisions, certificate lifecycle operations, and administrative access.
+
+| 2
+| Correctness: enforce PKI rules, policies, certificate semantics, and lifecycle transitions accurately.
+
+| 3
+| Auditability: provide reliable evidence for security, compliance, and operational review.
+
+| 4
+| Modularity: keep X.509, CVC, SSH, custody, policy, and audit concerns independently evolvable.
+
+| 5
+| Testability: validate requirements through BDD-first executable specifications and focused implementation tests.
+
+| 6
+| Operability: support reliable product operation, diagnostics, and deployment across supported trust profiles.
+|===
+
+== 1.3 Stakeholders
+
+[cols="1,2",options="header"]
+|===
+| Stakeholder | Expectations
+
+| Product owner
+| Delivers a commercially useful PKI product with a clear roadmap and extensible trust capabilities.
+
+| Security architect
+| Ensures strong key protection, policy enforcement, and secure trust boundaries.
+
+| PKI architect
+| Ensures protocol-specific correctness for X.509, CVC, and SSH PKI domains.
+
+| RA operator
+| Performs registration and identity-verification workflows reliably and traceably.
+
+| CA operator
+| Operates certification authority workflows securely and according to policy.
+
+| Compliance officer
+| Verifies evidence for FIPS, eIDAS, ETSI, Common Criteria, and internal controls.
+
+| External customer
+| Uses Magrathea PKI as a trustworthy product for certificate and trust operations.
+
+| Developer
+| Needs clear bounded contexts, executable requirements, and maintainable architecture.
+
+| Operator
+| Needs observable, deployable, and supportable runtime components.
+|===

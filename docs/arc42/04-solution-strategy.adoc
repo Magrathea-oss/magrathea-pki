@@ -1,0 +1,98 @@
+= 4. Solution Strategy
+
+Status: planned with confirmed architectural direction; implementation is still early.
+
+== 4.1 Strategic Drivers
+
+The solution strategy follows the Chapter 1 priority order:
+
+. Security
+. Correctness
+. Auditability
+. Modularity
+. Testability
+. Operability
+
+== 4.2 Domain-Centric Architecture
+
+Status: confirmed.
+
+Magrathea PKI uses DDD to keep protocol and custody concerns explicit:
+
+* X.509 CA, CVC CA, and SSH CA remain separate bounded contexts.
+* KMS handles key lifecycle, cryptographic operations, policy checks, and custody backend selection.
+* HSM Key Custody and TPM Attestation are optional trust/key-custody profiles inside the solution boundary when product-owned or product-managed.
+* Shared kernels are allowed only for truly shared concepts and must not collapse protocol-specific semantics.
+
+== 4.3 Roadmap Strategy
+
+Status: confirmed.
+
+The product roadmap is:
+
+. X.509 first;
+. CVC second;
+. SSH third.
+
+Current executable requirements cover X.509 profile integrity and KMS, and observed scenarios remain tagged `@not-implemented`. X.509 profile-integrity support is limited to RED story wiring plus 29 valid pure domain behaviors through datasets 0001-0029: `CertificateProfileId` remains valid through datasets 0001-0020; the one-field `CertificateProfile(int validityDays)` model exposes `validityDays()`, deterministic canonical JSON `{"validityDays":397}`, SHA-256 digest hex `fa0dfb6bc1f41bff05587eacab336c16a778eff23ec79b565d09a5023b48ac51`, its content-addressed `CertificateProfileId`, and matching `hasProfileId(CertificateProfileId)` recognition; standalone value objects render unordered key usages, extended key usages, and public key algorithms as sorted canonical JSON arrays such as `["digitalSignature","keyEncipherment"]`, `["clientAuth","serverAuth"]`, and `["EC_P256","RSA_3072"]`; `CertificateProfileBasicConstraints` renders the CA flag as deterministic canonical JSON object `{"ca":false}`.
+Remaining behavior is not implemented, including integration of these value objects into `CertificateProfile`, full multi-field profile canonicalization, subject templates, defaults and schema/default expansion/validation, manifest validation/comparison, audit emission, YAML parsing/adapter behavior, and application use-case behavior. Broader X.509, CVC, and SSH feature coverage is still missing.
+
+== 4.4 Technology Strategy
+
+[cols="1,1,3",options="header"]
+|===
+| Area | Status | Strategy
+
+| Runtime
+| confirmed
+| Java 21.
+
+| Application platform
+| confirmed/implementation-informed
+| Spring Boot 4.1.0 with Spring Reactive/WebFlux on Java 21. The scaffold has been converted from Spring Boot 3.4.4; Reactor and R2DBC dependency versions are managed by Spring Boot.
+
+| Reactive design
+| planned
+| Application ports and adapters should support reactive flows where required by WebFlux and operational scalability.
+
+| Build/scaffold
+| implementation-informed
+| Existing Maven modules express domain, application, infrastructure, API adapter, CLI adapter, and bootstrap layers, but do not define C4 containers. Full reactor packaging has passed with Spring Boot 4.1.0 and Java 21.
+|===
+
+== 4.5 Quality-Driven Strategy
+
+[cols="1,3",options="header"]
+|===
+| Quality | Architectural Response
+
+| Security
+| Keep key custody explicit; isolate HSM/TPM/software custody choices; enforce policy before cryptographic use.
+
+| Correctness
+| Preserve protocol-specific bounded contexts and executable requirements.
+
+| Auditability
+| Treat audit evidence as a cross-cutting concern and a shared kernel candidate.
+
+| Modularity
+| Separate bounded contexts from Maven modules and packaging artifacts.
+
+| Testability
+| Use Gherkin as executable requirements and javaspec for focused Java behavior slices.
+
+| Operability
+| Keep deployment placement and runtime observability explicit in later deployment decisions.
+|===
+
+== 4.6 Architecture Decisions
+
+Status: actionable.
+
+No ADR files were found. Major strategy decisions still need ADRs, especially for:
+
+* bounded-context boundaries;
+* Spring Boot 4 LTS platform baseline and dependency-management policy;
+* key custody profiles and cryptographic boundary rules;
+* audit storage and immutability;
+* compliance evidence approach.

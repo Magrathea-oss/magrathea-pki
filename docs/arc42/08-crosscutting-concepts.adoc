@@ -1,0 +1,109 @@
+= 8. Cross-cutting Concepts
+
+Status: planned with limited implementation evidence.
+
+== 8.1 Security and Key Custody
+
+Status: confirmed/planned.
+
+Magrathea PKI must protect keys, trust decisions, certificate lifecycle operations, and administrative access. Supported custody profiles are:
+
+* software-based key custody;
+* optional HSM-backed custody;
+* optional TPM-backed trust and attestation.
+
+HSM and TPM capabilities are inside the solution boundary when product-owned or product-managed. Concrete cryptographic provider boundaries, key export rules, and custody failure modes need ADRs.
+
+== 8.2 Policy Enforcement
+
+Status: planned and feature-informed.
+
+KMS feature files require policy checks for:
+
+* allowed usages such as `SIGN` and `ENCRYPT_DECRYPT`;
+* required backend type such as `HSM` or `SOFTWARE`;
+* required approval before use;
+* audit events for policy-denied operations.
+
+== 8.3 Auditability
+
+Status: planned and feature-informed.
+
+KMS feature files require audit events for key creation, signing, destruction, policy denial, and audit immutability violations. Audit events must be append-only and include key handle, operation type, timestamp, and identity where applicable.
+
+Audit storage, retention, export, tamper evidence, and compliance evidence packaging are not yet specified.
+
+== 8.4 Validation and Error Handling
+
+Status: planned.
+
+Errors must preserve security and correctness. Requirement-informed examples include:
+
+* policy denial for disallowed usage;
+* policy denial for unavailable required backend;
+* approval-required denial;
+* decryption failure with the wrong key;
+* invalid verification result with the wrong signing key.
+
+Concrete error contracts are not yet defined.
+
+== 8.5 Persistence and Transaction Boundaries
+
+Status: needs-review.
+
+The C4 KMS component view includes a Key Repository design element, but persistence technology, transaction boundaries, and audit immutability storage are not yet decided.
+
+== 8.6 Observability and Operability
+
+Status: planned.
+
+The architecture needs diagnostics and operational visibility, especially for custody backend health, policy denials, audit failures, and CA lifecycle operations. Metrics, tracing, log structure, and alerting targets are not yet specified.
+
+== 8.7 Configuration and Secrets
+
+Status: needs-review.
+
+Secrets, cryptographic provider configuration, HSM credentials, TPM provisioning data, and policy configuration require explicit handling. No concrete mechanism is documented yet.
+
+== 8.8 Configuration Integrity and Tamper-evident Profile Storage
+
+Status: confirmed decision / planned implementation with limited pure-domain evidence.
+
+X.509 certificate profiles are immutable, content-addressed YAML resources according to link:../adr/0001-use-content-addressed-yaml-for-certificate-profiles.md[ADR 0001]. A `CertificateProfileId` is computed from the canonical semantic `CertificateProfile` model, not from raw YAML bytes. Current implementation evidence is limited to 29 pure-domain behaviors through datasets 0001-0029: `CertificateProfileId`, a one-field `CertificateProfile(int validityDays)` canonical JSON/hash/profile-ID path, and separate standalone canonical rendering for key usages, extended key usages, public key algorithms, and basic constraints. These value objects are not yet integrated into `CertificateProfile`, and no YAML parsing, schema/default expansion/validation, manifest comparison, audit emission, or application/adapter behavior is implemented.
+
+The confirmed profile identity pipeline is:
+
+[source,text]
+----
+YAML -> parse -> schema validation -> CertificateProfile model -> normalize fields -> deterministic canonical JSON -> SHA-256 -> profile ID
+----
+
+The profile ID format is `x509-profile-v1-sha256-<digest>`.
+
+Canonicalization rules:
+
+* deterministic field order;
+* lists are sorted only when semantically unordered;
+* defaults are expanded before hashing;
+* comments and whitespace are ignored;
+* YAML aliases are forbidden;
+* unknown fields are forbidden;
+* timestamps are excluded from hashed content.
+
+Expected profile IDs are stored separately from hashed profile files. The planned layout is `profiles/<name>.yaml` plus `profiles/profiles.manifest.yaml`. Human aliases may map names to active and previous immutable profile IDs. Semantic changes create a new profile ID; profile content is immutable.
+
+Before X.509 certificate issuance, the loaded profile must be canonicalized and compared with the expected ID from the manifest or trusted reference. A mismatch rejects the profile for issuance and emits a `PROFILE_INTEGRITY_FAILED` audit event with `profilePath`, `expectedProfileId`, `computedProfileId`, actor or system identity, timestamp, and reason.
+
+Lifecycle states are `draft`, `active`, `deprecated`, `revoked`, and `archived`.
+
+The first release does not necessarily require a signed manifest, but the manifest format is prepared for later signing. Later hardening may add `profiles/profiles.manifest.sig`, software signatures in development, HSM signatures in production, and Git signed commits as optional additional protection.
+
+== 8.9 Testing and Documentation Conventions
+
+Status: confirmed.
+
+* Gherkin feature files are the executable plan.
+* Multiple validation modes must reuse the same feature text.
+* Adapter behavior is validated through Cucumber.
+* Java domain/application behavior follows javaspec red-green-refactor discipline.
+* Generated project artifacts are written in English.

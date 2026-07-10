@@ -1,0 +1,57 @@
+= 6. Runtime View
+
+Status: planned. No C4 dynamic/runtime view exists yet.
+
+Runtime views should be added by c4model after the project chooses the first scenario slices to visualize.
+
+== 6.1 Current Runtime Evidence
+
+Existing Gherkin requirements cover X.509 profile integrity and KMS, and all observed scenarios are tagged `@not-implemented`. X.509 profile-integrity has RED story wiring plus 29 valid pure domain behaviors through datasets 0001-0029: `CertificateProfileId` remains valid through datasets 0001-0020; limited one-field `CertificateProfile(int validityDays)` support covers canonical JSON `{"validityDays":397}`, SHA-256 digest hex, content-addressed profile ID, and matching expected-ID recognition; standalone value objects render unordered key usages, extended key usages, and public key algorithms as sorted canonical JSON arrays, and render basic constraints as deterministic canonical JSON object `{"ca":false}`.
+There is still no implemented runtime flow. Integration of these value objects into `CertificateProfile`, full multi-field profile canonicalization, schema/default expansion/validation, manifest validation/comparison, audit emission, YAML parsing/adapter behavior, and application use-case behavior remain not implemented. Therefore the flows below are requirement-informed plans, not implemented runtime behavior.
+
+== 6.2 Candidate Runtime Scenarios
+
+[cols="1,1,3",options="header"]
+|===
+| Scenario | Status | Planned Interaction Level
+
+| Verify certificate profile integrity before issuance
+| planned / RED story-wired
+| Registration Authority or issuance adapter -> X.509 profile-integrity use case -> YAML parser/schema validation -> canonical `CertificateProfile` model/hash comparison -> manifest lookup -> Audit Service on rejection. Current implementation does not provide this use case yet.
+
+| Generate a key
+| planned
+| KMS client/API or CLI adapter -> KMS Key Service -> Policy Service -> custody backend -> Audit Service.
+
+| Sign a digest
+| planned
+| KMS client/API or CLI adapter -> KMS Signing Service -> Policy Service -> key repository/custody backend -> Audit Service.
+
+| Encrypt/decrypt data
+| planned
+| KMS client/API or CLI adapter -> KMS Encryption Service -> Policy Service -> key repository/custody backend -> Audit Service.
+
+| Policy-denied operation
+| planned
+| KMS operation -> Policy Service denial -> Audit Service records `POLICY_DENIED_OPERATION`.
+
+| Audit immutability violation
+| planned
+| External actor or adapter request -> Audit Service rejects modification/deletion attempt.
+|===
+
+== 6.3 Runtime View Gaps
+
+[cols="1,3",options="header"]
+|===
+| Status | Gap
+
+| actionable
+| Select the first implemented X.509 profile-integrity or KMS scenario slice and ask c4model to create a dynamic view.
+
+| blocked
+| Broader X.509, CVC, and SSH runtime flows need executable requirements before they should be modeled.
+
+| needs-review
+| Operator authentication, authorization, and approval workflows are not yet specified.
+|===

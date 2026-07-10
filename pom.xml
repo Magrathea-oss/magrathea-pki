@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.4</version>
+        <version>4.1.0</version>
         <relativePath/>
     </parent>
 
@@ -26,22 +26,16 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <!-- Reactor -->
-        <reactor-bom.version>2024.0.0</reactor-bom.version>
-
         <!-- Bouncy Castle -->
         <bouncycastle.version>1.80</bouncycastle.version>
 
         <!-- Testing -->
-        <cucumber.version>7.18.1</cucumber.version>
+        <cucumber.version>7.34.4</cucumber.version>
         <javaspec.version>0.1.0-SNAPSHOT</javaspec.version>
         <jacoco.version>0.8.12</jacoco.version>
 
         <!-- CLI -->
-        <picocli.version>7.2.0</picocli.version>
-
-        <!-- R2DBC -->
-        <r2dbc-h2.version>1.0.0.RELEASE</r2dbc-h2.version>
+        <picocli.version>4.7.7</picocli.version>
     </properties>
 
     <modules>
@@ -55,15 +49,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Reactor BOM -->
-            <dependency>
-                <groupId>io.projectreactor</groupId>
-                <artifactId>reactor-bom</artifactId>
-                <version>${reactor-bom.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
             <!-- Bouncy Castle -->
             <dependency>
                 <groupId>org.bouncycastle</groupId>
@@ -115,14 +100,6 @@
                 <groupId>info.picocli</groupId>
                 <artifactId>picocli</artifactId>
                 <version>${picocli.version}</version>
-            </dependency>
-
-            <!-- R2DBC H2 -->
-            <dependency>
-                <groupId>io.r2dbc</groupId>
-                <artifactId>r2dbc-h2</artifactId>
-                <version>${r2dbc-h2.version}</version>
-                <scope>runtime</scope>
             </dependency>
 
             <!-- Internal module dependencies -->
@@ -191,6 +168,7 @@
                 <dependency>
                     <groupId>io.r2dbc</groupId>
                     <artifactId>r2dbc-h2</artifactId>
+                    <scope>runtime</scope>
                 </dependency>
             </dependencies>
             <dependencyManagement>

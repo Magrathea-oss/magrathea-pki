@@ -30,14 +30,6 @@
             <artifactId>picocli</artifactId>
         </dependency>
 
-        <!-- Picocli Spring Boot integration -->
-        <dependency>
-            <groupId>info.picocli</groupId>
-            <artifactId>picocli-spring-boot-autoconfigure</artifactId>
-            <version>7.2.0</version>
-            <optional>true</optional>
-        </dependency>
-
         <!-- Test dependencies -->
         <dependency>
             <groupId>io.cucumber</groupId>

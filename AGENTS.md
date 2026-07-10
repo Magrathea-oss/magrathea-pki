@@ -38,9 +38,9 @@ Adapters must not contain:
 - Multipart state machines
 - Cross-bounded-context translation outside explicit ACL/adapter modules
 
-## spec-driven Domain/Application Implementation
+## spec-driven Domain Implementation
 
-- `spec-driven` implements one Java behavior slice at a time using **javaspec** red-green-refactor discipline:
+- `spec-driven` implements pure domain behavior one Java behavior slice at a time using **javaspec** red-green-refactor discipline:
   1. one behavior;
   2. one javaspec RED example;
   3. meaningful failing verification;
@@ -48,11 +48,13 @@ Adapters must not contain:
   5. optional behavior-preserving refactor;
   6. verification after each phase;
   7. stop after the slice.
+- If a slice batches behaviors or implements multiple generated members in one GREEN step, the dataset and the produced code/spec artifacts are invalid. The attempt must be cleaned and regenerated from a fresh javaspec cycle before continuing.
 
-## story-driven Adapter Validation
+## story-driven Use Case and Adapter Validation
 
-- `story-driven` implements Cucumber runners, glue, and adapter-side validation.
-- Adapters are validated through Gherkin scenarios, not through javaspec.
+- `story-driven` implements application use cases, Cucumber runners, glue, inbound adapters, outbound infrastructure adapters, and adapter-side validation.
+- Use cases and adapters are validated through Gherkin scenarios, not through javaspec.
+- Use-case Javadocs should include lightweight traceability to the use-case ID, feature file, and ARC42 requirements appendix section.
 
 ## Anti-Fake Completion Rule
 
@@ -78,6 +80,12 @@ Missing documentation is reported with statuses:
 - `out-of-scope`
 - `stale`
 - `unknown`
+
+## Technical Baseline
+
+- Java 21 is the default language level.
+- Spring Boot 4.1.x is the runtime/application baseline.
+- Immutable domain value objects should normally use Java records unless a specific domain or tooling constraint requires a class.
 
 ## Bounded Contexts
 
@@ -108,7 +116,9 @@ trust-engine-tpm
 
 | Layer | Owner |
 |---|---|
-| `*-domain`, `*-application`, `*-repository-application` behavior | `spec-driven` |
+| `*-domain` pure domain behavior, invariants, value objects, aggregates, domain services | `spec-driven` |
+| `*-application` use cases and application orchestration | `story-driven` |
+| `*-infrastructure` outbound adapters, persistence adapters, crypto/provider integrations | `story-driven` |
 | `*-adapter`, handlers, routers, controllers, Cucumber runners, step definitions | `story-driven` |
 | Maven scaffolding, parent POMs, module POMs, Dockerfile, `.dockerignore` | `bdd-java-scaffolder` |
 | Frontend code | Frontend agents (only when Gherkin requires it) |

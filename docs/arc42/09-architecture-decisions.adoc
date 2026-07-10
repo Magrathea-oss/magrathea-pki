@@ -1,0 +1,51 @@
+= 9. Architecture Decisions
+
+Status: implementation-informed.
+
+ADR bodies are owned by adr-writer and are not generated in this chapter. This chapter indexes existing ADRs and highlights missing decision records.
+
+== 9.1 ADR Index
+
+[cols="1,1,3",options="header"]
+|===
+| ADR | Status | Notes
+
+| link:../adr/0001-use-content-addressed-yaml-for-certificate-profiles.md[ADR 0001 — Use content-addressed YAML for certificate profiles]
+| Accepted
+| Certificate profiles are immutable, content-addressed YAML resources. Profile IDs use a versioned semantic canonical hash such as `x509-profile-v1-sha256-<digest>`.
+|===
+
+== 9.2 Decisions That Need ADRs
+
+[cols="1,1,3",options="header"]
+|===
+| Decision Area | Status | Reason
+
+| Bounded-context model
+| actionable
+| X.509 CA, CVC CA, SSH CA, KMS, HSM Key Custody, and TPM Attestation should be recorded as a durable architecture decision.
+
+| Spring Boot 4 LTS platform baseline and dependency management
+| actionable
+| The scaffold now uses Spring Boot 4.1.0 on Java 21; an ADR should record the platform baseline and Boot-managed Reactor/R2DBC dependency policy.
+
+| Key custody and cryptographic boundary rules
+| actionable
+| Software, HSM, and TPM profiles affect security, compliance, deployment, and testing.
+
+| Audit immutability and evidence model
+| actionable
+| Auditability is a high-priority quality goal and appears in executable requirements.
+
+| Policy enforcement model
+| actionable
+| KMS requirements depend on policy checks and denial semantics.
+
+| Compliance evidence strategy
+| actionable
+| FIPS, eIDAS, ETSI, and Common Criteria targets require explicit scope and evidence decisions.
+
+| X.509 profile canonicalization and trusted reference distribution
+| actionable
+| ADR 0001 records the content-addressed YAML decision; exact semantic canonicalization rules and trusted expected-ID/reference distribution still need follow-up decisions.
+|===

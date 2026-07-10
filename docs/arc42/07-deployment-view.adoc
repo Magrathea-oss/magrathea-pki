@@ -1,0 +1,64 @@
+= 7. Deployment View
+
+Status: blocked/planned. No confirmed deployment topology exists yet.
+
+== 7.1 Deployment Scope
+
+Deployment View maps C4 containers to runtime nodes and physical or virtual placement. It does not redefine C2 containers.
+
+Current confirmed rule:
+
+* HSM and TPM capabilities are inside the solution boundary when product-owned or product-managed.
+* Physical HSM/TPM placement belongs in this chapter once deployment decisions exist.
+
+== 7.2 Current Deployment Evidence
+
+[cols="1,1,3",options="header"]
+|===
+| Evidence | Status | Notes
+
+| Maven scaffold
+| implementation-informed
+| Existing modules can produce Java artifacts, but Maven modules are not deployment nodes or C4 containers.
+
+| Bootstrap application
+| implementation-informed
+| `bootstrap-application` is the current Spring Boot composition root.
+
+| Dockerfile
+| implementation-informed/needs-review
+| A repository Dockerfile exists, but no confirmed product deployment topology has been documented.
+
+| Spring Boot platform
+| implementation-informed
+| Current scaffold builds against Spring Boot 4.1.0 and Java 21. Runtime deployment topology remains undecided.
+|===
+
+== 7.3 Deployment Profiles to Decide
+
+[cols="1,1,3",options="header"]
+|===
+| Profile | Status | Open Decision
+
+| Software key custody
+| planned
+| Runtime node, storage, secrets, and cryptographic provider configuration are not yet decided.
+
+| HSM-backed custody
+| planned
+| HSM device placement, connectivity, vendor/API, PKCS#11 details, and operational controls are not yet decided.
+
+| TPM-backed attestation
+| planned
+| TPM physical placement, attestation roots, provisioning, and node binding are not yet decided.
+
+| Operator access
+| needs-review
+| Admin UI/API/CLI deployment and authentication boundary are not yet specified.
+|===
+
+== 7.4 C4 Deployment View Gap
+
+Status: blocked.
+
+No deployment view is present in `docs/c4/workspace.dsl`. c4model should add it after deployment nodes, runtime packaging, and HSM/TPM physical placement are confirmed.

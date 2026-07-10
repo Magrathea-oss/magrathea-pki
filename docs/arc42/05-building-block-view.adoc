@@ -1,0 +1,103 @@
+= 5. Building Block View
+
+Status: planned and implementation-informed. C4 source: `../c4/workspace.dsl`.
+
+== 5.1 Whitebox Overall System
+
+The C2 Container view models deployable, independently releasable, or intentionally extractable bounded contexts. It does not model Maven modules, JARs, WARs, Docker images, or shared kernels as containers.
+
+[cols="1,1,3",options="header"]
+|===
+| Building Block | Status | Responsibility
+
+| X.509 CA
+| planned
+| X.509 certificate issuance, CA hierarchy, revocation, and lifecycle operations. Roadmap phase 1.
+
+| CVC CA
+| planned
+| Card Verifiable Certificate issuance and lifecycle operations. Roadmap phase 2.
+
+| SSH CA
+| planned
+| SSH certificate issuance and lifecycle operations. Roadmap phase 3.
+
+| KMS
+| planned / feature-informed
+| Key lifecycle, signing, encryption, policy enforcement, audit, and custody backend selection. Current feature/scaffold focus.
+
+| HSM Key Custody
+| planned
+| Product-owned or product-managed HSM-backed key custody and cryptographic operation delegation.
+
+| TPM Attestation
+| planned
+| Product-owned or product-managed TPM-backed identity, attestation, and key sealing profiles.
+|===
+
+== 5.2 Shared Kernels
+
+Status: confirmed as architectural intent; implementation details are not yet defined.
+
+[cols="1,3",options="header"]
+|===
+| Shared Kernel | Purpose
+
+| Shared PKI Kernel
+| Common PKI language and behavior that does not erase X.509, CVC, or SSH differences.
+
+| Crypto/Key Custody Kernel
+| Shared cryptographic identifiers, key handles, custody references, and backend-neutral concepts.
+
+| Policy Kernel
+| Shared policy concepts for permitted usage, approvals, custody requirements, and denial reasons.
+
+| Audit Kernel
+| Shared event and evidence concepts for security and compliance review.
+|===
+
+Shared kernels are not C4 containers.
+
+== 5.3 KMS Component View
+
+Status: planned and feature-informed. Only KMS has a C3 component view because only KMS feature files currently exist.
+
+[cols="1,3",options="header"]
+|===
+| Component | Responsibility
+
+| Key Service
+| Coordinates key generation, import, destruction, metadata lookup, and lifecycle transitions.
+
+| Signing Service
+| Coordinates digest signing and signature verification with asymmetric keys.
+
+| Encryption Service
+| Coordinates plaintext encryption and ciphertext decryption with symmetric keys.
+
+| Policy Service
+| Evaluates allowed usage, custody backend constraints, approvals, and operation policy.
+
+| Audit Service
+| Records append-only audit evidence for key operations and administrative decisions.
+
+| Key Repository
+| Persists key metadata, lifecycle state, custody references, and audit lookup data.
+|===
+
+These components are C4 design elements, not confirmed production implementations.
+
+== 5.4 Current Scaffold Mapping
+
+Status: implementation-informed.
+
+The current Maven scaffold contains:
+
+* `trust-engine-domain`;
+* `trust-engine-application`;
+* `trust-engine-infrastructure`;
+* `trust-engine-api-adapter`;
+* `trust-engine-cli-adapter`;
+* `bootstrap-application`.
+
+This scaffold is a layered implementation structure and must not be treated as the C2 container model. `trust-engine-admin-adapter` and `trust-engine-test-support` are expected by repository policy but are not present yet.
