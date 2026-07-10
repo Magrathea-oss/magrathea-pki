@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "trajectory-validation-v1",
+  "validatedAt": "2026-07-10T19:23:12Z",
+  "traceId": "8cc6d007-2563-4783-b5f2-de380b374f3e",
+  "status": "PASS",
+  "captureMode": "RAW_EVENT_STREAM",
+  "checks": [
+    {
+      "name": "eventsFileSha256",
+      "status": "PASS",
+      "evidence": "7e1a0e0c5d906268a42f9534a4a5bef768585c0fc53232548432d6a0508bf87f matched the delegated expected hash and seal."
+    },
+    {
+      "name": "metadataAndPatchSha256",
+      "status": "PASS",
+      "evidence": "Metadata SHA-256 593ba7ea2d021c61f24324083f6a38a738068c79bb68e11b532c2cc36dbf9296 and patch SHA-256 0c235ecbd049cc826edacf9626223742441ff5dae7da2fd64bea1338fe137f1a matched the seal."
+    },
+    {
+      "name": "sealCompleteness",
+      "status": "PASS",
+      "evidence": "Seal is complete with exit code 0, 251 events, and final event hash afdafb56d6db2031cbab118d060c62893bb150dff5a068397bd63c9b719127e1."
+    },
+    {
+      "name": "eventHashChain",
+      "status": "PASS",
+      "evidence": "Sequences 0 through 250 are contiguous; every previousHash link and canonical JSON event hash verified."
+    },
+    {
+      "name": "chronology",
+      "status": "PASS",
+      "evidence": "Captured timestamps are monotonic. All 40 tool_execution_start events have one later tool_execution_end with the same call ID and tool name."
+    },
+    {
+      "name": "canonicalDelegatedTask",
+      "status": "PASS",
+      "evidence": "The first user message exactly equals the English metadata canonicalTask prefixed by the harness delegation header; sourceUserMessageIncluded is false."
+    },
+    {
+      "name": "thinkingContentAbsent",
+      "status": "PASS",
+      "evidence": "No thinking, reasoning, or analysis key and no thinking content block occurs in the sealed events. Observable message blocks are text and toolCall only."
+    },
+    {
+      "name": "promptToolModelProvenance",
+      "status": "PASS",
+      "evidence": "Workflow bdd-java, agent spec-driven, prompt bdd-java-spec-driven-v4, agent definition hash f7265db508f2dfa459e80005f045252e80ef8047a8614fb6802597ec375ca1d0, tool registry fingerprint 58f9fb4ff63c4ac748fcf030b843b8687a38b4aab2362dd8974d2b5b32f7776b, and model openai-codex/gpt-5.6-sol are present and internally consistent."
+    },
+    {
+      "name": "gitProvenance",
+      "status": "PASS",
+      "evidence": "Initial head 13de845ed8076f849efd3375aedbfdda9e23c9c6 and tree f7bbc031dae169e5f82404dc5c1ab5b75386609e are sealed. Final head is unchanged; sealed status contains only the retained RED specification change."
+    },
+    {
+      "name": "frameworkIncidentEvidence",
+      "status": "PASS",
+      "evidence": "javaspec 2f2d07452c527d20531760efb4a80cfb60feebdf generated an Object occurredAt stub and reordered constructor types; selected execution was BROKEN 1/1 with no matching constructor. The production stub was reverted and GREEN was not attempted."
+    },
+    {
+      "name": "sanitization",
+      "status": "PASS",
+      "evidence": "The raw trace and machine-specific reports were not copied. Repository artifacts contain only sanitized summaries, hashes, relative project paths, and the bounded patch."
+    }
+  ],
+  "eventStatistics": {
+    "eventCount": 251,
+    "turnCount": 41,
+    "toolExecutionCount": 40,
+    "processExitCode": 0
+  }
+}
