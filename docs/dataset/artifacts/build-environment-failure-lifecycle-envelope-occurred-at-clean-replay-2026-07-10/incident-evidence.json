@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "incident-evidence-v1",
+  "incidentId": "build-environment-failure-lifecycle-envelope-occurred-at-clean-replay-2026-07-10",
+  "candidateBehavior": "CertificateProfileLifecycleEventEnvelope.occurredAt",
+  "baseline": {
+    "command": "cd trust-engine-domain && ../bin/javaspec run --generate --compile --formatter pretty --class com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelope",
+    "result": "5 passed, 0 failed, 0 broken, 0 skipped, 0 pending",
+    "exitCode": 0
+  },
+  "attemptedRed": {
+    "example": "it_exposes_when_the_lifecycle_event_occurred",
+    "expected": "A meaningful assertion RED using the correctly ordered six-argument constructor.",
+    "actual": "BROKEN: java.lang.IllegalStateException: No matching constructor found for com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelope",
+    "counts": {
+      "total": 1,
+      "passed": 0,
+      "failed": 0,
+      "broken": 1,
+      "pending": 0
+    },
+    "generatedProductionStub": "Object occurredAt() with a javaspec:stub marker",
+    "generatedSupportConstructor": "(Instant, String, long, String, String, Instant)",
+    "reportArtifact": "Unavailable: the failed launcher execution did not create the requested temporary JSON report. Exact stdout and exit code remain in the sealed raw trace."
+  },
+  "javaspecEnvironment": {
+    "declaredVersion": "0.1.0-SNAPSHOT",
+    "sourceCommit": "5b65099ade375311b5c00873c557e268196ffce2",
+    "sourceCommitSubject": "fix: preserve constructor literal order with locals",
+    "launcherSelectionRule": "Prefer the Maven-local 0.1.0-SNAPSHOT JAR; use the source checkout target JAR only when the local JAR is absent.",
+    "selectedJarSha256": "01d396ca1e04fd5ccc1e6b2660a4e84c78ddee154e201883c9a04fed779c3a37",
+    "sourceTargetJarSha256": "01d396ca1e04fd5ccc1e6b2660a4e84c78ddee154e201883c9a04fed779c3a37",
+    "selectedJarBuildTime": "2026-07-10T14:11:54.930Z",
+    "fixCommitTime": "2026-07-10T19:38:31+02:00",
+    "selectedJarContainsFix": false,
+    "binaryFingerprintEvidence": {
+      "expectedFieldFromFix": "SpecCallScanner.SpecMethodParams.formalParameterCount",
+      "fieldPresentInSelectedJar": false,
+      "SpecDiscoveryClassSha256": "51ab021514218172c9243f2fa3a8d1f4b34014ba7395c90354bebf2320d607d2",
+      "SpecCallScannerClassSha256": "a880c76493a1af8e4babb4efe2136c56e074f4d8f9b6953750083565bde8bb5b"
+    },
+    "claimAssessment": "CONFIRMED: the project launcher selected an installed 0.1.0-SNAPSHOT binary built before fix 5b65099; the source checkout commit alone did not prove the executed binary contained the fix."
+  },
+  "reversion": {
+    "productionStubReverted": true,
+    "specificationExampleReverted": true,
+    "pendingStubCount": 0,
+    "changedFiles": [],
+    "initialHead": "88682f87bab011bfef4e49a62af963c2f86624b7",
+    "initialTree": "aa0017c1e2c8fc536d6e690d2b6b37ad6b4f65ff",
+    "finalHead": "88682f87bab011bfef4e49a62af963c2f86624b7",
+    "finalTree": "aa0017c1e2c8fc536d6e690d2b6b37ad6b4f65ff",
+    "finalStatusPorcelainV2": ""
+  },
+  "relevantFileHashes": [
+    {
+      "path": "trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelope.java",
+      "sha256": "f3863042d355dda188eab605e36ec0a74d67493d2b7e9497c491c3311cb760cc"
+    },
+    {
+      "path": "trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelopeSpec.java",
+      "sha256": "63269a18fd6dcc4cb50e2ca3d344c9fd9d245910acdebb141e9c65dbe51a1ad7"
+    },
+    {
+      "path": "features/x509/certificate-profile-lifecycle.feature",
+      "sha256": "072d852a5fc3e0aa56bde81290c55d4f2c8db240cb3bb61b982be500a0569157"
+    },
+    {
+      "path": "docs/adr/0002-use-git-backed-governed-event-store-for-certificate-profile-lifecycle.md",
+      "sha256": "43cc9d679ea3e0660f026a78e74dea459c3be15c2622c62fd346f4b4135f6784"
+    }
+  ],
+  "reproducer": {
+    "precondition": "Install or otherwise select the stale JAR with SHA-256 01d396ca1e04fd5ccc1e6b2660a4e84c78ddee154e201883c9a04fed779c3a37.",
+    "specShape": "Add one example whose beConstructedWith call has five literal arguments followed by a local Instant.",
+    "command": "cd trust-engine-domain && ../bin/javaspec run --generate --compile --formatter pretty --class com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelope --example it_exposes_when_the_lifecycle_event_occurred",
+    "expectedFailure": "BROKEN No matching constructor; generated support places Instant first and generates Object occurredAt()."
+  },
+  "green": {
+    "status": "NOT_ATTEMPTED",
+    "behaviorVerified": false,
+    "reason": "A production workaround was prohibited and the required meaningful RED was unavailable."
+  }
+}

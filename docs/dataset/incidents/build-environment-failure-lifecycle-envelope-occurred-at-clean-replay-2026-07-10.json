@@ -1,0 +1,177 @@
+{
+  "schemaVersion": "incident-v1",
+  "incidentId": "build-environment-failure-lifecycle-envelope-occurred-at-clean-replay-2026-07-10",
+  "createdAt": "2026-07-10T20:21:26Z",
+  "recordedBy": "dataset-writer",
+  "datasetWriterStatus": "INCIDENT_ONLY",
+  "workflow": "bdd-java",
+  "sourceAgent": "spec-driven",
+  "termination": {
+    "type": "BUILD_ENVIRONMENT_FAILURE",
+    "suspectedOwner": "TOOLING",
+    "summary": "The clean occurredAt replay could not establish the required meaningful RED because the project launcher selected a stale javaspec 0.1.0-SNAPSHOT binary that did not contain source fix 5b65099. The selected execution reproduced the pre-fix constructor-order incoherence and ended BROKEN. All attempted production and specification changes were reverted before the trace was sealed."
+  },
+  "task": {
+    "candidateBehavior": "CertificateProfileLifecycleEventEnvelope.occurredAt",
+    "behaviorScope": "Expose the supplied lifecycle occurrence Instant through an immutable record component/accessor.",
+    "canonicalDelegatedTaskLanguage": "en",
+    "requirementAnchors": [
+      "features/x509/certificate-profile-lifecycle.feature @req-x509-profile-lifecycle-001",
+      "docs/adr/0002-use-git-backed-governed-event-store-for-certificate-profile-lifecycle.md"
+    ],
+    "instruction": "Record only a non-training incident; do not create numbered behavior episode 0035."
+  },
+  "provenance": {
+    "captureMode": "RAW_EVENT_STREAM",
+    "traceId": "d9508cca-79c7-4272-9c9e-6217c3140860",
+    "traceSchemaVersion": "multi-agent-trajectory-v1",
+    "traceStartedAt": "2026-07-10T19:41:30.256Z",
+    "traceSealedAt": "2026-07-10T20:08:57.771Z",
+    "eventsSha256": "6a2fe3d13ca24133a5bbfe407618e28d0348114f7d29555474396d47eb779e2c",
+    "metadataSha256": "931c55db3d1e82d9860620aebb16f41df6f185b0962bfe7e0bb476bce5916658",
+    "sealSha256": "d7fdce0bc99c762a5f4a61d7591e91cdb91a26657f481bdb708d82b420515220",
+    "sealFinalEventHash": "56b284aa069600a5fc0cbc9f8e990adc5166f391eca7b6cea3a442a3c7a2e747",
+    "eventCount": 145,
+    "implementationPromptVersion": "bdd-java-spec-driven-v4",
+    "agentDefinitionSha256": "f7265db508f2dfa459e80005f045252e80ef8047a8614fb6802597ec375ca1d0",
+    "toolRegistryFingerprint": "58f9fb4ff63c4ac748fcf030b843b8687a38b4aab2362dd8974d2b5b32f7776b",
+    "effectiveModel": "openai-codex/gpt-5.6-sol",
+    "sourceUserMessageIncluded": false,
+    "javaspecSourceCommit": "5b65099ade375311b5c00873c557e268196ffce2",
+    "javaspecSelectedJarSha256": "01d396ca1e04fd5ccc1e6b2660a4e84c78ddee154e201883c9a04fed779c3a37",
+    "initialGit": {
+      "head": "88682f87bab011bfef4e49a62af963c2f86624b7",
+      "tree": "aa0017c1e2c8fc536d6e690d2b6b37ad6b4f65ff",
+      "statusPorcelainV2": ""
+    },
+    "finalGit": {
+      "head": "88682f87bab011bfef4e49a62af963c2f86624b7",
+      "tree": "aa0017c1e2c8fc536d6e690d2b6b37ad6b4f65ff",
+      "statusPorcelainV2": "",
+      "changedFiles": []
+    }
+  },
+  "admission": {
+    "decision": "NON_TRAINING_BUILD_ENVIRONMENT_INCIDENT_ACCEPTED",
+    "numberedEpisodeCreated": false,
+    "behaviorVerified": false,
+    "trainingEligible": false,
+    "curationStatus": "QUALITY_REJECTED",
+    "sftEligibility": {
+      "status": "NOT_ELIGIBLE",
+      "reason": "No behavior became GREEN: the required RED was BROKEN by a stale executed framework binary, GREEN was not attempted, and all source/specification changes were reverted."
+    },
+    "evaluationEligibility": {
+      "status": "NOT_ELIGIBLE",
+      "reason": "This incident has not been independently approved as an evaluation case."
+    },
+    "replayability": {
+      "status": "TRACE_INTEGRITY_VERIFIED",
+      "reason": "The sealed trajectory is chronologically and cryptographically explainable and includes a binary-fingerprint reproducer; dataset-writer did not mutate the external build environment to rerun it."
+    }
+  },
+  "validation": {
+    "status": "PASS",
+    "canonicalEnglishTaskExact": true,
+    "sourceUserMessageIncluded": false,
+    "thinkingContentPresent": false,
+    "credentialOrSecretFound": false,
+    "hashChainValid": true,
+    "sealValid": true,
+    "chronologicalToolExecutionPairs": 28,
+    "toolExecutionPairErrors": 0,
+    "promptToolModelGitProvenanceComplete": true,
+    "rawMachinePathsCopiedToRepositoryArtifacts": false,
+    "providerTransportFailureObserved": true,
+    "providerTransportFailureEffect": "The first agent process stopped after a transport error and the harness resumed capture in the same sealed trace; chronological tool pairing, final typed stop, and clean final Git state remained complete."
+  },
+  "incidentEvidence": {
+    "baseline": {
+      "focusedJavaspec": "5 passed, 0 failed, 0 broken, 0 skipped, 0 pending",
+      "exitCode": 0
+    },
+    "attemptedRed": {
+      "example": "it_exposes_when_the_lifecycle_event_occurred",
+      "status": "BROKEN",
+      "failure": "java.lang.IllegalStateException: No matching constructor found for com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelope",
+      "generatedProductionStub": "Object occurredAt()",
+      "generatedSupportConstructor": "(Instant, String, long, String, String, Instant)"
+    },
+    "environmentClaim": {
+      "status": "CONFIRMED",
+      "launcherDeclaredVersion": "0.1.0-SNAPSHOT",
+      "launcherPrefersInstalledSnapshot": true,
+      "selectedJarPredatesFix": true,
+      "selectedJarContainsFormalParameterCount": false,
+      "selectedJarSha256": "01d396ca1e04fd5ccc1e6b2660a4e84c78ddee154e201883c9a04fed779c3a37"
+    },
+    "green": {
+      "status": "NOT_ATTEMPTED_POLICY_STOP",
+      "verified": false
+    },
+    "finalState": {
+      "attemptedProductionChangeReverted": true,
+      "attemptedSpecificationChangeReverted": true,
+      "pendingStubCount": 0,
+      "changedFileCount": 0
+    }
+  },
+  "relevantFileHashes": [
+    {
+      "path": "trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelope.java",
+      "sha256": "f3863042d355dda188eab605e36ec0a74d67493d2b7e9497c491c3311cb760cc"
+    },
+    {
+      "path": "trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelopeSpec.java",
+      "sha256": "63269a18fd6dcc4cb50e2ca3d344c9fd9d245910acdebb141e9c65dbe51a1ad7"
+    },
+    {
+      "path": "features/x509/certificate-profile-lifecycle.feature",
+      "sha256": "072d852a5fc3e0aa56bde81290c55d4f2c8db240cb3bb61b982be500a0569157"
+    },
+    {
+      "path": "docs/adr/0002-use-git-backed-governed-event-store-for-certificate-profile-lifecycle.md",
+      "sha256": "43cc9d679ea3e0660f026a78e74dea459c3be15c2622c62fd346f4b4135f6784"
+    }
+  ],
+  "contextMetrics": {
+    "metricCollectionStatus": "PARTIAL",
+    "maximumContextTokens": null,
+    "peakContextTokens": 40989,
+    "totalInputTokens": 74592,
+    "cachedInputTokens": 384512,
+    "outputTokens": 6572,
+    "uniqueSourceBytesRead": null,
+    "repeatedSourceBytesRead": null,
+    "toolOutputBytesPresentedToModel": null,
+    "compactionCount": null,
+    "iterationCount": 17
+  },
+  "artifacts": [
+    {
+      "path": "docs/dataset/artifacts/build-environment-failure-lifecycle-envelope-occurred-at-clean-replay-2026-07-10/trace-validation.json",
+      "sha256": "c2d25421b347fd362728a7246e4789efcd1491a1739eab5dc103be4d524ce388",
+      "mediaType": "application/json",
+      "byteSize": 3916,
+      "sanitized": true
+    },
+    {
+      "path": "docs/dataset/artifacts/build-environment-failure-lifecycle-envelope-occurred-at-clean-replay-2026-07-10/incident-evidence.json",
+      "sha256": "4a80e0c815ca1267e084048657c1c13177953efac2952fed3e61349e22b5e266",
+      "mediaType": "application/json",
+      "byteSize": 4783,
+      "sanitized": true
+    },
+    {
+      "path": "docs/dataset/artifacts/build-environment-failure-lifecycle-envelope-occurred-at-clean-replay-2026-07-10/resume-capsule.md",
+      "sha256": "69f85e24e431fa9a3bfd504f3022ac614eac963ea252881b09ec24aa0a153113",
+      "mediaType": "text/markdown",
+      "byteSize": 2819,
+      "sanitized": true
+    }
+  ],
+  "resumeCapsule": {
+    "path": "docs/dataset/artifacts/build-environment-failure-lifecycle-envelope-occurred-at-clean-replay-2026-07-10/resume-capsule.md",
+    "summary": "Rebuild and install javaspec with fix 5b65099, verify the selected binary exposes formalParameterCount, then begin a new sealed clean replay."
+  }
+}
