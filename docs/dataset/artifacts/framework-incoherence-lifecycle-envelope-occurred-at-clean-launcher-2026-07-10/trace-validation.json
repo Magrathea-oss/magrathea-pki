@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "trajectory-validation-v1",
+  "validatedAt": "2026-07-10T20:50:04Z",
+  "traceId": "1ff6e595-5dfb-4b49-9756-c67c91adc427",
+  "status": "PASS",
+  "captureMode": "RAW_EVENT_STREAM",
+  "checks": [
+    {
+      "name": "eventsFileSha256",
+      "status": "PASS",
+      "evidence": "c55ec2b82622c80a0bf96eb169f1a86aa1b729b80e9750347bdd9200596e5f6a matched the delegated expected hash and seal."
+    },
+    {
+      "name": "metadataAndSealSha256",
+      "status": "PASS",
+      "evidence": "Metadata SHA-256 55eb97b7eb19d480927082b6607acfd90fe9f9f7c9672952e1535230750c5249 matched the seal; seal SHA-256 is c829d96215b91deb4f99784e44ac793464cd2d453bcf0a0238eaa6cb1595a4bc."
+    },
+    {
+      "name": "sealCompleteness",
+      "status": "PASS",
+      "evidence": "Seal is complete with process exit code 0, 263 events, and final event hash 0783c92e052477c944a42635bd9a7edf78823593600ba7b2bdd1cbdbfcc794c5."
+    },
+    {
+      "name": "eventHashChain",
+      "status": "PASS",
+      "evidence": "Sequences 0 through 262 are contiguous; every previousHash link and canonical JSON event hash verified."
+    },
+    {
+      "name": "chronologyAndToolPairs",
+      "status": "PASS",
+      "evidence": "Captured timestamps are monotonic. All 42 tool_execution_start events have exactly one later tool_execution_end with the same call ID and tool name."
+    },
+    {
+      "name": "canonicalDelegatedTask",
+      "status": "PASS",
+      "evidence": "The first user message equals the English metadata canonicalTask after the harness delegation header; sourceUserMessageIncluded is false."
+    },
+    {
+      "name": "promptToolModelGitProvenance",
+      "status": "PASS",
+      "evidence": "Workflow bdd-java, agent spec-driven, prompt bdd-java-spec-driven-v4, agent definition hash f7265db508f2dfa459e80005f045252e80ef8047a8614fb6802597ec375ca1d0, tool registry fingerprint 58f9fb4ff63c4ac748fcf030b843b8687a38b4aab2362dd8974d2b5b32f7776b, model openai-codex/gpt-5.6-sol, and initial Git state are present and consistent."
+    },
+    {
+      "name": "javaspecProvenance",
+      "status": "PASS",
+      "evidence": "Launcher 1.0.0-RC1 selected JAR SHA-256 2bffe7667dcc217c5a8c8e82815a7ccaa3d97fa53d3b0c847e64361f22bd0ad2; upstream HEAD 33fb70ab0b2758e09af0692fbd193def4f1614be contains fix 5b65099 and formalParameterCount was present."
+    },
+    {
+      "name": "frameworkIncidentClaim",
+      "status": "PASS",
+      "evidence": "Generation preserved the existing five constructor arguments and appended java.time.Instant occurredAt, but also emitted pending public Object occurredAt(); javac rejected the accessor return type before the selected example executed."
+    },
+    {
+      "name": "reversionAndFinalGit",
+      "status": "PASS",
+      "evidence": "Production and specification hashes returned to their pre-edit values. Final HEAD acf182a953763850023380d10711a42971ceaf05 and tree bf00a88f0e3236feaba9ccb8827c99fa6f87d285 equal the initial state; porcelain-v2 status is empty and pending-stub count is zero."
+    },
+    {
+      "name": "privacyAndSanitization",
+      "status": "PASS_WITH_RAW_TRACE_RESTRICTION",
+      "evidence": "No private-key, AWS secret, GitHub-token, or bearer-token pattern was found. The raw trace contains machine-local home paths and is not copied or exposed as a training view; repository artifacts retain only relative project paths, hashes, and sanitized evidence."
+    }
+  ],
+  "eventStatistics": {
+    "eventCount": 263,
+    "turnCount": 43,
+    "toolExecutionCount": 42,
+    "toolExecutionPairErrors": 0,
+    "processExitCode": 0
+  }
+}

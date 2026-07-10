@@ -1,0 +1,21 @@
+# Resume capsule — occurredAt record accessor framework incoherence
+
+- **Termination:** `FRAMEWORK_INCOHERENCE`
+- **Suspected owner:** `JAVASPEC`
+- **Owning implementation agent:** `spec-driven`
+- **Requirement:** `req-x509-profile-lifecycle-001`
+- **Decision:** `ADR-0002`
+- **Behavior:** `CertificateProfileLifecycleEventEnvelope` exposes the supplied lifecycle occurrence timestamp as `Instant occurredAt`.
+- **Commit/tree:** `acf182a953763850023380d10711a42971ceaf05` / `bf00a88f0e3236feaba9ccb8827c99fa6f87d285`
+- **Final Git state:** clean; initial and final commit/tree match.
+- **Production hash:** `f3863042d355dda188eab605e36ec0a74d67493d2b7e9497c491c3311cb760cc`
+- **Specification hash:** `63269a18fd6dcc4cb50e2ca3d344c9fd9d245910acdebb141e9c65dbe51a1ad7`
+- **Javaspec:** launcher `1.0.0-RC1`; selected JAR SHA-256 `2bffe7667dcc217c5a8c8e82815a7ccaa3d97fa53d3b0c847e64361f22bd0ad2`; upstream `33fb70ab0b2758e09af0692fbd193def4f1614be`; fix `5b65099` present; `formalParameterCount` present.
+- **Last verified result:** restored full javaspec suite passed 34/34 with zero failed, broken, skipped, or pending examples; pending production stub scan returned zero.
+- **Last stop:** selected generation preserved constructor order and appended `java.time.Instant occurredAt`, then emitted conflicting pending `public Object occurredAt()`; javac rejected the invalid record accessor before example execution.
+- **GREEN:** not attempted under mandatory framework-stop policy.
+- **Unresolved work:** javaspec must recognize that a generated record component already supplies the typed accessor and must not generate an `Object` accessor stub.
+- **Allowed implementation files on a future replay:**
+  - `trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelope.java`
+  - `trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelopeSpec.java`
+- **Next permitted action:** fix and test the javaspec record-component/accessor generation conflict, install the corrected artifact, then start a new sealed clean replay from the unchanged project state.
