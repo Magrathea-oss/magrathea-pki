@@ -1,6 +1,6 @@
 {
   "schemaVersion": "validator-results-v1",
-  "validatedAt": "2026-07-10T21:57:10Z",
+  "validatedAt": "2026-07-10T22:07:09Z",
   "datasetValidator": {
     "command": "scripts/validate-dataset",
     "exitCode": 0,
@@ -14,11 +14,19 @@
     "output": "validate-agent-contracts: PASS",
     "assessment": "The validator is aligned with the active stricter routing contract: dataset-writer validates sealed spec-driven javaspec trajectories only."
   },
-  "postValidationHostMaven": {
+  "projectRuntimeMaven": {
+    "containerImage": "localhost/magrathea-build:fedora42",
+    "javaRuntime": "OpenJDK 21.0.11",
+    "projectJavaTarget": 21,
     "command": "mvn -q -pl trust-engine-domain test",
     "exitCode": 0,
-    "status": "PASS_WITH_COVERAGE_WARNING",
-    "warning": "JaCoCo 0.8.12 emitted Unsupported class file major version 69 warnings while instrumenting JDK compiler classes.",
-    "assessment": "Non-blocking curation caveat: the warning limits coverage observability, so no coverage claim is made. It does not invalidate the already passing selected/full JavaSpec behavior evidence."
+    "status": "PASS",
+    "unsupportedClassFileMajorVersionWarningCount": 0,
+    "assessment": "Authoritative project-runtime verification passed cleanly. No coverage percentage was measured or claimed."
+  },
+  "nonAuthoritativeHostDiagnostic": {
+    "javaRuntime": "GraalVM Java 25.0.3",
+    "warning": "JaCoCo 0.8.12 emitted Unsupported class file major version 69 during an accidental host-side Maven rerun.",
+    "assessment": "This host diagnostic is non-authoritative and does not establish a project Java 21 coverage limitation."
   }
 }

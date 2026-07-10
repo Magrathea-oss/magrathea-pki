@@ -13,14 +13,23 @@
   "sourceLogSha256": "8bdfb7b31f786d6c406ada6f227958371fd314d319ebe28d59697062f58d1a2c",
   "sourceLogByteSize": 6519460,
   "sourceLogCopied": false,
-  "postValidationHostRerun": {
+  "projectRuntimeVerification": {
+    "projectJavaTarget": 21,
+    "projectJavaTargetSource": "pom.xml java.version",
+    "containerImage": "localhost/magrathea-build:fedora42",
+    "javaRuntime": "OpenJDK 21.0.11",
+    "command": "mvn -q -pl trust-engine-domain test",
     "exitCode": 0,
+    "unsupportedClassFileMajorVersionWarningCount": 0,
+    "verificationLogSha256": "9e2e8a7ce5f057c306181412139494108853e7e738c2b26f0987654a9f1a10da",
+    "verificationLogByteSize": 199,
+    "verificationLogCopied": false
+  },
+  "nonAuthoritativeHostDiagnostic": {
+    "javaRuntime": "GraalVM Java 25.0.3",
     "jacocoVersion": "0.8.12",
     "warning": "Unsupported class file major version 69",
-    "warningContext": "JaCoCo instrumentation of JDK compiler classes",
-    "sourceLogSha256": "d772d4dbc148e13cf777d10113cbb663a0f50e652370e7e5e88997ac97554e93",
-    "sourceLogByteSize": 6519460,
-    "sourceLogCopied": false
+    "assessment": "This warning came only from an accidental host-side Maven rerun and is not evidence of a project Java 21 coverage limitation."
   },
-  "note": "The post-validation host Maven rerun exited 0. JaCoCo 0.8.12 warnings limit coverage observability, so this artifact makes no coverage claim; they do not invalidate the selected or full JavaSpec behavior evidence."
+  "note": "The authoritative project-runtime verification used the official Java 21 build container, exited 0, and emitted zero Unsupported class file major version warnings. No coverage percentage was measured or claimed."
 }

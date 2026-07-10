@@ -12,7 +12,7 @@
   "knownIssues": [
     "An exploratory launcher run without --generate unexpectedly applied the candidate constructor before failing on stale generated support; it was restored exactly before the canonical constructor probe and explicit safe generation.",
     "The candidate is mechanically and behaviorally validated but lacks independent human approval required for final CURATED_SFT.",
-    "A post-validation host Maven rerun exited 0 but JaCoCo 0.8.12 emitted Unsupported class file major version 69 warnings while instrumenting JDK compiler classes; this non-blocking caveat limits coverage observability, no coverage claim is made, and selected/full JavaSpec evidence remains valid."
+    "The earlier class-major-69 warning came only from an accidental host-side Maven rerun under GraalVM Java 25.0.3 and was non-authoritative. The project targets Java 21, and fresh verification in the official OpenJDK 21.0.11 build container exited 0 with zero Unsupported class file major version warnings. This is not a project Java 21 coverage limitation; no coverage percentage was measured or claimed."
   ],
   "messages": [
     {

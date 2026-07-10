@@ -22,8 +22,8 @@
   },
   "environment": {
     "os": null,
-    "javaVersion": null,
-    "buildTool": "Maven command captured; exact version not queried",
+    "javaVersion": "Project target Java 21; official build container OpenJDK 21.0.11",
+    "buildTool": "Maven; authoritative project-runtime verification used localhost/magrathea-build:fedora42",
     "repositoryStatus": "Initially clean. Finally, exactly two authorized tracked files were modified and uncommitted; tracked worktree tree aaa636703a8112e34a115a200f6df0c57028db23.",
     "variables": {}
   },
@@ -570,10 +570,10 @@
         "exitCode": 0,
         "stdoutArtifact": {
           "path": "docs/dataset/artifacts/0035-certificate-profile-lifecycle-event-envelope-occurred-at/maven-domain-test-summary.json",
-          "sha256": "4a8949aebf7d2b593c7555c8db28c3d7ce79216bb8eee4ae5797dc77461f79a6",
+          "sha256": "9a85d3da82179ce34d448596cd6b673e37c5d6344905a98fce46db244a34f87f",
           "mediaType": "application/json",
-          "byteSize": 1053,
-          "description": "Maven domain tests passed; post-validation host rerun exited 0 with a non-blocking JaCoCo coverage-observability warning."
+          "byteSize": 1518,
+          "description": "Maven domain tests passed; authoritative Java 21 container verification exited 0 with zero unsupported-class-file warnings; the host Java 25 diagnostic was non-authoritative."
         },
         "summary": "Maven domain tests passed 35 tests with no failures/errors/skips."
       },
@@ -639,10 +639,10 @@
       },
       {
         "path": "docs/dataset/artifacts/0035-certificate-profile-lifecycle-event-envelope-occurred-at/maven-domain-test-summary.json",
-        "sha256": "4a8949aebf7d2b593c7555c8db28c3d7ce79216bb8eee4ae5797dc77461f79a6",
+        "sha256": "9a85d3da82179ce34d448596cd6b673e37c5d6344905a98fce46db244a34f87f",
         "mediaType": "application/json",
-        "byteSize": 1053,
-        "description": "Maven domain tests passed; post-validation host rerun exited 0 with a non-blocking JaCoCo coverage-observability warning."
+        "byteSize": 1518,
+        "description": "Maven domain tests passed; authoritative Java 21 container verification exited 0 with zero unsupported-class-file warnings; the host Java 25 diagnostic was non-authoritative."
       },
       {
         "path": "docs/dataset/artifacts/0035-certificate-profile-lifecycle-event-envelope-occurred-at/worktree.patch",
@@ -653,24 +653,24 @@
       },
       {
         "path": "docs/dataset/artifacts/0035-certificate-profile-lifecycle-event-envelope-occurred-at/evidence-summary.md",
-        "sha256": "a87bd0aedba873415e52966160dbb88ec57ad8042a1e78c145e00344271f98df",
+        "sha256": "01968e4cb1a6a5c76116bf2e05d14b5e450f6e82199e0cb84af65ff48da49cf8",
         "mediaType": "text/markdown",
-        "byteSize": 1755,
+        "byteSize": 1905,
         "description": "Human-readable independent evidence, validator results, and curation caveats."
       },
       {
         "path": "docs/dataset/artifacts/0035-certificate-profile-lifecycle-event-envelope-occurred-at/resume-capsule.md",
-        "sha256": "76e2067bbd88bd90279cc0243f4dd8f9e189c69a1c47b8ee095956b2131cf62d",
+        "sha256": "dc3be495acbc4ae1fe05e804846ac5f1d17fab29bbd606261b715259d060fd17",
         "mediaType": "text/markdown",
-        "byteSize": 2185,
+        "byteSize": 2231,
         "description": "Compact safe-resume state for parent/human review."
       },
       {
         "path": "docs/dataset/artifacts/0035-certificate-profile-lifecycle-event-envelope-occurred-at/validator-results.json",
-        "sha256": "c747b70fd69ed24863cc39fceff45ff3c2a518700c0d2a81d536297cba5607cc",
+        "sha256": "fb21066e87202ad0d3575887c2f273a5d2d01c6e81d65eceaae76602eff731c5",
         "mediaType": "application/json",
-        "byteSize": 1129,
-        "description": "Both repository validators PASS and the post-validation Maven coverage-observability caveat is assessed."
+        "byteSize": 1406,
+        "description": "Both repository validators PASS; authoritative Java 21 container verification and the non-authoritative host Java 25 diagnostic are recorded accurately."
       }
     ]
   },
@@ -700,7 +700,7 @@
     "knownIssues": [
       "An exploratory launcher run without --generate unexpectedly applied the candidate constructor before failing on stale generated support; it was restored exactly before the canonical constructor probe and explicit safe generation.",
       "The candidate is mechanically and behaviorally validated but lacks independent human approval required for final CURATED_SFT.",
-      "A post-validation host Maven rerun exited 0 but JaCoCo 0.8.12 emitted Unsupported class file major version 69 warnings while instrumenting JDK compiler classes; this non-blocking caveat limits coverage observability, no coverage claim is made, and selected/full JavaSpec evidence remains valid."
+      "The earlier class-major-69 warning came only from an accidental host-side Maven rerun under GraalVM Java 25.0.3 and was non-authoritative. The project targets Java 21, and fresh verification in the official OpenJDK 21.0.11 build container exited 0 with zero Unsupported class file major version warnings. This is not a project Java 21 coverage limitation; no coverage percentage was measured or claimed."
     ],
     "sftEligibility": {
       "status": "CANDIDATE",
@@ -756,10 +756,10 @@
     },
     {
       "path": "docs/dataset/artifacts/0035-certificate-profile-lifecycle-event-envelope-occurred-at/maven-domain-test-summary.json",
-      "sha256": "4a8949aebf7d2b593c7555c8db28c3d7ce79216bb8eee4ae5797dc77461f79a6",
+      "sha256": "9a85d3da82179ce34d448596cd6b673e37c5d6344905a98fce46db244a34f87f",
       "mediaType": "application/json",
-      "byteSize": 1053,
-      "description": "Maven domain tests passed; post-validation host rerun exited 0 with a non-blocking JaCoCo coverage-observability warning."
+      "byteSize": 1518,
+      "description": "Maven domain tests passed; authoritative Java 21 container verification exited 0 with zero unsupported-class-file warnings; the host Java 25 diagnostic was non-authoritative."
     },
     {
       "path": "docs/dataset/artifacts/0035-certificate-profile-lifecycle-event-envelope-occurred-at/worktree.patch",
@@ -770,24 +770,24 @@
     },
     {
       "path": "docs/dataset/artifacts/0035-certificate-profile-lifecycle-event-envelope-occurred-at/evidence-summary.md",
-      "sha256": "a87bd0aedba873415e52966160dbb88ec57ad8042a1e78c145e00344271f98df",
+      "sha256": "01968e4cb1a6a5c76116bf2e05d14b5e450f6e82199e0cb84af65ff48da49cf8",
       "mediaType": "text/markdown",
-      "byteSize": 1755,
+      "byteSize": 1905,
       "description": "Human-readable independent evidence, validator results, and curation caveats."
     },
     {
       "path": "docs/dataset/artifacts/0035-certificate-profile-lifecycle-event-envelope-occurred-at/resume-capsule.md",
-      "sha256": "76e2067bbd88bd90279cc0243f4dd8f9e189c69a1c47b8ee095956b2131cf62d",
+      "sha256": "dc3be495acbc4ae1fe05e804846ac5f1d17fab29bbd606261b715259d060fd17",
       "mediaType": "text/markdown",
-      "byteSize": 2185,
+      "byteSize": 2231,
       "description": "Compact safe-resume state for parent/human review."
     },
     {
       "path": "docs/dataset/artifacts/0035-certificate-profile-lifecycle-event-envelope-occurred-at/validator-results.json",
-      "sha256": "c747b70fd69ed24863cc39fceff45ff3c2a518700c0d2a81d536297cba5607cc",
+      "sha256": "fb21066e87202ad0d3575887c2f273a5d2d01c6e81d65eceaae76602eff731c5",
       "mediaType": "application/json",
-      "byteSize": 1129,
-      "description": "Both repository validators PASS and the post-validation Maven coverage-observability caveat is assessed."
+      "byteSize": 1406,
+      "description": "Both repository validators PASS; authoritative Java 21 container verification and the non-authoritative host Java 25 diagnostic are recorded accurately."
     }
   ],
   "resumeCapsule": {
@@ -816,12 +816,11 @@
         "byteSize": 2438
       }
     ],
-    "lastVerifiedResult": "Selected JavaSpec 1/1; envelope JavaSpec 6/6; full JavaSpec 35/35; Maven 35 tests with no failures/errors/skips; zero pending stubs; both repository validators pass; post-validation host Maven rerun exited 0.",
+    "lastVerifiedResult": "Selected JavaSpec 1/1; envelope JavaSpec 6/6; full JavaSpec 35/35; Maven 35 tests with no failures/errors/skips; zero pending stubs; both repository validators pass; official OpenJDK 21.0.11 container rerun exited 0 with zero Unsupported class file major version warnings.",
     "lastFailureOrStop": "Structural RED: committed constructor required String,String,long,String,String but probe supplied String,String,long,String,String,Instant.",
     "unresolvedWork": [
       "Independent human approval before CURATED_SFT promotion.",
-      "Implementation and dataset files remain uncommitted.",
-      "Upgrade coverage tooling before relying on coverage measurements under this host JDK."
+      "Implementation and dataset files remain uncommitted."
     ],
     "allowedFiles": [
       "trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelope.java",
