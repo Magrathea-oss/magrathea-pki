@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "metadata": {
+    "timestamp": "2026-07-10T16:37:43.857327993Z",
+    "hostname": "80635e2a5bc8",
+    "time": 0,
+    "properties": {
+      "javaspec.report.schemaVersion": "1",
+      "javaspec.report.tool": "javaspec"
+    }
+  },
+  "summary": {
+    "total": 4,
+    "passed": 4,
+    "failed": 0,
+    "broken": 0,
+    "skipped": 0,
+    "pending": 0,
+    "successful": true
+  },
+  "specs": [
+    {
+      "name": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec",
+      "id": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec",
+      "stableId": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec",
+      "sourceFile": "src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelopeSpec.java",
+      "executable": true,
+      "notExecutableReason": "",
+      "summary": {
+        "total": 4,
+        "passed": 4,
+        "failed": 0,
+        "broken": 0,
+        "skipped": 0,
+        "pending": 0,
+        "successful": true
+      },
+      "examples": [
+        {
+          "specName": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec",
+          "id": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec#it_exposes_the_lifecycle_event_type",
+          "stableId": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec#it_exposes_the_lifecycle_event_type",
+          "fullName": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec#it_exposes_the_lifecycle_event_type",
+          "method": "it_exposes_the_lifecycle_event_type",
+          "displayName": "it exposes the lifecycle event type",
+          "sourceOrderIndex": 0,
+          "source": {
+            "file": "src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelopeSpec.java",
+            "line": 4
+          },
+          "status": "PASSED",
+          "detail": "",
+          "failure": null,
+          "exampleDataRows": []
+        },
+        {
+          "specName": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec",
+          "id": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec#it_exposes_the_lifecycle_aggregate_identifier",
+          "stableId": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec#it_exposes_the_lifecycle_aggregate_identifier",
+          "fullName": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec#it_exposes_the_lifecycle_aggregate_identifier",
+          "method": "it_exposes_the_lifecycle_aggregate_identifier",
+          "displayName": "it exposes the lifecycle aggregate identifier",
+          "sourceOrderIndex": 1,
+          "source": {
+            "file": "src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelopeSpec.java",
+            "line": 10
+          },
+          "status": "PASSED",
+          "detail": "",
+          "failure": null,
+          "exampleDataRows": []
+        },
+        {
+          "specName": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec",
+          "id": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec#it_exposes_the_lifecycle_aggregate_version",
+          "stableId": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec#it_exposes_the_lifecycle_aggregate_version",
+          "fullName": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec#it_exposes_the_lifecycle_aggregate_version",
+          "method": "it_exposes_the_lifecycle_aggregate_version",
+          "displayName": "it exposes the lifecycle aggregate version",
+          "sourceOrderIndex": 2,
+          "source": {
+            "file": "src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelopeSpec.java",
+            "line": 16
+          },
+          "status": "PASSED",
+          "detail": "",
+          "failure": null,
+          "exampleDataRows": []
+        },
+        {
+          "specName": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec",
+          "id": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec#it_exposes_the_lifecycle_actor",
+          "stableId": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec#it_exposes_the_lifecycle_actor",
+          "fullName": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec#it_exposes_the_lifecycle_actor",
+          "method": "it_exposes_the_lifecycle_actor",
+          "displayName": "it exposes the lifecycle actor",
+          "sourceOrderIndex": 3,
+          "source": {
+            "file": "src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelopeSpec.java",
+            "line": 22
+          },
+          "status": "PASSED",
+          "detail": "",
+          "failure": null,
+          "exampleDataRows": []
+        }
+      ]
+    }
+  ]
+}

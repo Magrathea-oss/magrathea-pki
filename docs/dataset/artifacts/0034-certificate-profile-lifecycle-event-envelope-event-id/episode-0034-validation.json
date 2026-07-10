@@ -1,0 +1,53 @@
+{
+  "checks": [
+    {
+      "evidence": "episode JSON parsed",
+      "name": "episodeJsonParse",
+      "status": "PASS"
+    },
+    {
+      "evidence": "Draft 2020-12 validation passed",
+      "name": "episodeSchemaValidation",
+      "status": "PASS"
+    },
+    {
+      "evidence": "34 entries parsed",
+      "name": "manifestJsonlParse",
+      "status": "PASS"
+    },
+    {
+      "evidence": "0034 count=1",
+      "name": "manifestIncludes0034",
+      "status": "PASS"
+    },
+    {
+      "evidence": "manifest sha=e60e08e6a8896767acf201245423a3592a746c4fc7401cab43ffc8dcc40e2627 size=28376 actual sha=e60e08e6a8896767acf201245423a3592a746c4fc7401cab43ffc8dcc40e2627 size=28376",
+      "name": "manifestEpisodeHash",
+      "status": "PASS"
+    },
+    {
+      "evidence": "legacy entries=33 mismatches=[]",
+      "name": "legacyPreservationHashes",
+      "status": "PASS"
+    },
+    {
+      "evidence": "checked=7 mismatches=[]",
+      "name": "artifactReferences",
+      "status": "PASS"
+    },
+    {
+      "evidence": "decision=QUARANTINED captures reconstructed provenance limitation",
+      "name": "admissionDecision",
+      "status": "PASS"
+    },
+    {
+      "evidence": "status=NOT_ELIGIBLE",
+      "name": "sftEligibility",
+      "status": "PASS"
+    }
+  ],
+  "episodeByteSize": 28376,
+  "episodePath": "docs/dataset/raw/v2/0034-certificate-profile-lifecycle-event-envelope-event-id.json",
+  "episodeSha256": "e60e08e6a8896767acf201245423a3592a746c4fc7401cab43ffc8dcc40e2627",
+  "status": "PASS"
+}

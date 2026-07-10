@@ -1,0 +1,87 @@
+{
+  "command": "mvn -q -pl <domain-module> test > <domain-module>/target/mvn-domain-test.log 2>&1",
+  "exitCode": 0,
+  "jacocoWarningLineSamples": [
+    "java.lang.instrument.IllegalClassFormatException: Error while instrumenting com/sun/source/tree/Tree with JaCoCo 0.8.12.202403310830/dbfb6f2.",
+    "Caused by: java.io.IOException: Error while instrumenting com/sun/source/tree/Tree with JaCoCo 0.8.12.202403310830/dbfb6f2.",
+    "java.lang.instrument.IllegalClassFormatException: Error while instrumenting javax/tools/DiagnosticListener with JaCoCo 0.8.12.202403310830/dbfb6f2.",
+    "Caused by: java.io.IOException: Error while instrumenting javax/tools/DiagnosticListener with JaCoCo 0.8.12.202403310830/dbfb6f2.",
+    "java.lang.instrument.IllegalClassFormatException: Error while instrumenting javax/tools/JavaFileObject with JaCoCo 0.8.12.202403310830/dbfb6f2.",
+    "Caused by: java.io.IOException: Error while instrumenting javax/tools/JavaFileObject with JaCoCo 0.8.12.202403310830/dbfb6f2.",
+    "java.lang.instrument.IllegalClassFormatException: Error while instrumenting javax/tools/FileObject with JaCoCo 0.8.12.202403310830/dbfb6f2.",
+    "Caused by: java.io.IOException: Error while instrumenting javax/tools/FileObject with JaCoCo 0.8.12.202403310830/dbfb6f2.",
+    "java.lang.instrument.IllegalClassFormatException: Error while instrumenting javax/tools/ToolProvider with JaCoCo 0.8.12.202403310830/dbfb6f2.",
+    "Caused by: java.io.IOException: Error while instrumenting javax/tools/ToolProvider with JaCoCo 0.8.12.202403310830/dbfb6f2.",
+    "java.lang.instrument.IllegalClassFormatException: Error while instrumenting javax/tools/JavaCompiler with JaCoCo 0.8.12.202403310830/dbfb6f2.",
+    "Caused by: java.io.IOException: Error while instrumenting javax/tools/JavaCompiler with JaCoCo 0.8.12.202403310830/dbfb6f2.",
+    "java.lang.instrument.IllegalClassFormatException: Error while instrumenting javax/tools/Tool with JaCoCo 0.8.12.202403310830/dbfb6f2.",
+    "Caused by: java.io.IOException: Error while instrumenting javax/tools/Tool with JaCoCo 0.8.12.202403310830/dbfb6f2.",
+    "java.lang.instrument.IllegalClassFormatException: Error while instrumenting javax/tools/OptionChecker with JaCoCo 0.8.12.202403310830/dbfb6f2.",
+    "Caused by: java.io.IOException: Error while instrumenting javax/tools/OptionChecker with JaCoCo 0.8.12.202403310830/dbfb6f2.",
+    "java.lang.instrument.IllegalClassFormatException: Error while instrumenting com/sun/tools/javac/api/JavacTool with JaCoCo 0.8.12.202403310830/dbfb6f2.",
+    "Caused by: java.io.IOException: Error while instrumenting com/sun/tools/javac/api/JavacTool with JaCoCo 0.8.12.202403310830/dbfb6f2.",
+    "java.lang.instrument.IllegalClassFormatException: Error while instrumenting com/sun/tools/javac/util/PropagatedException with JaCoCo 0.8.12.202403310830/dbfb6f2.",
+    "Caused by: java.io.IOException: Error while instrumenting com/sun/tools/javac/util/PropagatedException with JaCoCo 0.8.12.202403310830/dbfb6f2."
+  ],
+  "logByteSize": 6519460,
+  "logSha256": "d772d4dbc148e13cf777d10113cbb663a0f50e652370e7e5e88997ac97554e93",
+  "note": "Full Maven log remains in ignored target/; this dataset artifact records aggregate test counts and log digest without copying the large log.",
+  "surefireAggregate": {
+    "errors": 0,
+    "failures": 0,
+    "files": 7,
+    "reports": [
+      {
+        "errors": 0,
+        "failures": 0,
+        "file": "TEST-spec.com.magrathea.trustengine.x509.profile.CertificateProfileBasicConstraintsSpec.xml",
+        "skipped": 0,
+        "tests": 1
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "file": "TEST-spec.com.magrathea.trustengine.x509.profile.CertificateProfileExtendedKeyUsagesSpec.xml",
+        "skipped": 0,
+        "tests": 1
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "file": "TEST-spec.com.magrathea.trustengine.x509.profile.CertificateProfileIdSpec.xml",
+        "skipped": 0,
+        "tests": 20
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "file": "TEST-spec.com.magrathea.trustengine.x509.profile.CertificateProfileKeyUsagesSpec.xml",
+        "skipped": 0,
+        "tests": 1
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "file": "TEST-spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec.xml",
+        "skipped": 0,
+        "tests": 5
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "file": "TEST-spec.com.magrathea.trustengine.x509.profile.CertificateProfilePublicKeyAlgorithmsSpec.xml",
+        "skipped": 0,
+        "tests": 1
+      },
+      {
+        "errors": 0,
+        "failures": 0,
+        "file": "TEST-spec.com.magrathea.trustengine.x509.profile.CertificateProfileSpec.xml",
+        "skipped": 0,
+        "tests": 5
+      }
+    ],
+    "skipped": 0,
+    "tests": 34
+  }
+}

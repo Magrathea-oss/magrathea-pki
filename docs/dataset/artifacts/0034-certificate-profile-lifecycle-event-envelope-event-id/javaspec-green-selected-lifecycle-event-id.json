@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "metadata": {
+    "timestamp": "2026-07-10T16:38:46.638710193Z",
+    "hostname": "94ebc0c18e87",
+    "time": 0,
+    "properties": {
+      "javaspec.report.schemaVersion": "1",
+      "javaspec.report.tool": "javaspec"
+    }
+  },
+  "summary": {
+    "total": 1,
+    "passed": 1,
+    "failed": 0,
+    "broken": 0,
+    "skipped": 0,
+    "pending": 0,
+    "successful": true
+  },
+  "specs": [
+    {
+      "name": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec",
+      "id": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec",
+      "stableId": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec",
+      "sourceFile": "src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelopeSpec.java",
+      "executable": true,
+      "notExecutableReason": "",
+      "summary": {
+        "total": 1,
+        "passed": 1,
+        "failed": 0,
+        "broken": 0,
+        "skipped": 0,
+        "pending": 0,
+        "successful": true
+      },
+      "examples": [
+        {
+          "specName": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec",
+          "id": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec#it_exposes_the_lifecycle_event_identifier",
+          "stableId": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec#it_exposes_the_lifecycle_event_identifier",
+          "fullName": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec#it_exposes_the_lifecycle_event_identifier",
+          "method": "it_exposes_the_lifecycle_event_identifier",
+          "displayName": "it exposes the lifecycle event identifier",
+          "sourceOrderIndex": 4,
+          "source": {
+            "file": "src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelopeSpec.java",
+            "line": 28
+          },
+          "status": "PASSED",
+          "detail": "",
+          "failure": null,
+          "exampleDataRows": []
+        }
+      ]
+    }
+  ]
+}

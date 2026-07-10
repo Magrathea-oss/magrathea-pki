@@ -5,6 +5,11 @@ import pathlib
 import re
 import sys
 
+try:
+    import jsonschema
+except ImportError:  # pragma: no cover - validator remains useful without the optional dependency.
+    jsonschema = None
+
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 DATASET = ROOT / 'docs/dataset'
 MANIFEST = DATASET / 'manifest.jsonl'
@@ -30,6 +35,7 @@ def sha256(path):
             h.update(chunk)
     return h.hexdigest()
 
+schema = None
 require(SCHEMA.is_file(), 'missing episode-v2 schema')
 if SCHEMA.is_file():
     schema = json.loads(SCHEMA.read_text())
@@ -41,8 +47,8 @@ require(MANIFEST.is_file(), 'missing dataset manifest')
 
 legacy_files = sorted(DATASET.glob('00[0-3][0-9]-*.jsonl'))
 legacy_files = [p for p in legacy_files if re.match(r'00[0-3][0-9]-', p.name) and int(p.name[:4]) <= 33]
+v2_files = sorted((DATASET / 'raw/v2').glob('*.json'))
 require(len(legacy_files) == 33, f'expected 33 legacy files, found {len(legacy_files)}')
-require(not list(DATASET.rglob('*0034*')), 'dataset episode 0034 exists')
 
 entries = []
 if MANIFEST.is_file():
@@ -53,14 +59,32 @@ if MANIFEST.is_file():
             entries.append(json.loads(line))
         except json.JSONDecodeError as exc:
             failures.append(f'manifest line {line_no} invalid JSON: {exc}')
-require(len(entries) == 33, f'expected 33 manifest entries, found {len(entries)}')
+expected_entry_count = len(legacy_files) + len(v2_files)
+require(len(entries) == expected_entry_count, f'expected {expected_entry_count} manifest entries, found {len(entries)}')
+
+def rel(path):
+    return path.relative_to(ROOT).as_posix()
+
+def validate_file_reference(ref, owner):
+    path = ref.get('path')
+    require(path, f'{owner} artifact missing path')
+    if not path:
+        return
+    p = ROOT / path
+    require(p.is_file(), f'{owner} artifact path missing {path}')
+    if p.is_file():
+        require(sha256(p) == ref.get('sha256'), f'{owner} artifact sha mismatch {path}')
+        require(p.stat().st_size == ref.get('byteSize'), f'{owner} artifact byte size mismatch {path}')
+
+expected_paths = {rel(p) for p in legacy_files + v2_files}
 seen = set()
+legacy_entries = 0
+v2_entries = 0
 for entry in entries:
     path = entry.get('path')
     require(path not in seen, f'duplicate manifest path {path}')
     seen.add(path)
     require(entry.get('curationStatus') in CURATION, f'invalid curation status for {path}')
-    require(entry.get('curationStatus') == 'LEGACY_RAW_V1', f'legacy entry not LEGACY_RAW_V1: {path}')
     for field in ['knownIssues','replayability','behaviorVerification','codeQualityStatus','sftEligibility','evaluationEligibility','sha256','byteSize']:
         require(field in entry, f'manifest entry {path} missing {field}')
     if path:
@@ -69,10 +93,45 @@ for entry in entries:
         if p.is_file():
             require(sha256(p) == entry.get('sha256'), f'sha mismatch {path}')
             require(p.stat().st_size == entry.get('byteSize'), f'byte size mismatch {path}')
+    entry_type = entry.get('entryType')
+    if entry_type == 'legacyRawV1':
+        legacy_entries += 1
+        require(path in {rel(p) for p in legacy_files}, f'legacy manifest path is not a preserved legacy file: {path}')
+        require(entry.get('curationStatus') == 'LEGACY_RAW_V1', f'legacy entry not LEGACY_RAW_V1: {path}')
+    elif entry_type == 'rawV2':
+        v2_entries += 1
+        require(path in {rel(p) for p in v2_files}, f'rawV2 manifest path is not under docs/dataset/raw/v2: {path}')
+        if path and (ROOT / path).is_file():
+            episode = json.loads((ROOT / path).read_text())
+            if schema is not None and jsonschema is not None:
+                try:
+                    jsonschema.Draft202012Validator(schema).validate(episode)
+                except jsonschema.ValidationError as exc:
+                    failures.append(f'episode schema validation failed {path}: {exc.message}')
+            else:
+                for field in ['schemaVersion','episodeId','provenance','environment','task','admission','rawObservableEvents','patches','verification','termination','contextMetrics','curation','artifacts','resumeCapsule']:
+                    require(field in episode, f'episode {path} missing {field}')
+            require(entry.get('schemaVersion') == episode.get('schemaVersion'), f'manifest schemaVersion mismatch {path}')
+            require(entry.get('episodeId') == episode.get('episodeId'), f'manifest episodeId mismatch {path}')
+            require(entry.get('captureMode') == episode.get('provenance', {}).get('captureMode'), f'manifest captureMode mismatch {path}')
+            require(entry.get('admissionDecision') == episode.get('admission', {}).get('decision'), f'manifest admissionDecision mismatch {path}')
+            require(entry.get('terminationType') == episode.get('termination', {}).get('type'), f'manifest terminationType mismatch {path}')
+            require(entry.get('curationStatus') == episode.get('curation', {}).get('status'), f'manifest curationStatus mismatch {path}')
+            for ref in episode.get('artifacts', []):
+                validate_file_reference(ref, path)
+            for ref in episode.get('patches', []):
+                validate_file_reference(ref, path)
+            for ref in episode.get('verification', {}).get('evidence', []):
+                validate_file_reference(ref, path)
+    else:
+        require(False, f'unsupported manifest entryType {entry_type} for {path}')
+require(seen == expected_paths, f'manifest paths do not match dataset files; missing={sorted(expected_paths - seen)} extra={sorted(seen - expected_paths)}')
+require(legacy_entries == len(legacy_files), f'expected {len(legacy_files)} legacy manifest entries, found {legacy_entries}')
+require(v2_entries == len(v2_files), f'expected {len(v2_files)} rawV2 manifest entries, found {v2_entries}')
 
-# Check new metadata/artifact files for obvious private home paths or common secret labels.
+# Check metadata files for obvious private home paths or common secret labels.
 secret_re = re.compile(r'(PRIVATE KEY|BEGIN RSA|AWS_SECRET|SECRET_ACCESS_KEY|/home/[^/\s]+)', re.I)
-for path in [MANIFEST, SCHEMA, DATASET / 'README.md', DATASET / 'artifacts/dataset-v2-layout-validation.json']:
+for path in [MANIFEST, SCHEMA, DATASET / 'README.md', DATASET / 'artifacts/dataset-v2-layout-validation.json', *v2_files]:
     if path.is_file():
         require(not secret_re.search(path.read_text(errors='ignore')), f'private path or secret-like text in {path}')
 
@@ -82,4 +141,4 @@ if failures:
         print('-', failure)
     sys.exit(1)
 print('validate-dataset: PASS')
-print(f'legacy_files={len(legacy_files)} manifest_entries={len(entries)}')
+print(f'legacy_files={len(legacy_files)} v2_episodes={len(v2_files)} manifest_entries={len(entries)}')
