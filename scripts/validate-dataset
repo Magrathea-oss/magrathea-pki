@@ -1,0 +1,85 @@
+#!/usr/bin/env python3
+import hashlib
+import json
+import pathlib
+import re
+import sys
+
+ROOT = pathlib.Path(__file__).resolve().parents[1]
+DATASET = ROOT / 'docs/dataset'
+MANIFEST = DATASET / 'manifest.jsonl'
+SCHEMA = DATASET / 'schema/episode-v2.schema.json'
+TERMINATIONS = {
+    'VERIFIED_SUCCESS','FRAMEWORK_INCOHERENCE','UNSUPPORTED_JAVA_CONSTRUCT','SPECIFICATION_AMBIGUITY',
+    'DOMAIN_MODEL_INCONSISTENCY','MODEL_TOOL_ERROR','MODEL_REASONING_ERROR','BASELINE_FAILURE',
+    'BUILD_ENVIRONMENT_FAILURE','QUALITY_GATE_FAILURE','SECURITY_RISK','REGRESSION_DETECTED',
+    'UNAUTHORIZED_FILE_CHANGE','CONTEXT_LIMIT_REACHED','HUMAN_DECISION_REQUIRED','CHECKPOINT'
+}
+OWNERS = {'JAVASPEC','SPEC_DRIVEN','STORY_DRIVEN','DATASET_WRITER','SPECIFICATION','DOMAIN_DESIGN','PROJECT','BUILD_ENVIRONMENT','TOOLING','UNKNOWN'}
+CURATION = {'LEGACY_RAW_V1','RAW_UNREVIEWED','REPLAY_VERIFIED','BEHAVIOR_VERIFIED','CURATED_SFT_CANDIDATE','CURATED_SFT','CURATED_PREFERENCE','EVALUATION_CASE','FRAMEWORK_FAILURE','MODEL_FAILURE','SPECIFICATION_FAILURE','QUALITY_REJECTED','SECURITY_REJECTED','REPLAY_FAILED'}
+failures = []
+
+def require(cond, msg):
+    if not cond:
+        failures.append(msg)
+
+def sha256(path):
+    h = hashlib.sha256()
+    with path.open('rb') as f:
+        for chunk in iter(lambda: f.read(65536), b''):
+            h.update(chunk)
+    return h.hexdigest()
+
+require(SCHEMA.is_file(), 'missing episode-v2 schema')
+if SCHEMA.is_file():
+    schema = json.loads(SCHEMA.read_text())
+    required = set(schema.get('required', []))
+    for field in ['provenance','environment','task','admission','rawObservableEvents','patches','verification','termination','contextMetrics','curation','resumeCapsule']:
+        require(field in required, f'episode schema missing required {field}')
+    require('artifactReferences' in required or 'artifacts' in required, 'episode schema missing artifact references/artifacts')
+require(MANIFEST.is_file(), 'missing dataset manifest')
+
+legacy_files = sorted(DATASET.glob('00[0-3][0-9]-*.jsonl'))
+legacy_files = [p for p in legacy_files if re.match(r'00[0-3][0-9]-', p.name) and int(p.name[:4]) <= 33]
+require(len(legacy_files) == 33, f'expected 33 legacy files, found {len(legacy_files)}')
+require(not list(DATASET.rglob('*0034*')), 'dataset episode 0034 exists')
+
+entries = []
+if MANIFEST.is_file():
+    for line_no, line in enumerate(MANIFEST.read_text().splitlines(), 1):
+        if not line.strip():
+            continue
+        try:
+            entries.append(json.loads(line))
+        except json.JSONDecodeError as exc:
+            failures.append(f'manifest line {line_no} invalid JSON: {exc}')
+require(len(entries) == 33, f'expected 33 manifest entries, found {len(entries)}')
+seen = set()
+for entry in entries:
+    path = entry.get('path')
+    require(path not in seen, f'duplicate manifest path {path}')
+    seen.add(path)
+    require(entry.get('curationStatus') in CURATION, f'invalid curation status for {path}')
+    require(entry.get('curationStatus') == 'LEGACY_RAW_V1', f'legacy entry not LEGACY_RAW_V1: {path}')
+    for field in ['knownIssues','replayability','behaviorVerification','codeQualityStatus','sftEligibility','evaluationEligibility','sha256','byteSize']:
+        require(field in entry, f'manifest entry {path} missing {field}')
+    if path:
+        p = ROOT / path
+        require(p.is_file(), f'manifest path missing {path}')
+        if p.is_file():
+            require(sha256(p) == entry.get('sha256'), f'sha mismatch {path}')
+            require(p.stat().st_size == entry.get('byteSize'), f'byte size mismatch {path}')
+
+# Check new metadata/artifact files for obvious private home paths or common secret labels.
+secret_re = re.compile(r'(PRIVATE KEY|BEGIN RSA|AWS_SECRET|SECRET_ACCESS_KEY|/home/[^/\s]+)', re.I)
+for path in [MANIFEST, SCHEMA, DATASET / 'README.md', DATASET / 'artifacts/dataset-v2-layout-validation.json']:
+    if path.is_file():
+        require(not secret_re.search(path.read_text(errors='ignore')), f'private path or secret-like text in {path}')
+
+if failures:
+    print('validate-dataset: FAIL')
+    for failure in failures:
+        print('-', failure)
+    sys.exit(1)
+print('validate-dataset: PASS')
+print(f'legacy_files={len(legacy_files)} manifest_entries={len(entries)}')

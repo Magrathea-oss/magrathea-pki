@@ -41,19 +41,24 @@ Adapters must not contain:
 ## spec-driven Domain Implementation
 
 - `spec-driven` implements pure domain behavior one Java behavior slice at a time using **javaspec** red-green-refactor discipline:
-  1. one behavior;
-  2. one javaspec RED example;
-  3. meaningful failing verification;
-  4. smallest GREEN production change;
-  5. optional behavior-preserving refactor;
-  6. verification after each phase;
-  7. stop after the slice.
-- If a slice batches behaviors or implements multiple generated members in one GREEN step, the dataset and the produced code/spec artifacts are invalid. The attempt must be cleaned and regenerated from a fresh javaspec cycle before continuing.
+  1. admit one externally meaningful behavior;
+  2. establish a green baseline;
+  3. add one javaspec RED example;
+  4. classify the meaningful failure or typed stop;
+  5. apply the smallest coherent GREEN domain change;
+  6. optionally refactor without changing behavior;
+  7. verify selected behavior, full specification, and domain module;
+  8. hand off structured evidence to `dataset-writer`.
+- A slice means semantic atomicity, not method-count atomicity. One behavior may require a constructor, factory, record component, invariant, typed error, private helper, or multiple mechanically generated members when they are necessary for the same domain behavior.
+- A slice is invalid when it batches independent behaviors, weakens a specification, leaves pending generated stubs while claiming GREEN, or works around a javaspec framework incoherence as production design.
+- Domain examples must trace to a Gherkin requirement, ADR, or approved domain-design decision. Do not invent javaspec examples solely to create dataset rows.
 
 ## story-driven Use Case and Adapter Validation
 
-- `story-driven` implements application use cases, Cucumber runners, glue, inbound adapters, outbound infrastructure adapters, and adapter-side validation.
+- `story-driven` implements exactly one coherent Gherkin scenario or application behavior per slice.
+- `story-driven` owns application use cases, Cucumber runners, glue, inbound adapters, outbound infrastructure adapters, and adapter-side validation.
 - Use cases and adapters are validated through Gherkin scenarios, not through javaspec.
+- If a scenario exposes missing pure domain behavior, `story-driven` must stop with `MISSING_DOMAIN_BEHAVIOR` and hand off to `spec-driven`; it must not implement domain rules in application, glue, or adapters.
 - Use-case Javadocs should include lightweight traceability to the use-case ID, feature file, and ARC42 requirements appendix section.
 
 ## Anti-Fake Completion Rule
@@ -114,14 +119,29 @@ trust-engine-tpm
 
 ## Ownership by Layer
 
-| Layer | Owner |
+| Layer / Artifact | Owner |
 |---|---|
 | `*-domain` pure domain behavior, invariants, value objects, aggregates, domain services | `spec-driven` |
 | `*-application` use cases and application orchestration | `story-driven` |
 | `*-infrastructure` outbound adapters, persistence adapters, crypto/provider integrations | `story-driven` |
 | `*-adapter`, handlers, routers, controllers, Cucumber runners, step definitions | `story-driven` |
+| `docs/dataset/**`, dataset manifests, validation artifacts, resume capsules | `dataset-writer` |
 | Maven scaffolding, parent POMs, module POMs, Dockerfile, `.dockerignore` | `bdd-java-scaffolder` |
 | Frontend code | Frontend agents (only when Gherkin requires it) |
+
+## Dataset Ownership
+
+- `dataset-writer` independently records, validates, classifies, and externalizes trajectories from `spec-driven` and `story-driven`.
+- Implementation agents do not author, approve, or repair their own raw dataset records.
+- Dataset episodes are not automatically positive training data because tests passed. `BEHAVIOR_VERIFIED`, `CURATED_SFT_CANDIDATE`, and `CURATED_SFT` are separate curation states.
+- Episodes `0001` through `0033` are legacy raw V1 records and must remain byte-for-byte immutable; V2 metadata is added through manifest/schema files only.
+
+## Typed Stops and Handoffs
+
+- A correct typed stop is useful output and must be handed to `dataset-writer` with reproducible evidence.
+- Common stop outcomes include `FRAMEWORK_INCOHERENCE`, `SPECIFICATION_AMBIGUITY`, `DOMAIN_MODEL_INCONSISTENCY`, `BASELINE_FAILURE`, `BUILD_ENVIRONMENT_FAILURE`, `SECURITY_RISK`, `REGRESSION_DETECTED`, `CONTEXT_LIMIT_REACHED`, and `HUMAN_DECISION_REQUIRED`.
+- `spec-driven` and `story-driven` hand success, typed stops, and checkpoints to `dataset-writer` using the active bdd-java handoff contract.
+- `dataset-writer` may return a validated correction request or compact resume capsule, but never modifies production, specs, Gherkin, ADRs, POMs, or adapters to make an episode valid.
 
 ## Generated Artifact Language
 
