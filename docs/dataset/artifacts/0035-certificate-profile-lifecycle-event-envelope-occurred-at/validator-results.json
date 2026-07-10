@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "validator-results-v1",
+  "validatedAt": "2026-07-10T21:57:10Z",
+  "datasetValidator": {
+    "command": "scripts/validate-dataset",
+    "exitCode": 0,
+    "status": "PASS",
+    "output": "validate-dataset: PASS\nlegacy_files=33 v2_episodes=2 incidents=6 manifest_entries=41"
+  },
+  "agentContractValidator": {
+    "command": "scripts/validate-agent-contracts",
+    "exitCode": 0,
+    "status": "PASS",
+    "output": "validate-agent-contracts: PASS",
+    "assessment": "The validator is aligned with the active stricter routing contract: dataset-writer validates sealed spec-driven javaspec trajectories only."
+  },
+  "postValidationHostMaven": {
+    "command": "mvn -q -pl trust-engine-domain test",
+    "exitCode": 0,
+    "status": "PASS_WITH_COVERAGE_WARNING",
+    "warning": "JaCoCo 0.8.12 emitted Unsupported class file major version 69 warnings while instrumenting JDK compiler classes.",
+    "assessment": "Non-blocking curation caveat: the warning limits coverage observability, so no coverage claim is made. It does not invalidate the already passing selected/full JavaSpec behavior evidence."
+  }
+}

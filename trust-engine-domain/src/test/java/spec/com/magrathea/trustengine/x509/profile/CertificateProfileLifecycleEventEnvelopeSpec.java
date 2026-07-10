@@ -1,5 +1,7 @@
 package spec.com.magrathea.trustengine.x509.profile;
 
+import java.time.Instant;
+
 public class CertificateProfileLifecycleEventEnvelopeSpec extends CertificateProfileLifecycleEventEnvelopeSpecSupport {
     public void it_exposes_the_lifecycle_event_type() {
         beConstructedWith("ProfileRegistered", "x509-profile/tls-server-baseline", 1L, "ra-operator@example.test");
@@ -29,5 +31,12 @@ public class CertificateProfileLifecycleEventEnvelopeSpec extends CertificatePro
         beConstructedWith("CERTIFICATE_PROFILE_REGISTERED", "x509-profile/tls-server-baseline", 1L, "ra-operator@example.test", "evt-x509-profile-2026-0001");
 
         eventId().shouldReturn("evt-x509-profile-2026-0001");
+    }
+
+    public void it_exposes_the_lifecycle_occurrence_timestamp() {
+        Instant occurredAt = Instant.parse("2026-07-10T12:34:56Z");
+        beConstructedWith("CERTIFICATE_PROFILE_REGISTERED", "x509-profile/tls-server-baseline", 1L, "ra-operator@example.test", "evt-x509-profile-2026-0001", occurredAt);
+
+        occurredAt().shouldReturn(occurredAt);
     }
 }

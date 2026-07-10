@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "trajectory-validation-v1",
+  "validatedAt": "2026-07-10T21:50:00Z",
+  "traceId": "89981817-6337-429a-9ac8-294f765ee454",
+  "status": "PASS",
+  "captureMode": "RAW_EVENT_STREAM",
+  "checks": [
+    {
+      "name": "eventsFileSha256",
+      "status": "PASS",
+      "evidence": "17fa7cdfd86426bf2b0a934f7effe566643e5ee2326421991135f2ddee40efca matched the delegated expected hash and seal."
+    },
+    {
+      "name": "metadataSealAndPatchSha256",
+      "status": "PASS",
+      "evidence": "Metadata 6dfe83d73a7d037827b7a31750fe84bd2104d2a33fd41b8a9f2551e998f76820, seal 35b0163abf770b7d45aa84e4c06194646ffc5053b1d24329e7ad49a1a5f30496, and patch ce41f3c496f77c26391f4dcec2cd5f7860688bb7dc99a8f134c1e4f2a1428d44 matched seal fields where applicable."
+    },
+    {
+      "name": "sealCompleteness",
+      "status": "PASS",
+      "evidence": "Complete seal, process exit 0, 305 events, final event hash d7c126ac407e4fcb15b0cd32ad89440a5eac7cfaeb7a73ea772533c3beeaa915."
+    },
+    {
+      "name": "eventHashChain",
+      "status": "PASS",
+      "evidence": "Sequences 0-304 are contiguous; every previousHash link and canonical-JSON event hash verified."
+    },
+    {
+      "name": "chronologyAndToolPairs",
+      "status": "PASS",
+      "evidence": "Timestamps are monotonic; all 49 tool starts have one later matching end."
+    },
+    {
+      "name": "canonicalEnglishTask",
+      "status": "PASS",
+      "evidence": "First user task after the delegation header exactly equals metadata canonicalTask; language is en; sourceUserMessageIncluded is false."
+    },
+    {
+      "name": "agentPromptToolModelProvenance",
+      "status": "PASS",
+      "evidence": "agent=spec-driven, prompt=bdd-java-spec-driven-v5, agent definition SHA-256 4fea1a3bbd6649ddac7d319e47444cb25859c538dfea33b42cc679cd14178468, tool registry fingerprint 58f9fb4ff63c4ac748fcf030b843b8687a38b4aab2362dd8974d2b5b32f7776b, model openai-codex/gpt-5.6-sol."
+    },
+    {
+      "name": "javaspecProvenance",
+      "status": "PASS",
+      "evidence": "Launcher 1.0.0-RC1; source commit cd7ff8d1379aabdfcfadc964b3a6473f38383c66; selected JAR SHA-256 8522dc72ab0ca87a508436419c4ed430e0ad470375445c689fa871218a8ab501; fixes 5b65099 and 5662797 are ancestors."
+    },
+    {
+      "name": "gitStateAndPatch",
+      "status": "PASS",
+      "evidence": "Clean initial HEAD/tree 91b9f02/94abe9f; final tracked worktree tree aaa6367; only the two authorized files changed; sealed patch SHA-256 ce41f3c496f77c26391f4dcec2cd5f7860688bb7dc99a8f134c1e4f2a1428d44."
+    },
+    {
+      "name": "singleBehaviorScope",
+      "status": "PASS",
+      "evidence": "Exactly one example and one sixth Instant record component/accessor implement only lifecycle occurrence timestamp exposure."
+    },
+    {
+      "name": "chronologicalStructuralRed",
+      "status": "PASS",
+      "evidence": "Structural dry-run sequence 133 exited 1 without writes before the unexpected sequence-145 mutation; after exact restoration, constructor probe sequence 175 directly showed five required arguments versus five plus Instant."
+    },
+    {
+      "name": "safeGenerationAndGreen",
+      "status": "PASS",
+      "evidence": "Explicit generation sequence 187 passed selected 1/1; envelope 6/6; full 35/35; Maven exit 0; no pending stubs; one ordered constructor and one Instant accessor."
+    },
+    {
+      "name": "exploratoryRunRestoration",
+      "status": "PASS_WITH_CURATION_CAVEAT",
+      "evidence": "Sequence 145 unexpectedly mutated the constructor without --generate, then failed on stale support. Sequence 157 restored exact committed production content before canonical probe/dry-run/generation. This must remain visible to curators."
+    },
+    {
+      "name": "privacyAndSanitization",
+      "status": "PASS_WITH_RAW_TRACE_RESTRICTION",
+      "evidence": "No credential/private-key/token pattern was found. Raw trace machine-local paths and ephemeral host data were not copied into repository artifacts or the derived training view."
+    }
+  ],
+  "eventStatistics": {
+    "eventCount": 305,
+    "turnCount": 50,
+    "toolExecutionCount": 49,
+    "toolExecutionPairErrors": 0,
+    "processExitCode": 0
+  },
+  "rawTraceRetention": {
+    "copiedToDataset": false,
+    "reason": "The immutable sealed source remains external because it contains private machine-local paths."
+  }
+}

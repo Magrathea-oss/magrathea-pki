@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "verification-summary-v1",
+  "sourceTraceId": "89981817-6337-429a-9ac8-294f765ee454",
+  "sourceEventSequence": 224,
+  "command": "mvn -q -pl trust-engine-domain test",
+  "exitCode": 0,
+  "surefireAggregate": {
+    "tests": 35,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "sourceLogSha256": "8bdfb7b31f786d6c406ada6f227958371fd314d319ebe28d59697062f58d1a2c",
+  "sourceLogByteSize": 6519460,
+  "sourceLogCopied": false,
+  "postValidationHostRerun": {
+    "exitCode": 0,
+    "jacocoVersion": "0.8.12",
+    "warning": "Unsupported class file major version 69",
+    "warningContext": "JaCoCo instrumentation of JDK compiler classes",
+    "sourceLogSha256": "d772d4dbc148e13cf777d10113cbb663a0f50e652370e7e5e88997ac97554e93",
+    "sourceLogByteSize": 6519460,
+    "sourceLogCopied": false
+  },
+  "note": "The post-validation host Maven rerun exited 0. JaCoCo 0.8.12 warnings limit coverage observability, so this artifact makes no coverage claim; they do not invalidate the selected or full JavaSpec behavior evidence."
+}

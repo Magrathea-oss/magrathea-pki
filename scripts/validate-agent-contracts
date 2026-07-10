@@ -48,7 +48,7 @@ require('sealed trace path' in agent_text['dataset-writer'], 'dataset-writer sea
 wf = text(WORKFLOW)
 require('agent: story-driven' in wf and 'agent: dataset-writer' in wf, 'bdd-java workflow missing implementation/dataset agents')
 require(wf.count('agent: dataset-writer') == 1, 'dataset-writer should be a direct planner child exactly once in bdd-java')
-require('dataset-writer (validates sealed implementation trajectories)' in wf, 'bdd-java sealed-trajectory routing missing')
+require('dataset-writer (validates sealed spec-driven javaspec trajectories only)' in wf, 'bdd-java sealed spec-driven javaspec routing missing')
 
 registry = json.loads(text(REGISTRY) or '{}')
 rules = registry.get('fileRules', [])

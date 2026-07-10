@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "metadata": {
+    "timestamp": "2026-07-10T21:30:47.610702588Z",
+    "hostname": "<redacted-container-hostname>",
+    "time": 0,
+    "properties": {
+      "javaspec.report.schemaVersion": "1",
+      "javaspec.report.tool": "javaspec"
+    }
+  },
+  "summary": {
+    "total": 1,
+    "passed": 1,
+    "failed": 0,
+    "broken": 0,
+    "skipped": 0,
+    "pending": 0,
+    "successful": true
+  },
+  "specs": [
+    {
+      "name": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec",
+      "id": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec",
+      "stableId": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec",
+      "sourceFile": "src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelopeSpec.java",
+      "executable": true,
+      "notExecutableReason": "",
+      "summary": {
+        "total": 1,
+        "passed": 1,
+        "failed": 0,
+        "broken": 0,
+        "skipped": 0,
+        "pending": 0,
+        "successful": true
+      },
+      "examples": [
+        {
+          "specName": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec",
+          "id": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec#it_exposes_the_lifecycle_occurrence_timestamp",
+          "stableId": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec#it_exposes_the_lifecycle_occurrence_timestamp",
+          "fullName": "spec.com.magrathea.trustengine.x509.profile.CertificateProfileLifecycleEventEnvelopeSpec#it_exposes_the_lifecycle_occurrence_timestamp",
+          "method": "it_exposes_the_lifecycle_occurrence_timestamp",
+          "displayName": "it exposes the lifecycle occurrence timestamp",
+          "sourceOrderIndex": 5,
+          "source": {
+            "file": "src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelopeSpec.java",
+            "line": 36
+          },
+          "status": "PASSED",
+          "detail": "",
+          "failure": null,
+          "exampleDataRows": []
+        }
+      ]
+    }
+  ]
+}
