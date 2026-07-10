@@ -2,9 +2,9 @@
 
 Status: implementation-informed from current Gherkin feature files under `features/x509` and `features/kms` and planned from the confirmed product roadmap. This appendix owns the executable use-case catalogue, use-case overview diagram, and use-case-to-Gherkin mapping.
 
-Current evidence rule: observed X.509 and KMS feature files exist, but all observed scenarios remain tagged `@functional-requirement @not-implemented`. The first X.509 profile-integrity scenario is story-wired as RED validation. Current valid pure domain implementation-informed support is limited to 29 behaviors through datasets 0001-0029: `CertificateProfileId` remains valid through datasets 0001-0020; datasets 0021-0025 add one-field `CertificateProfile(int validityDays)` behavior for `validityDays()`, deterministic canonical JSON `{"validityDays":397}`, SHA-256 digest hex `fa0dfb6bc1f41bff05587eacab336c16a778eff23ec79b565d09a5023b48ac51`, content-addressed ID `x509-profile-v1-sha256-fa0dfb6bc1f41bff05587eacab336c16a778eff23ec79b565d09a5023b48ac51`, and matching expected-ID recognition. Standalone value-object evidence now also covers sorted canonical JSON arrays for unordered `CertificateProfileKeyUsages` (`["digitalSignature","keyEncipherment"]`), `CertificateProfileExtendedKeyUsages` (`["clientAuth","serverAuth"]`), and `CertificateProfilePublicKeyAlgorithms` (`["EC_P256","RSA_3072"]`), plus deterministic canonical JSON object rendering for `CertificateProfileBasicConstraints` (`{"ca":false}`).
-Javaspec passed 29/29 and `mvn test -pl trust-engine-domain -am` passed with tests run 29. Valid datasets are `docs/dataset/0001-certificate-profile-id-sha256-record-algorithm.jsonl` through `docs/dataset/0029-certificate-profile-basic-constraints-canonical-json-object.jsonl`, including replayed valid continuation datasets 0006-0013.
-Remaining behavior is still absent unless introduced with valid dataset evidence; integration of these value objects into `CertificateProfile`, full multi-field `CertificateProfile` canonical JSON, subject templates, defaults and schema/default expansion/validation, manifest validation/comparison, audit emission, YAML parsing/adapter behavior, and application use-case behavior are not implemented. CVC and SSH feature files are not present yet and must be treated as planned / not implemented.
+Current evidence rule: observed X.509 and KMS feature files exist, but all observed scenarios remain tagged `@functional-requirement @not-implemented`. `features/x509/certificate-profile-lifecycle.feature` is Gherkin-only evidence for `UC-X509-PROFILE` and covers the ADR 0002 profile lifecycle event-envelope metadata fields; dataset `docs/dataset/0030-certificate-profile-lifecycle-event-envelope-event-type.jsonl` implements only the first pure-domain metadata field (`CertificateProfileLifecycleEventEnvelope(String eventType)` exposes `eventType()` with value `ProfileRegistered`). No Cucumber runner/glue, complete event envelope, Git persistence, event streams, projectors, read models, CAS, signed commits, replay, or runtime Git support exists. The first X.509 profile-integrity scenario is story-wired as RED validation. Current valid pure domain implementation-informed support is limited to 30 behaviors through datasets 0001-0030: `CertificateProfileId` remains valid through datasets 0001-0020; datasets 0021-0025 add one-field `CertificateProfile(int validityDays)` behavior for `validityDays()`, deterministic canonical JSON `{"validityDays":397}`, SHA-256 digest hex `fa0dfb6bc1f41bff05587eacab336c16a778eff23ec79b565d09a5023b48ac51`, content-addressed ID `x509-profile-v1-sha256-fa0dfb6bc1f41bff05587eacab336c16a778eff23ec79b565d09a5023b48ac51`, and matching expected-ID recognition. Standalone value-object evidence now also covers sorted canonical JSON arrays for unordered `CertificateProfileKeyUsages` (`["digitalSignature","keyEncipherment"]`), `CertificateProfileExtendedKeyUsages` (`["clientAuth","serverAuth"]`), and `CertificateProfilePublicKeyAlgorithms` (`["EC_P256","RSA_3072"]`), plus deterministic canonical JSON object rendering for `CertificateProfileBasicConstraints` (`{"ca":false}`). Dataset `docs/dataset/0030-certificate-profile-lifecycle-event-envelope-event-type.jsonl` adds only lifecycle event-envelope `eventType` metadata.
+Javaspec passed 30/30 and `mvn test -pl trust-engine-domain -am` passed with tests run 30. Valid datasets are `docs/dataset/0001-certificate-profile-id-sha256-record-algorithm.jsonl` through `docs/dataset/0030-certificate-profile-lifecycle-event-envelope-event-type.jsonl`, including replayed valid continuation datasets 0006-0013.
+Remaining behavior is still absent unless introduced with valid dataset evidence; remaining lifecycle event-envelope fields (`eventId`, `aggregateId`, `aggregateVersion`, `occurredAt`, `actor`, `causationId`, `correlationId`, `schemaVersion`, and `payload`), integration of the observed value objects into `CertificateProfile`, full multi-field `CertificateProfile` canonical JSON, subject templates, defaults and schema/default expansion/validation, manifest validation/comparison, audit emission, YAML parsing/adapter behavior, Git event-store behavior, and application use-case behavior are not implemented. CVC and SSH feature files are not present yet and must be treated as planned / not implemented.
 
 == A.1 Documentation Ownership and Traceability
 
@@ -48,9 +48,9 @@ Status labels used here:
 
 | X.509 CA
 | first
-| `features/x509/certificate-profile-integrity.feature` observed for profile integrity; other X.509 use cases are not yet represented by feature files.
-| implementation-informed requirement exists for `UC-X509-PROFILE-INTEGRITY`; the first scenario is RED story-wired through Cucumber, and 29 pure-domain behaviors are GREEN through datasets 0001-0029: `CertificateProfileId`, limited one-field `CertificateProfile(int validityDays)` canonical JSON/hash/profile-ID/matching-ID behavior, and standalone canonical rendering for key usages, extended key usages, public key algorithms, and basic constraints.
-The use case remains not implemented because application validation, integration of these value objects into `CertificateProfile`, full multi-field semantic canonicalization, schema/default expansion/validation, manifest comparison, YAML parsing/adapter behavior, and audit emission are missing. Remaining X.509 use cases are planned / not implemented. Observed X.509 scenarios are tagged `@not-implemented`.
+| `features/x509/certificate-profile-lifecycle.feature` observed for profile lifecycle event-envelope metadata under `UC-X509-PROFILE`; `features/x509/certificate-profile-integrity.feature` observed for profile integrity; other X.509 use cases are not yet represented by feature files.
+| implementation-informed Gherkin-only requirement exists for `UC-X509-PROFILE` lifecycle event-envelope metadata and implementation-informed requirement exists for `UC-X509-PROFILE-INTEGRITY`; the first profile-integrity scenario is RED story-wired through Cucumber, and 30 pure-domain behaviors are GREEN through datasets 0001-0030: `CertificateProfileId`, limited one-field `CertificateProfile(int validityDays)` canonical JSON/hash/profile-ID/matching-ID behavior, standalone canonical rendering for key usages, extended key usages, public key algorithms, and basic constraints, plus only `CertificateProfileLifecycleEventEnvelope.eventType()` for constructed value `ProfileRegistered`.
+The lifecycle scenario remains not implemented because dataset 0030 covers only the first domain metadata field and has no runner, glue, complete event envelope, Git event store, event stream, projector, read model, CAS, signed-commit, replay, or runtime support. The profile-integrity use case remains not implemented because application validation, integration of these value objects into `CertificateProfile`, full multi-field semantic canonicalization, schema/default expansion/validation, manifest comparison, YAML parsing/adapter behavior, and audit emission are missing. Remaining X.509 use cases are planned / not implemented. Observed X.509 scenarios are tagged `@not-implemented`.
 
 | CVC CA
 | later
@@ -82,10 +82,15 @@ The use case remains not implemented because application validation, integration
 |===
 | Feature Area | Feature File | Scenario Count | Declared Status
 
+| X.509 Certificate Profile Lifecycle
+| `features/x509/certificate-profile-lifecycle.feature`
+| 1
+| `@not-implemented`; Gherkin-only scenario for the full ADR 0002 event-envelope metadata contract (`@req-x509-profile-lifecycle-001`, `@uc-x509-profile`, `@adr-0002`); dataset 0030 adds only `eventType`; no runner/glue, complete event envelope, Git event store, event stream, projector, read model, CAS, signed-commit, replay, or runtime support exists
+
 | X.509 Certificate Profile Integrity
 | `features/x509/certificate-profile-integrity.feature`
 | 5
-| `@not-implemented`; first scenario RED story-wired (`@req-x509-profile-integrity-001`); 29 pure-domain behaviors are green for `CertificateProfileId`, limited one-field `CertificateProfile(int validityDays)` canonical JSON/hash/profile-ID/matching-ID behavior, and standalone canonical rendering for key usages, extended key usages, public key algorithms, and basic constraints;
+| `@not-implemented`; first scenario RED story-wired (`@req-x509-profile-integrity-001`); related pure-domain behaviors are green for `CertificateProfileId`, limited one-field `CertificateProfile(int validityDays)` canonical JSON/hash/profile-ID/matching-ID behavior, and standalone canonical rendering for key usages, extended key usages, public key algorithms, and basic constraints;
 integration of these value objects into `CertificateProfile`, full profile hashing/canonicalization pipeline, schema/default expansion/validation, manifest comparison, audit emission, YAML parsing/adapter behavior, and application behavior remain not implemented
 
 | KMS Key Lifecycle Management
@@ -167,7 +172,7 @@ UC_CUSTODY_CONFIG .> UC_AUDIT_REVIEW : <<records evidence>>
 
 note bottom
   Roadmap: X.509 first; CVC and SSH planned later.
-  X.509 profile integrity and KMS feature files exist, but observed scenarios are @not-implemented.
+  X.509 profile lifecycle, X.509 profile integrity, and KMS feature files exist, but observed scenarios are @not-implemented.
 end note
 @enduml
 ----
@@ -181,15 +186,15 @@ end note
 | [[UC-X509-PROFILE]]`UC-X509-PROFILE`
 | Registration Authority Operator
 | Define and manage X.509 certificate profiles, lifecycle states, immutable artifact/manifest publication, and issuance policy inputs.
-| X.509 planned first / not implemented. link:../adr/0002-use-git-backed-governed-event-store-for-certificate-profile-lifecycle.md[ADR 0002] records a Git-backed governed event-store/CQRS architectural direction for the registry lifecycle, but no implementation or executable profile-management feature exists yet.
-| No Gherkin feature file observed yet for profile registry/lifecycle management. ADR 0002 is architectural decision evidence only; no Git event-store adapter, event streams, projectors, or read models exist yet.
+| implementation-informed Gherkin-only requirement exists / not implemented. link:../adr/0002-use-git-backed-governed-event-store-for-certificate-profile-lifecycle.md[ADR 0002] records a Git-backed governed event-store/CQRS architectural direction for the registry lifecycle, and `features/x509/certificate-profile-lifecycle.feature` now defines only the structured lifecycle event-envelope metadata contract.
+| `features/x509/certificate-profile-lifecycle.feature` contains one `@not-implemented` scenario, `Register a certificate profile lifecycle change as a structured event envelope`, tagged `@req-x509-profile-lifecycle-001`, `@uc-x509-profile`, and `@adr-0002`. It covers ADR 0002 envelope fields: `eventId`, `aggregateId`, `aggregateVersion`, `eventType`, `occurredAt`, `actor`, `causationId`, `correlationId`, `schemaVersion`, and `payload`. Dataset `docs/dataset/0030-certificate-profile-lifecycle-event-envelope-event-type.jsonl` provides only the first pure-domain metadata field: `CertificateProfileLifecycleEventEnvelope(String eventType)` exposes `eventType()` with value `ProfileRegistered`. It does not satisfy the full Gherkin scenario. No Cucumber runner/glue, complete event envelope, Git event-store adapter, event streams, projectors, read models, CAS write path, signed commits/tags, replay validation, or runtime Git integration exists.
 
 | [[UC-X509-PROFILE-INTEGRITY]]`UC-X509-PROFILE-INTEGRITY`
 | Registration Authority Operator
 | Verify that the YAML certificate profile loaded for issuance matches the trusted expected content-addressed profile ID before certificate issuance.
 | implementation-informed requirement exists / not implemented.
-| `features/x509/certificate-profile-integrity.feature` and ADR 0001. The confirmed design computes `CertificateProfileId` from the canonical semantic model via `YAML -> parse -> schema validation -> CertificateProfile model -> normalize fields -> deterministic canonical JSON -> SHA-256`, compares it with `profiles/profiles.manifest.yaml`, rejects mismatches for issuance, and emits `PROFILE_INTEGRITY_FAILED`. First RED story wiring is observed in `trust-engine-api-adapter/src/test/java/com/magrathea/trustengine/apiadapter/x509/X509CertificateProfileIntegrityCucumberTest.java`, `trust-engine-api-adapter/src/test/java/com/magrathea/trustengine/apiadapter/x509/CertificateProfileIntegritySteps.java`, and `trust-engine-api-adapter/src/test/java/com/magrathea/trustengine/apiadapter/x509/CucumberSpringContextConfiguration.java`. Implementation-informed domain support in `trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile` is limited to 29 valid behaviors: `CertificateProfileId` remains valid through datasets 0001-0020; `CertificateProfile` covers only `validityDays`, one-field canonical JSON, SHA-256 digest, content-addressed ID, and matching expected-ID recognition; standalone value objects render key usages, extended key usages, public key algorithms, and basic constraints canonically.
-Remaining behavior is not implemented, including integration of these value objects into `CertificateProfile`, full multi-field canonical semantic model creation, subject templates, schema/default expansion/validation, manifest comparison, audit emission, YAML parsing/adapter behavior, and application use-case behavior.
+| `features/x509/certificate-profile-integrity.feature` and ADR 0001. The confirmed design computes `CertificateProfileId` from the canonical semantic model via `YAML -> parse -> schema validation -> CertificateProfile model -> normalize fields -> deterministic canonical JSON -> SHA-256`, compares it with `profiles/profiles.manifest.yaml`, rejects mismatches for issuance, and emits `PROFILE_INTEGRITY_FAILED`. First RED story wiring is observed in `trust-engine-api-adapter/src/test/java/com/magrathea/trustengine/apiadapter/x509/X509CertificateProfileIntegrityCucumberTest.java`, `trust-engine-api-adapter/src/test/java/com/magrathea/trustengine/apiadapter/x509/CertificateProfileIntegritySteps.java`, and `trust-engine-api-adapter/src/test/java/com/magrathea/trustengine/apiadapter/x509/CucumberSpringContextConfiguration.java`. Implementation-informed domain support in `trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile` is limited to 30 valid behaviors: `CertificateProfileId` remains valid through datasets 0001-0020; `CertificateProfile` covers only `validityDays`, one-field canonical JSON, SHA-256 digest, content-addressed ID, and matching expected-ID recognition; standalone value objects render key usages, extended key usages, public key algorithms, and basic constraints canonically; `CertificateProfileLifecycleEventEnvelope` currently exposes only `eventType()` for its constructed metadata value.
+Remaining behavior is not implemented, including integration of these value objects into `CertificateProfile`, full multi-field canonical semantic model creation, subject templates, schema/default expansion/validation, manifest comparison, audit emission, YAML parsing/adapter behavior, complete lifecycle event-envelope fields, Git event-store behavior, and application use-case behavior.
 
 | [[UC-X509-ISSUE]]`UC-X509-ISSUE`
 | Registration Authority Operator
@@ -247,16 +252,16 @@ Remaining behavior is not implemented, including integration of these value obje
 | Use Case ID | Feature File(s) | Mapped Scenarios | Declared Tags / Status | Notes
 
 | <<UC-X509-PROFILE,UC-X509-PROFILE>>
-| _missing_
-| _none_
-| planned / not implemented
-| Add X.509 profile registry/lifecycle feature(s) before implementation can be claimed. ADR 0002 defines the planned Git-backed governed event-store/CQRS direction, but it is not executable requirement or runtime-support evidence.
+| `features/x509/certificate-profile-lifecycle.feature`
+| Register a certificate profile lifecycle change as a structured event envelope
+| `@x509 @certificate-profile @lifecycle @governance @event-envelope @adr-0002 @not-implemented @uc-x509-profile`, scenario tags `@functional-requirement @not-implemented @req-x509-profile-lifecycle-001`
+| Gherkin-only requirement mapped from ADR 0002. It defines only structured event-envelope metadata for `REQ-X509-PROFILE-LIFECYCLE-001`; persistence, stream layout, compare-and-swap writes, signed commits, publication, projectors, read models, replay, and runtime Git support remain outside the requirement and not implemented.
 
 | <<UC-X509-PROFILE-INTEGRITY,UC-X509-PROFILE-INTEGRITY>>
 | `features/x509/certificate-profile-integrity.feature`
 | Accept an unchanged approved YAML profile when the computed ID matches the manifest ID; Reject a tampered YAML profile when the computed ID differs from the manifest ID; Ignore raw formatting and comment-only changes when canonical semantic content is unchanged; Reject a YAML profile with unknown fields before canonicalization; Reject a YAML profile that uses aliases before canonicalization.
 | `@x509 @certificate-profile @integrity @not-implemented @uc-x509-profile-integrity`, scenario tags `@functional-requirement @not-implemented`
-| Implementation-informed by observed Gherkin, the content-addressed YAML ADR, Maven RED Cucumber wiring, and 29 valid pure-domain behaviors. Runner `X509CertificateProfileIntegrityCucumberTest` selects `@req-x509-profile-integrity-001`; glue `CertificateProfileIntegritySteps` fails the `When` step with `UC-X509-PROFILE-INTEGRITY is not implemented: no application use case validates an approved manifest profile ID against parsed, schema-validated, normalized, canonical CertificateProfile content for certificate issuance yet.` Maven RED evidence on Apache Maven 3.9.16 / Java 21.0.11: `mvn -pl trust-engine-api-adapter -am -Dtest=X509CertificateProfileIntegrityCucumberTest -Dsurefire.failIfNoSpecifiedTests=false test` produced `1 scenarios (1 failed), 8 steps (3 passed, 4 skipped, 1 failed)` and Surefire `Tests run: 5, Failures: 1, Errors: 0, Skipped: 4`. Domain support is limited to `CertificateProfileId` behavior, one-field `CertificateProfile(int validityDays)` canonical JSON/hash/profile-ID/matching-ID behavior, and standalone canonical rendering for key usages, extended key usages, public key algorithms, and basic constraints (`mvn test -pl trust-engine-domain -am`: `BUILD SUCCESS`, tests run 29; javaspec passed 29/29; valid datasets `docs/dataset/0001-certificate-profile-id-sha256-record-algorithm.jsonl` through `docs/dataset/0029-certificate-profile-basic-constraints-canonical-json-object.jsonl`, including replayed valid continuation datasets 0006-0013).
+| Implementation-informed by observed Gherkin, the content-addressed YAML ADR, Maven RED Cucumber wiring, and 30 valid pure-domain behaviors. Runner `X509CertificateProfileIntegrityCucumberTest` selects `@req-x509-profile-integrity-001`; glue `CertificateProfileIntegritySteps` fails the `When` step with `UC-X509-PROFILE-INTEGRITY is not implemented: no application use case validates an approved manifest profile ID against parsed, schema-validated, normalized, canonical CertificateProfile content for certificate issuance yet.` Maven RED evidence on Apache Maven 3.9.16 / Java 21.0.11: `mvn -pl trust-engine-api-adapter -am -Dtest=X509CertificateProfileIntegrityCucumberTest -Dsurefire.failIfNoSpecifiedTests=false test` produced `1 scenarios (1 failed), 8 steps (3 passed, 4 skipped, 1 failed)` and Surefire `Tests run: 5, Failures: 1, Errors: 0, Skipped: 4`. Domain support is limited to `CertificateProfileId` behavior, one-field `CertificateProfile(int validityDays)` canonical JSON/hash/profile-ID/matching-ID behavior, standalone canonical rendering for key usages, extended key usages, public key algorithms, and basic constraints, plus only `CertificateProfileLifecycleEventEnvelope.eventType()` for the constructed value `ProfileRegistered` (`mvn test -pl trust-engine-domain -am`: `BUILD SUCCESS`, tests run 30; javaspec passed 30/30; valid datasets `docs/dataset/0001-certificate-profile-id-sha256-record-algorithm.jsonl` through `docs/dataset/0030-certificate-profile-lifecycle-event-envelope-event-type.jsonl`, including replayed valid continuation datasets 0006-0013).
 Remaining behavior is still absent unless introduced with valid evidence; integration of these value objects into `CertificateProfile`, full multi-field semantic profile construction, deterministic hash computation from complete profile content, manifest validation/comparison, audit emission, YAML parsing/adapter behavior, and application use-case behavior are not implemented yet.
 
 | <<UC-X509-ISSUE,UC-X509-ISSUE>>
@@ -310,14 +315,43 @@ Remaining behavior is still absent unless introduced with valid evidence; integr
 
 == A.6 X.509 Gherkin Scenario Catalogue
 
-=== A.6.1 X.509 Certificate Profile Integrity
+=== A.6.1 X.509 Certificate Profile Lifecycle
+
+Source: `features/x509/certificate-profile-lifecycle.feature`.
+
+Architectural source: link:../adr/0002-use-git-backed-governed-event-store-for-certificate-profile-lifecycle.md[ADR 0002 — Use a Git-backed governed event store for certificate profile registry lifecycle].
+
+Business need: capture certificate profile lifecycle changes as structured event envelopes so profile governance has an executable contract before persistence or projection technology is introduced.
+
+Rules:
+
+* Certificate profile lifecycle governance belongs to `UC-X509-PROFILE`.
+* This requirement defines only the structured event envelope for a profile lifecycle change.
+* Persistence, stream layout, compare-and-swap writes, signed commits, publication, projectors, read models, replay, and runtime support are outside this requirement.
+* Lifecycle event envelopes never contain secrets in metadata or payload.
+* ADR 0002 identifies the envelope fields as `eventId`, `aggregateId`, `aggregateVersion`, `eventType`, `occurredAt`, `actor`, `causationId`, `correlationId`, `schemaVersion`, and `payload`.
+
+Validation evidence: Gherkin-only for the full scenario. Dataset `docs/dataset/0030-certificate-profile-lifecycle-event-envelope-event-type.jsonl` adds only `CertificateProfileLifecycleEventEnvelope(String eventType)` with `eventType()` returning `ProfileRegistered`; it is not complete scenario support. No Cucumber runner, step glue, complete event envelope, Git event store, event streams, projectors, read models, expected-head/CAS write path, signed commits/tags, replay validation, or runtime Git integration exists.
+
+[cols="2,1,1,1,1",options="header"]
+|===
+| Scenario | Requirement ID | Use Case ID | Classification | Declared Status
+
+| Register a certificate profile lifecycle change as a structured event envelope
+| `REQ-X509-PROFILE-LIFECYCLE-001`
+| <<UC-X509-PROFILE,UC-X509-PROFILE>>
+| functional requirement
+| Gherkin-only / not implemented; covers ADR 0002 event-envelope metadata fields only
+|===
+
+=== A.6.2 X.509 Certificate Profile Integrity
 
 Source: `features/x509/certificate-profile-integrity.feature`.
 
 Validation evidence: first RED story wiring exists for `@req-x509-profile-integrity-001` through `trust-engine-api-adapter/src/test/java/com/magrathea/trustengine/apiadapter/x509/X509CertificateProfileIntegrityCucumberTest.java`, `trust-engine-api-adapter/src/test/java/com/magrathea/trustengine/apiadapter/x509/CertificateProfileIntegritySteps.java`, and `trust-engine-api-adapter/src/test/java/com/magrathea/trustengine/apiadapter/x509/CucumberSpringContextConfiguration.java`. Maven RED verification now runs on Apache Maven 3.9.16 / Java 21.0.11 with `mvn -pl trust-engine-api-adapter -am -Dtest=X509CertificateProfileIntegrityCucumberTest -Dsurefire.failIfNoSpecifiedTests=false test`. The expected RED result is `1 scenarios (1 failed), 8 steps (3 passed, 4 skipped, 1 failed)` and Surefire `Tests run: 5, Failures: 1, Errors: 0, Skipped: 4`. The failure is meaningful at the `When` step: `UC-X509-PROFILE-INTEGRITY is not implemented: no application use case validates an approved manifest profile ID against parsed, schema-validated, normalized, canonical CertificateProfile content for certificate issuance yet.`
 
 Domain implementation evidence: `trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileId.java` remains valid for the identifier behavior from datasets 0001-0020. `CertificateProfile` is currently a limited `record CertificateProfile(int validityDays)` with one-field evidence for `validityDays()`, deterministic canonical JSON `{"validityDays":397}`, SHA-256 digest hex `fa0dfb6bc1f41bff05587eacab336c16a778eff23ec79b565d09a5023b48ac51`, content-addressed `CertificateProfileId` `x509-profile-v1-sha256-fa0dfb6bc1f41bff05587eacab336c16a778eff23ec79b565d09a5023b48ac51`, and `hasProfileId(CertificateProfileId)` returning true for the matching expected ID. Standalone value-object evidence covers `CertificateProfileKeyUsages` sorted array rendering such as `["digitalSignature","keyEncipherment"]`, `CertificateProfileExtendedKeyUsages` sorted array rendering such as `["clientAuth","serverAuth"]`, `CertificateProfilePublicKeyAlgorithms` sorted array rendering such as `["EC_P256","RSA_3072"]`, and `CertificateProfileBasicConstraints` deterministic object rendering `{"ca":false}`.
-Maven verification `mvn test -pl trust-engine-domain -am` succeeded with tests run 29, failures 0, errors 0, and javaspec passed 29/29. Valid development datasets are `docs/dataset/0001-certificate-profile-id-sha256-record-algorithm.jsonl` through `docs/dataset/0029-certificate-profile-basic-constraints-canonical-json-object.jsonl`, including replayed valid continuation datasets 0006-0013. Anti-fake status: replay work beyond the rollback boundary is accepted only through valid continuation dataset evidence. Therefore integration of these value objects into `CertificateProfile`, full multi-field `CertificateProfile` canonical JSON, subject templates, defaults and schema/default expansion/validation, manifest validation/comparison, audit emission, YAML parsing/adapter behavior, and application use-case behavior are not implemented.
+Maven verification `mvn test -pl trust-engine-domain -am` succeeded with tests run 30, failures 0, errors 0, and javaspec passed 30/30. Valid development datasets are `docs/dataset/0001-certificate-profile-id-sha256-record-algorithm.jsonl` through `docs/dataset/0030-certificate-profile-lifecycle-event-envelope-event-type.jsonl`, including replayed valid continuation datasets 0006-0013. Anti-fake status: replay work beyond the rollback boundary is accepted only through valid continuation dataset evidence. Therefore integration of these value objects into `CertificateProfile`, full multi-field `CertificateProfile` canonical JSON, subject templates, defaults and schema/default expansion/validation, manifest validation/comparison, audit emission, YAML parsing/adapter behavior, complete lifecycle event-envelope fields beyond `eventType`, Git event-store behavior, and application use-case behavior are not implemented.
 
 Business need: verify X.509 certificate profiles against trusted content-addressed identifiers so certificate issuance cannot use a tampered or semantically ambiguous profile.
 
@@ -339,7 +373,7 @@ Rules:
 | `REQ-X509-PROFILE-INTEGRITY-001`
 | <<UC-X509-PROFILE-INTEGRITY,UC-X509-PROFILE-INTEGRITY>>
 | functional requirement
-| RED story-wired; 29 valid pure-domain behaviors green / use case not implemented
+| RED story-wired; related pure-domain behaviors green / use case not implemented
 
 | Reject a tampered YAML profile when the computed ID differs from the manifest ID
 | `REQ-X509-PROFILE-INTEGRITY-002`
@@ -590,8 +624,8 @@ Rules:
 | Status | Gap
 
 | actionable
-| X.509 profile integrity is now represented by `features/x509/certificate-profile-integrity.feature`; the first scenario has RED Cucumber story wiring and 29 valid pure-domain behaviors cover `CertificateProfileId`, limited one-field `CertificateProfile(int validityDays)` canonical JSON/hash/profile-ID/matching-ID behavior, and standalone canonical rendering for key usages, extended key usages, public key algorithms, and basic constraints,
-but the application use case, integration of these value objects into `CertificateProfile`, full multi-field semantic canonicalization, schema/default expansion/validation, deterministic complete-profile hashing, manifest comparison, YAML parsing/adapter behavior, and audit emission are not implemented. Create feature coverage for `UC-X509-PROFILE`, `UC-X509-ISSUE`, `UC-X509-REVOKE`, and `UC-X509-VALIDATE`, implement the profile-integrity use case, and keep all X.509 support claims as not implemented until validation passes. ADR 0002 adds a planned Git-backed governed profile lifecycle event store with CQRS projections, but no feature file, Git adapter, event streams, event envelope, projector, or read model exists yet.
+| X.509 profile integrity is now represented by `features/x509/certificate-profile-integrity.feature`; the first scenario has RED Cucumber story wiring and related pure-domain behaviors cover `CertificateProfileId`, limited one-field `CertificateProfile(int validityDays)` canonical JSON/hash/profile-ID/matching-ID behavior, and standalone canonical rendering for key usages, extended key usages, public key algorithms, and basic constraints,
+but the application use case, integration of these value objects into `CertificateProfile`, full multi-field semantic canonicalization, schema/default expansion/validation, deterministic complete-profile hashing, manifest comparison, YAML parsing/adapter behavior, and audit emission are not implemented. `features/x509/certificate-profile-lifecycle.feature` covers ADR 0002 structured event-envelope metadata for `UC-X509-PROFILE`; dataset `docs/dataset/0030-certificate-profile-lifecycle-event-envelope-event-type.jsonl` adds only the first domain metadata field, `eventType`, and does not provide Git persistence/runtime support. Add remaining feature coverage for `UC-X509-PROFILE` behavior beyond envelope metadata, `UC-X509-ISSUE`, `UC-X509-REVOKE`, and `UC-X509-VALIDATE`, implement the profile-integrity and profile-lifecycle use cases, and keep all X.509 support claims as not implemented until validation passes. ADR 0002 adds a planned Git-backed governed profile lifecycle event store with CQRS projections, but no Git adapter, event streams, complete event envelope, projector, read model, CAS, signed commits, replay, or runtime support exists yet.
 
 | blocked/actionable
 | CVC and SSH requirements are planned later according to roadmap priority. They need stable use-case IDs and feature files when that roadmap phase starts.
