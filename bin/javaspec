@@ -1,38 +1,38 @@
 #!/usr/bin/env bash
-# javaspec launcher for the magrathea-pki project.
+# javaspec 1.0 RC launcher for the magrathea-pki project.
 #
-# Runs the javaspec CLI inside the project build container, mounting the
-# current working directory as /work and the local Maven repository so the
-# upstream bin/javaspec launcher resolves the installed jar.
+# The CLI artifact is resolved from Maven Central into a project-local cache.
+# No javaspec checkout or host Maven repository is mounted, so clean dogfooding
+# cannot accidentally consume locally built framework classes.
 #
 # Usage (from the module you want to operate on):
 #   cd trust-engine-domain
 #   ../bin/javaspec describe com.magrathea.trustengine.domain.kms.Key
-#   ../bin/javaspec run --generate --compile
+#   ../bin/javaspec run --generate --compile --profile java21
 set -euo pipefail
 
-image="localhost/magrathea-build:fedora42"
-javaspec_repo="${JAVASPEC_REPO:-${HOME}/workspace/javaspec}"
-launcher="${javaspec_repo}/bin/javaspec"
-pom="${javaspec_repo}/pom.xml"
+readonly image="${MAGRATHEA_BUILD_IMAGE:-localhost/magrathea-build:fedora42}"
+readonly javaspec_version="${JAVASPEC_VERSION:-1.0.0-RC2}"
+readonly project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+readonly cache="${JAVASPEC_CACHE_DIR:-${project_root}/target/javaspec-remote-m2}"
+readonly artifact="io.github.jvmspec:javaspec:${javaspec_version}"
+readonly jar="/root/.m2/repository/io/github/jvmspec/javaspec/${javaspec_version}/javaspec-${javaspec_version}.jar"
 
-if [ ! -f "${launcher}" ]; then
-  printf 'javaspec: upstream launcher not found at %s\n' "${launcher}" >&2
-  printf 'Set JAVASPEC_REPO to the javaspec repository root.\n' >&2
-  exit 1
-fi
-
-if [ ! -f "${pom}" ]; then
-  printf 'javaspec: upstream root POM not found at %s\n' "${pom}" >&2
-  printf 'Set JAVASPEC_REPO to the javaspec repository root.\n' >&2
-  exit 1
-fi
+mkdir -p "${cache}"
 
 exec podman run --rm \
   -v "$(pwd)":/work \
-  -v "${HOME}/.m2/repository":/root/.m2/repository \
-  -v "${launcher}":/opt/javaspec/bin/javaspec:ro \
-  -v "${pom}":/opt/javaspec/pom.xml:ro \
+  -v "${cache}":/root/.m2/repository \
   -w /work \
+  -e "JAVASPEC_ARTIFACT=${artifact}" \
+  -e "JAVASPEC_JAR=${jar}" \
+  -e "JAVASPEC_VERSION=${javaspec_version}" \
   "${image}" \
-  /opt/javaspec/bin/javaspec "$@"
+  sh -ec 'printf "%s\n" "<project><modelVersion>4.0.0</modelVersion><groupId>dogfood</groupId><artifactId>javaspec-bootstrap</artifactId><version>1</version></project>" > /tmp/javaspec-bootstrap-pom.xml
+           mvn -q -f /tmp/javaspec-bootstrap-pom.xml dependency:get -Dartifact="${JAVASPEC_ARTIFACT}" -Dtransitive=false
+           if [ "${1:-}" = "--launcher-version" ]; then
+             printf "%s\n" "${JAVASPEC_VERSION}"
+             exit 0
+           fi
+           exec java -cp "${JAVASPEC_JAR}" io.github.jvmspec.cli.Main "$@"' \
+  javaspec "$@"

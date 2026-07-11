@@ -72,7 +72,7 @@
             <plugin>
                 <groupId>io.github.jvmspec</groupId>
                 <artifactId>javaspec-maven-plugin</artifactId>
-                <version>0.1.0-SNAPSHOT</version>
+                <version>${javaspec.version}</version>
                 <configuration>
                     <specDir>src/test/java</specDir>
                 </configuration>
