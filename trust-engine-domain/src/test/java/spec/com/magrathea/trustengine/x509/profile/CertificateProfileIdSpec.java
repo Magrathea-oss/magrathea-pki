@@ -19,4 +19,10 @@ public class CertificateProfileIdSpec extends CertificateProfileIdSpecSupport {
 
         shouldThrow(IllegalArgumentException.class).duringInstantiation();
     }
+
+    public void it_rejects_a_null_profile_identifier() {
+        beConstructedWith((String) null);
+
+        shouldThrow(IllegalArgumentException.class).duringInstantiation();
+    }
 }
