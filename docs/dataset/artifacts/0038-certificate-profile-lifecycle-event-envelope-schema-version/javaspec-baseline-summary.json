@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "evidence-summary-v1",
+  "phase": "BASELINE",
+  "commandClass": "full-javaspec",
+  "exitCode": 0,
+  "total": 37,
+  "passed": 37,
+  "failed": 0,
+  "broken": 0,
+  "pending": 0,
+  "sourceSequence": 164
+}

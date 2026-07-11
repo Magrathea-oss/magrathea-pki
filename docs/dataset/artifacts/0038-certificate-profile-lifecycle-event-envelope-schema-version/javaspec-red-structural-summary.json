@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "evidence-summary-v1",
+  "phase": "RED",
+  "kind": "NO_WRITE_STRUCTURAL_RED",
+  "exitCode": 1,
+  "filesWritten": false,
+  "pendingSpecificationSupport": true,
+  "pendingMethods": true,
+  "pendingConstructors": true,
+  "productionHashBeforeAndAfter": "6296a30050709ab0e8bd41b36d02eac5dc2b464415a34a75be9ea3fc6709ad0f",
+  "sourceSequence": 188
+}

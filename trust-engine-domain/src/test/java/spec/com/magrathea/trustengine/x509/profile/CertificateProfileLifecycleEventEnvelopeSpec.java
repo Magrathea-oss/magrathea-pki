@@ -53,4 +53,11 @@ public class CertificateProfileLifecycleEventEnvelopeSpec extends CertificatePro
 
         correlationId().shouldReturn("profile-onboarding-2026-0001");
     }
+
+    public void it_exposes_the_lifecycle_event_schema_identifier() {
+        Instant occurredAt = Instant.parse("2026-07-10T12:34:56Z");
+        beConstructedWith("CERTIFICATE_PROFILE_REGISTERED", "x509-profile/tls-server-baseline", 1L, "ra-operator@example.test", "evt-x509-profile-2026-0001", occurredAt, "cmd-register-profile-2026-0001", "profile-onboarding-2026-0001", "certificate-profile-lifecycle-event.v1");
+
+        schemaVersion().shouldReturn("certificate-profile-lifecycle-event.v1");
+    }
 }
