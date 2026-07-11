@@ -67,36 +67,36 @@ Secrets, cryptographic provider configuration, HSM credentials, TPM provisioning
 
 == 8.8 Configuration Integrity and Tamper-evident Profile Storage
 
-Status: confirmed decision / planned implementation with limited pure-domain evidence.
+Status: confirmed decision / not implemented, with one implementation-informed value-preservation slice.
 
-X.509 certificate profiles are immutable, content-addressed YAML resources according to link:../adr/0001-use-content-addressed-yaml-for-certificate-profiles.md[ADR 0001]. A `CertificateProfileId` is computed from the canonical semantic `CertificateProfile` model, not from raw YAML bytes. Current implementation evidence is limited to 33 pure-domain behaviors through datasets 0001-0033: `CertificateProfileId`, a one-field `CertificateProfile(int validityDays)` canonical JSON/hash/profile-ID path, separate standalone canonical rendering for key usages, extended key usages, public key algorithms, and basic constraints, plus limited `CertificateProfileLifecycleEventEnvelope` metadata (`eventType`, `aggregateId`, `aggregateVersion` as `long`, and `actor`). These value objects are not yet integrated into `CertificateProfile`, and no YAML parsing, schema/default expansion/validation, manifest comparison, audit emission, remaining lifecycle event-envelope fields (`eventId`, `occurredAt`, `causationId`, `correlationId`, `schemaVersion`, and `payload`), Git event-store behavior, or application/adapter behavior is implemented.
+link:../adr/0001-use-content-addressed-yaml-for-certificate-profiles.md[ADR 0001] is normative for the `x509-profile-v1-sha256` identity namespace. X.509 certificate profiles are immutable, content-addressed YAML resources, and identity is derived from the admitted semantic model rather than raw YAML bytes.
 
-The confirmed profile identity pipeline is:
+The cross-cutting identity mechanism is:
 
 [source,text]
 ----
-YAML -> parse -> schema validation -> CertificateProfile model -> normalize fields -> deterministic canonical JSON -> SHA-256 -> profile ID
+YAML parse -> strict schema admission -> six-field model/default expansion
+-> subjectTemplate NFC + unordered-set sorting -> RFC 8785 JCS UTF-8 bytes
+-> SHA-256 -> namespaced profile ID -> trusted-reference comparison
 ----
 
-The profile ID format is `x509-profile-v1-sha256-<digest>`.
+At this abstraction level, implementations must preserve these properties:
 
-Canonicalization rules:
+* after defaults, the model contains exactly `subjectTemplate`, `publicKeyAlgorithms`, `validityDays`, `keyUsages`, `extendedKeyUsages`, and `basicConstraints`;
+* admission is fail-closed for malformed or ambiguous YAML, wrong native types, unknown fields or enum values, duplicate keys or set members, explicit nulls, and YAML composition features forbidden by ADR 0001;
+* NFC applies only to `subjectTemplate`; its other accepted characters remain identity-significant;
+* only the three declared enum collections are unordered sets, validated before unsigned UTF-8 lexical sorting;
+* RFC 8785 JCS defines canonical JSON serialization, and SHA-256 hashes exactly its UTF-8 bytes without a BOM or trailing newline;
+* a v1 identifier is a whole-string `x509-profile-v1-sha256-` prefix followed by 64 lowercase hexadecimal characters, without trimming;
+* identity-affecting changes require a new namespace, while existing IDs remain immutable.
 
-* deterministic field order;
-* lists are sorted only when semantically unordered;
-* defaults are expanded before hashing;
-* comments and whitespace are ignored;
-* YAML aliases are forbidden;
-* unknown fields are forbidden;
-* timestamps are excluded from hashed content.
+The detailed field limits, closed vocabularies, defaults, rejection rules, and golden fixture are intentionally not duplicated here; they remain governed by ADR 0001 and executable requirements `REQ-X509-PROFILE-INTEGRITY-001` through `014`.
 
-Expected profile IDs are stored separately from hashed profile files. The planned layout is `profiles/<name>.yaml` plus `profiles/profiles.manifest.yaml`. Human aliases may map names to active and previous immutable profile IDs. Semantic changes create a new profile ID; profile content is immutable.
+Expected IDs are stored separately in `profiles/profiles.manifest.yaml` or another trusted reference. Before issuance can proceed to policy validation, computed and expected IDs must match. A mismatch rejects issuance eligibility and requires `PROFILE_INTEGRITY_FAILED` evidence containing the profile path, expected and computed IDs, actor or system identity, timestamp, and reason. Identity success alone never establishes issuance safety: subject-template semantics, cross-field rules, lifecycle eligibility, authorization, and other issuance policy remain a separate fail-closed gate.
 
-Before X.509 certificate issuance, the loaded profile must be canonicalized and compared with the expected ID from the manifest or trusted reference. A mismatch rejects the profile for issuance and emits a `PROFILE_INTEGRITY_FAILED` audit event with `profilePath`, `expectedProfileId`, `computedProfileId`, actor or system identity, timestamp, and reason.
+Lifecycle states are `draft`, `active`, `deprecated`, `revoked`, and `archived`. The first release does not require manifest signatures, but the trust/distribution model remains an open security decision.
 
-Lifecycle states are `draft`, `active`, `deprecated`, `revoked`, and `archived`.
-
-The first release does not necessarily require a signed manifest, but the manifest format is prepared for later signing. Later hardening may add `profiles/profiles.manifest.sig`, software signatures in development, HSM signatures in production, and Git signed commits as optional additional protection.
+Anti-fake status: replacement episode 0001 proves only that the current `CertificateProfileId` record preserves and exposes its supplied string value. It does not enforce the v1 grammar. No CertificateProfile model, YAML admission, defaulting, normalization, JCS serialization, hashing, manifest comparison, audit emission, or application/adapter behavior is implemented; all profile-integrity scenarios remain `@not-implemented`.
 
 == 8.9 Governed Profile Lifecycle Event Store and CQRS Projections
 
@@ -114,7 +114,7 @@ This concept is intentionally bounded:
 
 Required stream and publication controls are protected refs with no force-push, signed commits or tags for published/activatable profile states, expected-head / compare-and-swap writes for concurrency, one aggregate stream per ref/path or an equivalent deterministic ordering rule, and no uncontrolled merges in event streams.
 
-Profile lifecycle events are planned to use a structured event envelope containing `eventId`, `aggregateId`, `aggregateVersion`, `eventType`, `occurredAt`, `actor`, `causationId`, `correlationId`, `schemaVersion`, and `payload`. `features/x509/certificate-profile-lifecycle.feature` maps this requirement for `UC-X509-PROFILE`. Datasets `docs/dataset/0030-certificate-profile-lifecycle-event-envelope-event-type.jsonl` through `docs/dataset/0033-certificate-profile-lifecycle-event-envelope-actor.jsonl` implement only limited pure-domain metadata: `eventType()`, `aggregateId()`, `aggregateVersion()` as `long`, and `actor()`; the remaining envelope fields and all persistence/runtime behavior are still absent.
+Profile lifecycle events are planned to use a structured event envelope containing `eventId`, `aggregateId`, `aggregateVersion`, `eventType`, `occurredAt`, `actor`, `causationId`, `correlationId`, `schemaVersion`, and `payload`. `features/x509/certificate-profile-lifecycle.feature` maps this requirement for `UC-X509-PROFILE`. No lifecycle-envelope domain or runtime behavior is currently implemented.
 
 CQRS read models must be idempotent and replayable. Simple Git-derived reads or caches may be sufficient first; PostgreSQL, OpenSearch, cache projections, or a dedicated event store remain later options if query complexity, latency, or operational scale requires them. The Git adapter belongs to infrastructure behind ports so it can be replaced without changing domain behavior.
 

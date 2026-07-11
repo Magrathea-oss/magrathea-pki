@@ -14,10 +14,39 @@ Status: implementation-informed and needs-review.
 
 | Partial X.509 feature coverage
 | risk
-| X.509-first roadmap is now reflected by profile lifecycle event-envelope metadata and profile-integrity executable requirements; profile management beyond envelope metadata, issuance, revocation, and validation scenarios remain missing. The first profile-integrity scenario is Maven RED-verified, and 33 valid pure-domain behaviors are GREEN through datasets 0001-0033: `CertificateProfileId`, limited one-field `CertificateProfile(int validityDays)` canonical JSON/hash/profile-ID/matching-ID behavior, standalone canonical rendering for key usages, extended key usages, public key algorithms, and basic constraints, plus limited `CertificateProfileLifecycleEventEnvelope` metadata (`eventType`, `aggregateId`, `aggregateVersion` as `long`, and `actor`).
-Remaining behavior is not implemented, including application behavior, integration of these value objects into `CertificateProfile`, full multi-field semantic canonicalization, subject templates, schema/default expansion/validation, manifest comparison, YAML parsing/adapter behavior, audit emission, remaining lifecycle event-envelope fields (`eventId`, `occurredAt`, `causationId`, `correlationId`, `schemaVersion`, and `payload`), and Git event-store behavior.
-| Add the remaining X.509 feature slices; continue domain slices and implement `features/x509/certificate-profile-integrity.feature` through RED story/use-case validation before claiming support.
-| bdd-java-planner / story-driven
+| Profile integrity now has requirements `REQ-X509-PROFILE-INTEGRITY-001` through `014`, and profile lifecycle has one event-envelope requirement. Profile management beyond that envelope, issuance, revocation, and validation scenarios remain missing. Every observed X.509 scenario is `@not-implemented`.
+| Implement one requirement slice at a time through the BDD-first workflow and retain anti-fake status until semantic validation passes.
+| bdd-java-planner / spec-driven / story-driven
+
+| CertificateProfile v1 contract not implemented
+| risk / confirmed design
+| link:../adr/0001-use-content-addressed-yaml-for-certificate-profiles.md[ADR 0001] now fixes the six-field schema, strict admission boundary, normalization, JCS bytes, SHA-256 identity, ID grammar, and identity/issuance-policy boundary. Implementation drift could create incompatible IDs or unsafe acceptance. Replacement episode 0001 proves only that `CertificateProfileId` preserves and exposes a supplied string; it does not validate the v1 grammar. The historical 33-behavior corpus was discarded and is not support evidence.
+| Implement and validate the normative pipeline incrementally against requirements `001` through `014`, including the golden vector. Do not claim parsing, canonicalization, hashing, manifest comparison, audit emission, or issuance eligibility before corresponding validation is GREEN.
+| security architect / spec-driven / story-driven
+
+| Manifest signing and trusted distribution unresolved
+| risk
+| A content hash detects tampering only when compared with a separately trusted expected ID. An attacker able to alter both profile YAML and its expected reference can bypass the comparison.
+| Decide the first-release trust/distribution model and the trigger for signed manifests, software or HSM signatures, signed Git publication, append-only audit, or transparency mechanisms.
+| security architect / compliance officer / operations
+
+| Identity could be confused with issuance safety
+| risk
+| A stable matching profile ID does not validate subject-template semantics, cross-field constraints, lifecycle eligibility, authorization, or other issuance policy. Treating identity success as approval could enable unsafe issuance.
+| Keep identity formation and issuance-policy validation as separate fail-closed gates, as required by ADR 0001. Define and approve issuance rules before implementing certificate issuance.
+| PKI architect / security architect / story-driven
+
+| X.509 profile lifecycle edge cases unresolved
+| risk
+| Ambiguous transitions among `draft`, `active`, `deprecated`, `revoked`, and `archived` could cause unsafe issuance or unclear historical traceability.
+| Define transition, alias movement, rollback, and issuance-eligibility rules.
+| security architect / product owner / story-driven
+
+| Git-backed profile lifecycle event store not implemented
+| risk / confirmed design
+| link:../adr/0002-use-git-backed-governed-event-store-for-certificate-profile-lifecycle.md[ADR 0002] chooses a governed low-throughput Git source, but no lifecycle-envelope domain behavior, Git adapter, protected stream layout, signed publication, expected-head/CAS path, projector, read model, replay validation, or runtime integration exists.
+| Complete the lifecycle envelope requirement and define stream layout, trust controls, event schema, and projection/replay validation before claiming support.
+| security architect / story-driven / adr-writer
 
 | All observed KMS scenarios are `@not-implemented`
 | risk
@@ -33,75 +62,38 @@ Remaining behavior is not implemented, including application behavior, integrati
 
 | Key custody profile details unresolved
 | risk
-| Software, HSM, and TPM profiles affect security boundary, deployment, and testing.
+| Software, HSM, and TPM profiles affect security boundaries, deployment, and testing.
 | Write ADRs for custody boundaries and supported provider profiles.
 | security architect / adr-writer
 
 | Audit immutability design not specified
 | risk
-| Auditability is a priority but storage, retention, and tamper evidence are undefined.
-| Define audit store, immutability mechanism, retention, and export requirements.
+| Auditability is a priority but storage, retention, export, and tamper evidence are undefined outside the bounded profile-lifecycle decision.
+| Define the broader audit store, immutability mechanism, retention, and evidence export requirements.
 | security architect / compliance officer
-
-| Git-backed profile lifecycle event store not implemented
-| risk / confirmed design
-| link:../adr/0002-use-git-backed-governed-event-store-for-certificate-profile-lifecycle.md[ADR 0002] chooses Git as a governed, low-throughput source for certificate profile registry/lifecycle events and immutable artifact/manifest publication. `features/x509/certificate-profile-lifecycle.feature` covers structured event-envelope metadata fields, but datasets `docs/dataset/0030-certificate-profile-lifecycle-event-envelope-event-type.jsonl` through `docs/dataset/0033-certificate-profile-lifecycle-event-envelope-actor.jsonl` implement only limited pure-domain metadata (`eventType`, `aggregateId`, `aggregateVersion` as `long`, and `actor`). No Git adapter, protected stream layout, signed publication workflow, expected-head/CAS write path, remaining event-envelope fields, CQRS projector, read model, replay validation, or runtime Git integration exists yet. Documentation could overstate support if this remains unclear.
-| Continue executable requirements beyond the envelope metadata scenario and add implementation slices before claiming support. Define stream layout, signing/trust model, server-side controls, event schema, projector idempotency/replay checks, and the threshold for replacing Git-derived reads with PostgreSQL/OpenSearch/cache projections or a standard event store.
-| security architect / story-driven / adr-writer
-
-| X.509 profile canonicalization uncertainty
-| partially resolved risk
-| The canonical semantic pipeline and rules are now confirmed, but implementation drift could still compute incompatible profile IDs.
-| Anti-fake rollback remains enforced, and continuation work has now advanced through valid dataset evidence up to 33 pure-domain behavior micro-slices. Valid datasets are `docs/dataset/0001-certificate-profile-id-sha256-record-algorithm.jsonl` through `docs/dataset/0033-certificate-profile-lifecycle-event-envelope-actor.jsonl`, including replayed valid continuation datasets 0006-0013; `mvn test -pl trust-engine-domain -am` passed with tests run 33 and javaspec passed 33/33. The first dataset 0031 attempt had BROKEN RED and was quarantined/regenerated; the current valid dataset 0031 has RED `31 total, 30 passed, 1 failed, 0 broken`. Continue only by implementing and testing remaining behavior through clean RED/GREEN javaspec cycles with valid dataset evidence before claiming support. The confirmed end-to-end `YAML -> parse -> schema validation -> CertificateProfile model -> normalize fields -> deterministic canonical JSON -> SHA-256 -> manifest comparison -> audit/use-case result` pipeline and the remaining lifecycle event-envelope/Git event-store behavior remain absent. Do not treat any removed invalid dataset or implementation as support evidence.
-| security architect / spec-driven / story-driven
-
-| javaspec constructor support blocker for `value()` slice
-| recently resolved debt
-| The previous javaspec record-constructor lookup blocker for `CertificateProfileId.value()` has been fixed externally. The historical value-access slice verifies `beConstructedWith(validId); value().shouldReturn(validId)` against `record CertificateProfileId(String value)`, and later valid continuation datasets now reach 0033 with javaspec 33/33 and domain Maven tests run 33.
-| Keep the resolved blocker visible as recent history, but continue treating semantic profile canonicalization, deterministic profile hashing, manifest comparison, audit emission, and application/use-case behavior as absent until clean RED/GREEN evidence exists.
-| spec-driven / dataset-writer
-
-| javaspec duplicate support blocker for `isCanonicalText(null)` slice
-| recently resolved debt
-| The duplicate support generation blocker for `isCanonicalText((String) null).shouldReturn(false)` has been resolved by updating/installing the javaspec snapshot. The `CertificateProfileId` null-guard slice remains valid within the accepted dataset range, and later continuation datasets now reach 0033.
-| Keep the resolved blocker visible as recent history; continue remaining semantic canonicalization, deterministic profile hashing, manifest comparison, audit emission, and application/use-case behavior only through clean RED/GREEN cycles with valid dataset evidence.
-| spec-driven / javaspec tooling
-
-| Manifest signing and trusted distribution unresolved
-| risk
-| A content hash is only tamper-evident when compared with a trusted expected ID from `profiles/profiles.manifest.yaml`; an attacker who can change both profile YAML and manifest can bypass detection unless manifest distribution and protection are trustworthy.
-| Decide the first-release trust/distribution model and when to require `profiles.manifest.sig`, software signatures in development, HSM signatures in production, Git signed commits, append-only audit, or transparency logs.
-| security architect / compliance officer / operations
-
-| X.509 profile lifecycle edge cases unresolved
-| risk
-| Ambiguous transitions among `draft`, `active`, `deprecated`, `revoked`, and `archived` could cause unsafe issuance or unclear historical traceability.
-| Define exact lifecycle transition rules, alias movement rules, rollback behavior, and issuance behavior for deprecated or revoked profiles.
-| security architect / product owner / story-driven
 
 | ADR coverage incomplete
 | debt
-| ADR 0001 exists, but other major architectural decisions are still undocumented as durable records.
-| Continue ADR set for bounded contexts, platform baseline, custody, policy, audit, compliance evidence, profile canonicalization, and trusted reference distribution.
+| Major platform, bounded-context, custody, policy, audit, and compliance decisions still lack durable records.
+| Continue the ADR set without duplicating ADR bodies in ARC42.
 | adr-writer / arc42
 
 | No deployment view
 | gap
 | HSM/TPM placement, runtime topology, and operator access boundaries remain unclear.
-| Confirm deployment profiles and ask c4model to add deployment view.
+| Confirm deployment profiles and ask c4model to add a deployment view.
 | c4model / operations
 
 | C4 model ahead of implementation
 | risk
-| C4 containers and KMS components are planned design elements, not confirmed implementation.
+| C4 containers and KMS components are planned design elements, not confirmed production implementations.
 | Keep status markers and update C4 after implementation slices.
 | c4model / arc42
 
 | Minimal production implementation
 | debt
-| Only bootstrap source plus 33 valid X.509 pure-domain behaviors are observed through datasets 0001-0033: `CertificateProfileId` behavior, limited one-field `CertificateProfile(int validityDays)` canonical JSON/hash/profile-ID/matching-ID behavior, standalone canonical rendering for key usages, extended key usages, public key algorithms, and basic constraints, plus limited `CertificateProfileLifecycleEventEnvelope` metadata (`eventType`, `aggregateId`, `aggregateVersion` as `long`, and `actor`).
-Remaining behavior is not implemented, including integration of these value objects into `CertificateProfile`, full multi-field semantic profile canonicalization, subject templates, schema/default expansion/validation, manifest validation/comparison, YAML parsing/adapter behavior, audit emission, remaining lifecycle event-envelope fields (`eventId`, `occurredAt`, `causationId`, `correlationId`, `schemaVersion`, and `payload`), Git event-store behavior, and application/use-case behavior.
-| Continue BDD-first slices with RED tests before broader production behavior.
+| Beyond the bootstrap scaffold, current accepted X.509 domain evidence is only `CertificateProfileId` value preservation from replacement episode 0001. No feature scenario is implemented.
+| Continue requirement-traced RED/GREEN slices before broader production behavior.
 | spec-driven / story-driven
 |===
 
@@ -112,7 +104,7 @@ Remaining behavior is not implemented, including integration of these value obje
 | Status | Review Point
 
 | needs-review
-| Confirm the next X.509 feature coverage priority after profile integrity, especially profile management, issuance, revocation, and validation slices.
+| Confirm the next X.509 implementation priority among profile identity requirements `001` through `014`, lifecycle envelope behavior, and missing issuance/revocation/validation coverage.
 
 | needs-review
 | Confirm compliance scope and whether certification is a product goal or design-alignment target.
@@ -138,13 +130,9 @@ Remaining behavior is not implemented, including integration of these value obje
 
 | Spring Boot 3.4.4 scaffold vs Spring Boot 4 LTS target
 | resolved/implementation-informed
-| Parent POM now uses Spring Boot 4.1.0 with Java 21. Reactor and R2DBC versions are managed by Spring Boot, Cucumber is 7.34.4, Picocli is 4.7.7, the invalid `info.picocli:picocli-spring-boot-autoconfigure:7.2.0` dependency was removed, and `/tmp/apache-maven-3.9.11/bin/mvn -DskipTests clean package` completed with `BUILD SUCCESS` across all 7 modules.
+| Parent POM uses Spring Boot 4.1.0 with Java 21, with platform dependency versions managed by Spring Boot.
 
-| X.509 profile ID canonicalization and expected-ID location
-| partially resolved/confirmed design
-| ADR 0001 now confirms the semantic canonicalization pipeline, `x509-profile-v1-sha256-<digest>` format, canonicalization rules, separate `profiles/profiles.manifest.yaml`, tamper-detection audit behavior, and lifecycle states. ADR 0002 now adds the confirmed Git-backed governed profile lifecycle event-store direction with CQRS/read-model replaceability, and `features/x509/certificate-profile-lifecycle.feature` captures the event-envelope metadata contract. Anti-fake status is preserved because only limited envelope metadata (`eventType`, `aggregateId`, `aggregateVersion`, and `actor`) exists; no Git adapter, event streams, remaining event-envelope fields, projectors, read models, CAS, signed commits, replay, or runtime Git support exists. Open follow-ups include manifest signing/trusted distribution, exact lifecycle edge cases, Git stream layout, signing model, and projector/replay validation.
-
-| Host Maven availability for story validation
-| resolved/implementation-informed
-| Host Maven is available as Apache Maven 3.9.16 on Java 21.0.11. The RED story now runs through `mvn -pl trust-engine-api-adapter -am -Dtest=X509CertificateProfileIntegrityCucumberTest -Dsurefire.failIfNoSpecifiedTests=false test` after minimal Cucumber/Spring wiring in `trust-engine-api-adapter/src/test/java/com/magrathea/trustengine/apiadapter/x509/CucumberSpringContextConfiguration.java`; expected RED evidence remains `1 scenarios (1 failed), 8 steps (3 passed, 4 skipped, 1 failed)` and Surefire `Tests run: 5, Failures: 1, Errors: 0, Skipped: 4`.
+| CertificateProfile v1 identity ambiguity
+| resolved as design / not implemented
+| ADR 0001 dated 2026-07-11 normatively defines schema admission, normalization, canonical serialization, hashing, ID grammar, golden fixture, compatibility, and the identity-versus-issuance boundary. Requirements `REQ-X509-PROFILE-INTEGRITY-001` through `014` make the contract executable in intent; all remain `@not-implemented`.
 |===

@@ -36,6 +36,10 @@ Status: implementation-informed, with confirmed product constraints and the Spri
 | confirmed
 | Architecture and implementation decisions must consider FIPS, eIDAS, ETSI, and Common Criteria expectations.
 
+| CertificateProfile v1 identity contract
+| confirmed / not implemented
+| Every v1 identity implementation must follow the normative six-field admission, normalization, RFC 8785 JCS, SHA-256, and whole-string identifier contract in link:../adr/0001-use-content-addressed-yaml-for-certificate-profiles.md[ADR 0001]. Identity-affecting changes require a new namespace; identity formation must remain separate from fail-closed issuance-policy validation.
+
 | Git-backed governed profile event store guardrails
 | confirmed design / not implemented
 | link:../adr/0002-use-git-backed-governed-event-store-for-certificate-profile-lifecycle.md[ADR 0002] permits Git only as a governed, low-throughput source for certificate profile registry/lifecycle events and immutable artifact/manifest publication. It forbids secrets in Git, force-pushed event streams, uncontrolled stream merges, and use of Git as a runtime issuance database, high-volume event store, consensus ledger, or query engine. Git integration must remain replaceable infrastructure behind ports.
@@ -65,7 +69,7 @@ Status: implementation-informed, with confirmed product constraints and the Spri
 
 | Anti-fake completion rule
 | confirmed
-| Support status must be explicit. Current KMS scenarios are tagged `@not-implemented` and must not be reported as supported behavior.
+| Support status must be explicit. All currently observed X.509 and KMS scenarios are tagged `@not-implemented` and must not be reported as supported behavior.
 
 | English generated artifacts
 | confirmed
@@ -115,6 +119,5 @@ Status: implementation-informed, with confirmed product constraints and the Spri
 
 | Implementation depth
 | implementation-informed
-| The bootstrap entry point exists, and X.509 pure-domain evidence now has 33 valid behaviors through datasets 0001-0033. `CertificateProfileId` remains valid through datasets 0001-0020. Datasets 0021-0025 add limited one-field `CertificateProfile(int validityDays)` support: `validityDays()`, deterministic canonical JSON `{"validityDays":397}`, SHA-256 digest hex `fa0dfb6bc1f41bff05587eacab336c16a778eff23ec79b565d09a5023b48ac51`, content-addressed `CertificateProfileId` `x509-profile-v1-sha256-fa0dfb6bc1f41bff05587eacab336c16a778eff23ec79b565d09a5023b48ac51`, and `hasProfileId(CertificateProfileId)` recognition for the matching expected ID. Standalone value-object evidence covers sorted canonical JSON arrays for unordered `CertificateProfileKeyUsages` (`["digitalSignature","keyEncipherment"]`), `CertificateProfileExtendedKeyUsages` (`["clientAuth","serverAuth"]`), and `CertificateProfilePublicKeyAlgorithms` (`["EC_P256","RSA_3072"]`), plus deterministic canonical JSON object rendering for `CertificateProfileBasicConstraints` (`{"ca":false}`). Datasets `docs/dataset/0030-certificate-profile-lifecycle-event-envelope-event-type.jsonl` through `docs/dataset/0033-certificate-profile-lifecycle-event-envelope-actor.jsonl` add limited lifecycle event-envelope metadata: `eventType()`, `aggregateId()`, `aggregateVersion()` as `long`, and `actor()`.
-Application behavior and remaining profile-integrity/profile-lifecycle behavior are not implemented, including integration of these value objects into `CertificateProfile`, full multi-field `CertificateProfile` canonical JSON, subject templates, defaults and schema/default expansion/validation, manifest validation/comparison, audit emission, YAML parsing/adapter behavior, remaining lifecycle event-envelope fields (`eventId`, `occurredAt`, `causationId`, `correlationId`, `schemaVersion`, and `payload`), Git event-store behavior, and application use cases.
+| The bootstrap entry point exists. After the dataset reset, the only accepted X.509 pure-domain implementation evidence is replacement episode 0001: `CertificateProfileId` is a Java record that preserves and exposes the supplied `String value`. This does not enforce the v1 identifier grammar and does not implement parsing, schema admission, defaults, normalization, JCS serialization, hashing, manifest comparison, audit emission, lifecycle envelopes, Git event-store behavior, or application use cases. Every X.509 feature scenario remains tagged `@not-implemented`.
 |===

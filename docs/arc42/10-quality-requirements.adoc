@@ -69,12 +69,35 @@ Status: confirmed priorities with planned and implementation-informed validation
 | planned
 | `features/kms/key-audit.feature`, `@not-implemented`.
 
+| Correctness / Reproducibility
+| The approved six-field TLS baseline produces the exact ADR 0001 canonical JSON bytes, SHA-256 digest `d40ed2a8c1f61164e3f540e7623608c9a8797a7ad1a657d4dffbb661cd1999ee`, and corresponding namespaced ID on every conforming implementation.
+| planned / not implemented
+| `REQ-X509-PROFILE-INTEGRITY-001`; exact golden-vector acceptance criterion in ADR 0001.
+
+| Correctness / Reproducibility
+| Semantically equivalent admitted profiles produce identical IDs despite permitted YAML presentation changes, absent versus explicit optional defaults, unordered-set member order, or canonically equivalent Unicode subject templates.
+| planned / not implemented
+| `REQ-X509-PROFILE-INTEGRITY-003`, `006`, `007`, and `012`.
+
+| Correctness / Integrity
+| Every admitted semantic change that is identity-significant, including changed validity or accepted subject-template case/whitespace, changes the computed ID and fails comparison with the former trusted ID.
+| planned / not implemented
+| `REQ-X509-PROFILE-INTEGRITY-002` and `013`.
+
+| Security / Correctness
+| Each forbidden or ambiguous input class is rejected before any model, canonical JSON, digest, or ID is produced: unknown fields, aliases/anchors, explicit nulls, duplicate keys, duplicate set members, and unknown or miscased enum tokens.
+| planned / not implemented
+| `REQ-X509-PROFILE-INTEGRITY-004`, `005`, and `008` through `011`.
+
+| Security / Correctness
+| Every public expected-ID construction path rejects a value unless the complete untrimmed value has the v1 prefix and exactly 64 lowercase hexadecimal digest characters.
+| planned / not implemented
+| `REQ-X509-PROFILE-INTEGRITY-014`. Replacement episode 0001 proves value preservation only, not grammar enforcement.
+
 | Security / Auditability
-| Before X.509 certificate issuance, profile YAML is parsed, schema validated, converted to the canonical semantic `CertificateProfile` model, hashed as `x509-profile-v1-sha256-<digest>`, and compared with `profiles/profiles.manifest.yaml`; unchanged semantic content is accepted, while manifest mismatches, unknown fields, and YAML aliases are rejected with `PROFILE_INTEGRITY_FAILED` audit evidence.
-| RED story-wired; related pure-domain behaviors green / use case not implemented
-| `features/x509/certificate-profile-integrity.feature`, the content-addressed YAML ADR, `@not-implemented`; first scenario `@req-x509-profile-integrity-001` has executable Maven RED Cucumber validation through `X509CertificateProfileIntegrityCucumberTest`, `CertificateProfileIntegritySteps`, and `CucumberSpringContextConfiguration`. Command: `mvn -pl trust-engine-api-adapter -am -Dtest=X509CertificateProfileIntegrityCucumberTest -Dsurefire.failIfNoSpecifiedTests=false test` on Apache Maven 3.9.16 / Java 21.0.11. Evidence: `1 scenarios (1 failed), 8 steps (3 passed, 4 skipped, 1 failed)` and Surefire `Tests run: 5, Failures: 1, Errors: 0, Skipped: 4`. Implementation-informed domain support is limited to 33 valid behaviors: `CertificateProfileId` remains valid through datasets 0001-0020; `CertificateProfile(int validityDays)` exposes `validityDays()`, renders deterministic one-field canonical JSON `{"validityDays":397}`, computes SHA-256 digest hex `fa0dfb6bc1f41bff05587eacab336c16a778eff23ec79b565d09a5023b48ac51`, builds `x509-profile-v1-sha256-fa0dfb6bc1f41bff05587eacab336c16a778eff23ec79b565d09a5023b48ac51`, and recognizes that matching expected `CertificateProfileId`; standalone `CertificateProfileKeyUsages`, `CertificateProfileExtendedKeyUsages`, and `CertificateProfilePublicKeyAlgorithms` render unordered sets as sorted canonical JSON arrays such as `["digitalSignature","keyEncipherment"]`, `["clientAuth","serverAuth"]`, and `["EC_P256","RSA_3072"]`; `CertificateProfileBasicConstraints` renders the CA flag as deterministic canonical JSON object `{"ca":false}`; `CertificateProfileLifecycleEventEnvelope` exposes limited metadata: `eventType()`, `aggregateId()`, `aggregateVersion()` as `long`, and `actor()`.
-Domain Maven evidence through latest dataset `docs/dataset/0033-certificate-profile-lifecycle-event-envelope-actor.jsonl`: `mvn test -pl trust-engine-domain -am` `BUILD SUCCESS`, tests run 33, failures 0, errors 0; javaspec passed 33/33. Valid datasets are `docs/dataset/0001-certificate-profile-id-sha256-record-algorithm.jsonl` through `docs/dataset/0033-certificate-profile-lifecycle-event-envelope-actor.jsonl`, including replayed valid continuation datasets 0006-0013.
-Remaining behavior is absent unless introduced with valid dataset evidence. Therefore integration of these value objects into `CertificateProfile`, full multi-field `CertificateProfile` canonical JSON, subject templates, defaults and schema/default expansion/validation, manifest comparison, audit emission, YAML parsing/adapter behavior, remaining lifecycle event-envelope fields (`eventId`, `occurredAt`, `causationId`, `correlationId`, `schemaVersion`, and `payload`), Git event-store behavior, and application use-case behavior are not implemented yet.
+| Before issuance-policy validation, a computed-ID mismatch rejects issuance eligibility and records a `PROFILE_INTEGRITY_FAILED` event with profile path, expected ID, computed ID, actor or system identity, timestamp, and reason.
+| planned / not implemented
+| `REQ-X509-PROFILE-INTEGRITY-002`; ADR 0001. Identity success must not bypass separate fail-closed issuance-policy validation.
 
 | Modularity
 | X.509, CVC, and SSH maintain separate protocol-specific models.
@@ -115,8 +138,7 @@ Remaining behavior is absent unless introduced with valid dataset evidence. Ther
 | Define audit retention, tamper-evidence, and evidence-export requirements.
 
 | actionable
-| Complete `UC-X509-PROFILE-INTEGRITY` beyond the current limited pure-domain behaviors:
-integrate standalone value objects into `CertificateProfile`, add full multi-field `CertificateProfile` canonical JSON, add subject templates and schema/default expansion/validation, manifest comparison, audit evidence, YAML parsing/adapter behavior, and GREEN application/story validation only through clean RED/GREEN slices with valid evidence; keep X.509 profile integrity as not implemented until Maven Cucumber validation turns GREEN for real use-case behavior.
+| Complete `UC-X509-PROFILE-INTEGRITY` beyond replacement episode 0001 value preservation: enforce the ID grammar and implement the six-field model, YAML/schema admission, defaults, normalization, JCS bytes, SHA-256 derivation, trusted-reference comparison, audit evidence, and application/adapter behavior through clean RED/GREEN slices. Keep every scenario `@not-implemented` until semantic validation passes.
 
 | needs-review
 | Define the first-release trust/distribution model for `profiles/profiles.manifest.yaml` and the trigger for later signed-manifest hardening.

@@ -24,7 +24,7 @@ Feature: Governed X.509 certificate profile lifecycle events
       | correlationId    | profile-onboarding-2026-0001              |
       | schemaVersion    | certificate-profile-lifecycle-event.v1    |
     And the lifecycle change payload is:
-      | profileId      | x509-profile-v1-sha256-6f1ed002ab5595859014ebf0951522d9b0214b864e3ae49b43c9d9f9b8a47f76 |
+      | profileId      | x509-profile-v1-sha256-d40ed2a8c1f61164e3f540e7623608c9a8797a7ad1a657d4dffbb661cd1999ee |
       | profilePath    | profiles/x509/tls-server-baseline.yaml                                               |
       | lifecycleState | draft                                                                                 |
       | reason         | Initial registration for TLS server certificate issuance policy                        |

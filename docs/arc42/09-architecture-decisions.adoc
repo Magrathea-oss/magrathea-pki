@@ -12,7 +12,7 @@ ADR bodies are owned by adr-writer and are not generated in this chapter. This c
 
 | link:../adr/0001-use-content-addressed-yaml-for-certificate-profiles.md[ADR 0001 — Use content-addressed YAML for certificate profiles]
 | Accepted
-| Certificate profiles are immutable, content-addressed YAML resources. Profile IDs use a versioned semantic canonical hash such as `x509-profile-v1-sha256-<digest>`.
+| Certificate profiles are immutable, content-addressed YAML resources. The accepted decision includes the normative CertificateProfile v1 schema/admission, normalization, RFC 8785 JCS/SHA-256 identity, whole-string ID grammar, golden fixture, versioning, and identity-versus-issuance-policy boundary. Implementation remains incomplete.
 
 | link:../adr/0002-use-git-backed-governed-event-store-for-certificate-profile-lifecycle.md[ADR 0002 — Use a Git-backed governed event store for certificate profile registry lifecycle]
 | Accepted architectural direction / not implemented

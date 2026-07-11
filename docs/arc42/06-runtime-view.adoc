@@ -6,8 +6,8 @@ Runtime views should be added by c4model after the project chooses the first sce
 
 == 6.1 Current Runtime Evidence
 
-Existing Gherkin requirements cover X.509 profile lifecycle event-envelope metadata, X.509 profile integrity, and KMS, and all observed scenarios are tagged `@not-implemented`. X.509 pure-domain evidence has 33 valid behaviors through datasets 0001-0033: `CertificateProfileId` remains valid through datasets 0001-0020; limited one-field `CertificateProfile(int validityDays)` support covers canonical JSON `{"validityDays":397}`, SHA-256 digest hex, content-addressed profile ID, and matching expected-ID recognition; standalone value objects render unordered key usages, extended key usages, and public key algorithms as sorted canonical JSON arrays, and render basic constraints as deterministic canonical JSON object `{"ca":false}`; `CertificateProfileLifecycleEventEnvelope` exposes limited metadata: `eventType()`, `aggregateId()`, `aggregateVersion()` as `long`, and `actor()`.
-There is still no implemented runtime flow. Integration of these value objects into `CertificateProfile`, full multi-field profile canonicalization, schema/default expansion/validation, manifest validation/comparison, audit emission, YAML parsing/adapter behavior, remaining lifecycle event-envelope fields (`eventId`, `occurredAt`, `causationId`, `correlationId`, `schemaVersion`, and `payload`), Git event-store behavior, and application use-case behavior remain not implemented. Therefore the flows below are requirement-informed plans, not implemented runtime behavior.
+Existing Gherkin requirements cover X.509 profile lifecycle event-envelope metadata, X.509 profile integrity, and KMS, and all observed scenarios are tagged `@not-implemented`. After the dataset reset, X.509 pure-domain evidence is limited to replacement episode 0001: `CertificateProfileId` preserves and exposes the supplied string value; it does not yet validate the normative v1 grammar.
+There is no implemented runtime flow. CertificateProfile v1 YAML admission, six-field model construction, canonicalization, hashing, manifest comparison, audit emission, lifecycle-envelope behavior, Git event-store behavior, and application use cases remain not implemented. Therefore the flows below are requirement-informed plans, not implemented runtime behavior.
 
 == 6.2 Candidate Runtime Scenarios
 
@@ -16,7 +16,7 @@ There is still no implemented runtime flow. Integration of these value objects i
 | Scenario | Status | Planned Interaction Level
 
 | Verify certificate profile integrity before issuance
-| planned / RED story-wired
+| planned / not implemented
 | Registration Authority or issuance adapter -> X.509 profile-integrity use case -> YAML parser/schema validation -> canonical `CertificateProfile` model/hash comparison -> manifest lookup -> Audit Service on rejection. Current implementation does not provide this use case yet.
 
 | Generate a key
