@@ -4,6 +4,7 @@ import json
 import os
 import pathlib
 import re
+import subprocess
 import sys
 
 try:
@@ -150,6 +151,12 @@ secret_re = re.compile(r'(PRIVATE KEY|BEGIN RSA|AWS_SECRET|SECRET_ACCESS_KEY|/ho
 for path in [MANIFEST, SCHEMA, DATASET / 'README.md', DATASET / 'artifacts/dataset-v2-layout-validation.json', *v2_files, *incident_files]:
     if path.is_file():
         require(not secret_re.search(path.read_text(errors='ignore')), f'private path or secret-like text in {path}')
+
+rl_validator = ROOT / 'scripts/validate-rl-dataset'
+require(rl_validator.is_file(), 'missing RL sidecar validator')
+if rl_validator.is_file():
+    result = subprocess.run([str(rl_validator)], cwd=ROOT, text=True, capture_output=True, check=False)
+    require(result.returncode == 0, f'RL sidecar validation failed: {result.stdout.strip()} {result.stderr.strip()}')
 
 if failures:
     print('validate-dataset: FAIL')

@@ -1,0 +1,251 @@
+#!/usr/bin/env python3
+"""Deterministically validate additive BDD Java RL sidecars."""
+import hashlib
+import json
+import os
+import pathlib
+import re
+import sys
+
+try:
+    import jsonschema
+except ImportError:
+    print("validate-rl-dataset: FAIL\n- Python package 'jsonschema' is required", file=sys.stderr)
+    sys.exit(2)
+
+ROOT = pathlib.Path(__file__).resolve().parents[1]
+RL_ROOT = ROOT / "docs/dataset/rl/v1"
+SIDECARS = RL_ROOT / "sidecars"
+QUARANTINE = RL_ROOT / "quarantine"
+TRAJECTORY_ROOT = pathlib.Path(os.environ.get(
+    "MULTI_AGENT_TRAJECTORY_DIR", pathlib.Path.home() / ".pi/agent/trajectories"
+))
+SCHEMA = pathlib.Path(os.environ.get(
+    "BDD_JAVA_RL_EPISODE_SCHEMA",
+    pathlib.Path.home() / ".pi/agent/skills/multi-agent/schemas/bdd-java-rl-episode-v1.schema.json",
+))
+LEGACY_NOT_RL_READY = {
+    "0001-certificate-profile-id-value",
+    "0002-certificate-profile-id-rejects-leading-whitespace",
+    "0003-certificate-profile-id-rejects-null",
+    "0004-public-key-algorithm-v1-vocabulary",
+}
+SECRET_OR_PRIVATE = re.compile(
+    r"(?:/home/[^/\s]+|BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY|AWS_SECRET_ACCESS_KEY|"
+    r"(?i:password|secret|token)\s*[:=]\s*[^<\s][^\s,}]*)"
+)
+failures = []
+
+
+def fail(message):
+    failures.append(message)
+
+
+def digest(path):
+    h = hashlib.sha256()
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(65536), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def resolve_artifact(reference, owner):
+    raw = reference.get("path", "")
+    if raw.startswith("trajectory://"):
+        relative = raw[len("trajectory://"):]
+        candidate = TRAJECTORY_ROOT / relative
+        root = TRAJECTORY_ROOT
+    else:
+        candidate = ROOT / raw
+        root = ROOT
+    try:
+        resolved = candidate.resolve(strict=False)
+        resolved.relative_to(root.resolve())
+    except (OSError, ValueError):
+        fail(f"{owner}: unsafe artifact path {raw!r}")
+        return None
+    if pathlib.PurePosixPath(raw.replace("trajectory://", "")).is_absolute():
+        fail(f"{owner}: absolute artifact path is forbidden: {raw}")
+        return None
+    if not resolved.is_file():
+        fail(f"{owner}: artifact does not exist: {raw}")
+        return None
+    if digest(resolved) != reference.get("sha256"):
+        fail(f"{owner}: artifact SHA-256 mismatch: {raw}")
+    if resolved.stat().st_size != reference.get("byteSize"):
+        fail(f"{owner}: artifact byte size mismatch: {raw}")
+    return resolved
+
+
+def artifact_references(value):
+    if isinstance(value, dict):
+        if set(("path", "sha256", "mediaType", "byteSize")).issubset(value):
+            yield value
+        for child in value.values():
+            yield from artifact_references(child)
+    elif isinstance(value, list):
+        for child in value:
+            yield from artifact_references(child)
+
+
+def producer_ids(value):
+    return value.get("producerId") if isinstance(value, dict) else None
+
+
+if not SCHEMA.is_file():
+    fail(f"authoritative RL schema is missing: {SCHEMA}")
+    schema = None
+else:
+    try:
+        schema = json.loads(SCHEMA.read_text(encoding="utf-8"))
+        jsonschema.Draft202012Validator.check_schema(schema)
+    except (json.JSONDecodeError, jsonschema.SchemaError) as exc:
+        fail(f"authoritative RL schema is invalid: {exc}")
+        schema = None
+
+local_schemas = sorted((ROOT / "docs/dataset").rglob("*rl*schema*.json"))
+if local_schemas:
+    fail(f"project-local RL schemas are forbidden: {[str(p.relative_to(ROOT)) for p in local_schemas]}")
+for directory in (SIDECARS, QUARANTINE):
+    if not directory.is_dir():
+        fail(f"missing retained directory: {directory.relative_to(ROOT)}")
+
+files = sorted(SIDECARS.glob("*.json")) + sorted(QUARANTINE.glob("*.json"))
+partition_splits = {}
+base_episode_ids = set()
+for path in files:
+    relative = path.relative_to(ROOT).as_posix()
+    try:
+        episode = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        fail(f"{relative}: invalid JSON: {exc}")
+        continue
+    if schema is not None:
+        validator = jsonschema.Draft202012Validator(schema, format_checker=jsonschema.FormatChecker())
+        for error in sorted(validator.iter_errors(episode), key=lambda e: list(e.absolute_path)):
+            location = ".".join(str(part) for part in error.absolute_path) or "$"
+            fail(f"{relative}: schema {location}: {error.message}")
+
+    serialized = json.dumps(episode, sort_keys=True)
+    if SECRET_OR_PRIVATE.search(serialized):
+        fail(f"{relative}: private path or secret-like content detected")
+
+    episode_id = episode.get("baseEpisode", {}).get("episodeId")
+    if episode_id in LEGACY_NOT_RL_READY:
+        fail(f"{relative}: episode {episode_id} is retained V2/SFT evidence and is not retroactively RL-ready")
+    if episode_id in base_episode_ids:
+        fail(f"{relative}: duplicate RL sidecar for base episode {episode_id}")
+    base_episode_ids.add(episode_id)
+
+    resolved = {}
+    for reference in artifact_references(episode):
+        resolved[reference.get("path")] = resolve_artifact(reference, relative)
+
+    base = episode.get("baseEpisode", {})
+    v2_ref = base.get("v2Episode", {})
+    expected_v2 = f"docs/dataset/raw/v2/{episode_id}.json"
+    if v2_ref.get("path") != expected_v2:
+        fail(f"{relative}: base V2 reference must be {expected_v2}")
+    v2_path = resolved.get(v2_ref.get("path"))
+    if v2_path and v2_path.is_file():
+        try:
+            v2 = json.loads(v2_path.read_text(encoding="utf-8"))
+            if v2.get("episodeId") != episode_id:
+                fail(f"{relative}: base V2 episodeId mismatch")
+            if v2.get("provenance", {}).get("captureMode") != "RAW_EVENT_STREAM":
+                fail(f"{relative}: base V2 episode is not RAW_EVENT_STREAM")
+            if v2.get("provenance", {}).get("agent") != "spec-driven":
+                fail(f"{relative}: base V2 episode was not produced by spec-driven")
+        except json.JSONDecodeError as exc:
+            fail(f"{relative}: base V2 episode is invalid JSON: {exc}")
+
+    trace = base.get("sealedTrace", {})
+    for name in ("events", "metadata", "seal"):
+        trace_path = trace.get(name, {}).get("path", "")
+        if not trace_path.startswith("trajectory://"):
+            fail(f"{relative}: sealed trace {name} must use a trajectory:// reference")
+    seal_path = resolved.get(trace.get("seal", {}).get("path"))
+    if seal_path:
+        try:
+            seal = json.loads(seal_path.read_text(encoding="utf-8"))
+            if seal.get("complete") is not True:
+                fail(f"{relative}: trajectory seal is not complete")
+            if seal.get("eventsSha256") != trace.get("events", {}).get("sha256"):
+                fail(f"{relative}: seal eventsSha256 does not match events reference")
+            if seal.get("metadataSha256") != trace.get("metadata", {}).get("sha256"):
+                fail(f"{relative}: seal metadataSha256 does not match metadata reference")
+        except json.JSONDecodeError as exc:
+            fail(f"{relative}: invalid trajectory seal JSON: {exc}")
+
+    steps = episode.get("steps", [])
+    sequences = [step.get("sequence") for step in steps]
+    if sequences != list(range(len(steps))):
+        fail(f"{relative}: step sequences must be contiguous and start at zero")
+    event_ids = [part.get("eventId") for step in steps for part in
+                 (step.get("state", {}), step.get("action", {}), step.get("observation", {}))]
+    if len(event_ids) != len(set(event_ids)):
+        fail(f"{relative}: state/action/observation event IDs must be unique")
+
+    rewards = episode.get("rewardEvents", [])
+    reward_ids = [reward.get("rewardEventId") for reward in rewards]
+    if len(reward_ids) != len(set(reward_ids)):
+        fail(f"{relative}: reward event IDs must be unique")
+    for reward in rewards:
+        producer = reward.get("producer", {})
+        approver = reward.get("approval", {}).get("approvedBy", {})
+        if producer_ids(producer) == producer_ids(approver):
+            fail(f"{relative}: reward producer cannot approve its own reward {reward.get('rewardEventId')}")
+
+    preference = episode.get("preferenceGroup")
+    if preference:
+        alternatives = preference.get("alternatives", [])
+        alternative_ids = [item.get("alternativeId") for item in alternatives]
+        executed_ids = [item.get("executedEpisode", {}).get("episodeId") for item in alternatives]
+        event_hashes = [item.get("executedEpisode", {}).get("sealedTrace", {}).get("events", {}).get("sha256") for item in alternatives]
+        if len(alternative_ids) != len(set(alternative_ids)):
+            fail(f"{relative}: preference alternative IDs must be unique")
+        if len(executed_ids) != len(set(executed_ids)) or len(event_hashes) != len(set(event_hashes)):
+            fail(f"{relative}: preference alternatives must be genuinely distinct executed trajectories")
+        if set(preference.get("ranking", [])) != set(alternative_ids):
+            fail(f"{relative}: preference ranking must contain every alternative exactly once")
+        if producer_ids(preference.get("producer", {})) == producer_ids(preference.get("approval", {}).get("approvedBy", {})):
+            fail(f"{relative}: preference producer cannot approve its own ranking")
+
+    partition = episode.get("partition", {})
+    group = "\x1f".join(sorted(partition.get("groupKeys", [])))
+    split = partition.get("split")
+    if group and partition.get("assignmentAlgorithm") == "SHA256_GROUP_MODULO" and partition.get("algorithmVersion") == "1":
+        material = f"{partition.get('seed', '')}\0{group}".encode("utf-8")
+        bucket = int.from_bytes(hashlib.sha256(material).digest()[:8], "big") % 100
+        expected_split = "TRAIN" if bucket < 80 else "EVALUATION" if bucket < 90 else "HOLDOUT"
+        if split != expected_split:
+            fail(f"{relative}: deterministic partition mismatch; bucket {bucket} requires {expected_split}")
+    if group in partition_splits and partition_splits[group] != split:
+        fail(f"{relative}: group-aware partition leakage: group assigned to both {partition_splits[group]} and {split}")
+    partition_splits[group] = split
+
+    admitted = path.parent == SIDECARS
+    if admitted:
+        if episode.get("admission", {}).get("status") != "RL_ADMITTED":
+            fail(f"{relative}: admitted sidecars must have admission.status RL_ADMITTED")
+        for reward in rewards:
+            if reward.get("approval", {}).get("status") != "APPROVED":
+                fail(f"{relative}: every admitted reward must be independently approved")
+        controls = episode.get("privacyAndLeakage", {})
+        if controls.get("reviewStatus") != "PASSED" or any(
+            controls.get(name, {}).get("status") != "PASSED"
+            for name in ("secretScan", "privatePathScan", "trainingDataLeakageScan")
+        ):
+            fail(f"{relative}: admitted sidecar privacy/leakage controls must pass")
+        if split in ("EVALUATION", "HOLDOUT") and controls.get("hiddenEvaluationProtected") is not True:
+            fail(f"{relative}: evaluation/holdout sidecars must protect hidden evaluation")
+    elif episode.get("admission", {}).get("status") == "RL_ADMITTED":
+        fail(f"{relative}: RL_ADMITTED sidecars may not reside in quarantine")
+
+if failures:
+    print("validate-rl-dataset: FAIL")
+    for message in sorted(set(failures)):
+        print(f"- {message}")
+    sys.exit(1)
+print("validate-rl-dataset: PASS")
+print(f"rl_sidecars={len(list(SIDECARS.glob('*.json')))} quarantined={len(list(QUARANTINE.glob('*.json')))}")
