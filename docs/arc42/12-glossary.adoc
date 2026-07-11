@@ -61,6 +61,51 @@ Status: confirmed/planned terms from Chapter 1, repository policy, C4 model, and
 | Shared language and behavior for audit events and compliance evidence.
 | Chapter 1, KMS features
 
+| Algorithm taxonomy
+| confirmed design
+| A closed set of stable intrinsic identities for one protocol role. X.509 subject SPKI profiles, issuer signature suites, provider mechanisms, CVC, SSH, and content hashes are separate taxonomies.
+| ADR 0003, `subject-public-key-profile-taxonomy.feature`
+
+| Subject public-key profile
+| confirmed design / partially implementation-informed
+| Intrinsic X.509 SubjectPublicKeyInfo role identity. The planned Java type name is `SubjectPublicKeyProfile`; current code still uses the bare `PublicKeyAlgorithm` enum with exactly `EC_P256` and `RSA_3072`.
+| ADR 0003, `REQ-X509-SUBJECT-PUBLIC-KEY-PROFILE-001`–`005`, episode 0004
+
+| Wire token
+| confirmed design
+| Explicit immutable case-sensitive protocol/storage identity of an enriched-enum value, independent of Java enum name and ordinal. Current tokens alone do not prove enrichment or deployment eligibility.
+| ADR 0003
+
+| Intrinsic algorithm fact
+| confirmed design
+| Stable fact inherent to a protocol identity, such as a fixed wire token or normative OID. Deployment permission, dates, standards editions, and certification evidence are not intrinsic facts.
+| ADR 0003
+
+| Deployment-policy snapshot
+| confirmed design / not implemented
+| Strictly admitted immutable content-addressed declarative YAML selecting known taxonomy tokens and compatible compiled validators for a profile-, scope-, edition-, and time-specific deployment decision. It remains outside CertificateProfile v1 identity.
+| ADR 0004, `deployment-policy-snapshots.feature`
+
+| Validator catalog
+| confirmed design / not implemented
+| Closed versioned collection of compiled Java validators, each with a stable rule ID, deterministic semantics, typed bounded parameters, and explicit policy-schema compatibility.
+| ADR 0004
+
+| Evidence snapshot
+| confirmed design / not implemented
+| Immutable identified evidence about a concrete provider, module, configuration, standards edition, or deployment state, evaluated for applicability and freshness at an explicit instant.
+| ADR 0004
+
+| Evaluation instant
+| confirmed design / not implemented
+| Caller-supplied time used deterministically for all effective intervals, transition horizons, and evidence-freshness checks; evaluators must not read an implicit wall clock.
+| ADR 0004, `REQ-X509-DEPLOYMENT-POLICY-005`
+
+| Governed publication state
+| confirmed design / not implemented
+| Signed manifest and monotonic namespace state used to authorize activation and reject stale, revoked, expired, or conflicting policy publication; a content hash or Git history alone is not freshness proof.
+| ADR 0004, `REQ-X509-DEPLOYMENT-POLICY-009`–`011`
+
 | KeyHandle
 | feature-informed
 | Identifier returned by KMS to reference a key and retrieve metadata or perform permitted operations.
@@ -119,4 +164,10 @@ Status: confirmed/planned terms from Chapter 1, repository policy, C4 model, and
 
 | Identity
 | KMS audit requirements mention identity, but identity source and subject model are not specified.
+
+| Policy snapshot identity
+| Canonicalization, digest namespace, identifier grammar, and golden fixtures remain unresolved under `REQ-X509-DEPLOYMENT-POLICY-013`.
+
+| Break-glass rollback
+| Authorization, authentication, monotonic-state recovery, and audit evidence remain unresolved under `REQ-X509-DEPLOYMENT-POLICY-015`.
 |===

@@ -17,6 +17,14 @@ ADR bodies are owned by adr-writer and are not generated in this chapter. This c
 | link:../adr/0002-use-git-backed-governed-event-store-for-certificate-profile-lifecycle.md[ADR 0002 — Use a Git-backed governed event store for certificate profile registry lifecycle]
 | Accepted architectural direction / not implemented
 | Git is selected only as a governed, low-throughput source for certificate profile registry/lifecycle events and immutable artifact/manifest publication. CQRS keeps read models replaceable, and the Event Sourcing path remains open through structured event envelopes and replayable projections. No Git event-store implementation or projectors/read models exist yet.
+
+| link:../adr/0003-use-enriched-enums-for-stable-algorithm-wire-identities.md[ADR 0003 — Use enriched enums for stable algorithm wire identities]
+| Accepted / partially implementation-informed
+| Separate protocol-role taxonomies use explicit immutable wire tokens and never enum ordinals or Java names as persisted identity. The `PublicKeyAlgorithm` to `SubjectPublicKeyProfile` rename preserves CertificateProfile v1 identity. Only the current bare two-token vocabulary is implemented; enriched metadata, rename, parser, and other taxonomies are not.
+
+| link:../adr/0004-use-governed-content-addressed-yaml-deployment-policy-snapshots.md[ADR 0004 — Use governed content-addressed YAML deployment-policy snapshots]
+| Accepted / not implemented
+| Strict immutable YAML snapshots select known taxonomy tokens and closed compiled validators. Explicit-time, immutable-evidence evaluation is deterministic and fail-closed; signed publication, trusted distribution, rollback protection, atomic reload, and audit binding are required outside CertificateProfile v1 identity. Follow-up identity, trust, recovery, evidence, and catalog decisions remain open.
 |===
 
 == 9.2 Decisions That Need ADRs
@@ -41,13 +49,17 @@ ADR bodies are owned by adr-writer and are not generated in this chapter. This c
 | actionable
 | Auditability is a high-priority quality goal and appears in executable requirements.
 
-| Policy enforcement model
+| KMS policy enforcement model
 | actionable
-| KMS requirements depend on policy checks and denial semantics.
+| ADR 0004 defines X.509 deployment-policy snapshot boundaries, but KMS usage/backend/approval policy scope and integration still need a durable decision.
+
+| Deployment-policy identity, trust, recovery, and evidence details
+| actionable / blocked on human decisions
+| ADR 0004 fixes the architecture boundary but deliberately leaves policy canonical identity, signing/trust distribution, monotonic recovery/break-glass, evidence schemas, validator compatibility, and first named editions for follow-up decisions and executable requirements.
 
 | Compliance evidence strategy
-| actionable
-| FIPS, eIDAS, ETSI, and Common Criteria targets require explicit scope and evidence decisions.
+| partially addressed / needs follow-up
+| ADRs 0003 and 0004 prohibit certification-by-token and require edition-/deployment-/evidence-scoped decisions. Concrete target scopes, assurance levels, evidence issuers, retention, and certification goals remain unresolved.
 
 | X.509 profile canonicalization and trusted reference distribution
 | partially addressed / needs follow-up

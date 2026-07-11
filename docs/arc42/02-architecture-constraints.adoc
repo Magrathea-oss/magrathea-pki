@@ -43,6 +43,14 @@ Status: implementation-informed, with confirmed product constraints and the Spri
 | Git-backed governed profile event store guardrails
 | confirmed design / not implemented
 | link:../adr/0002-use-git-backed-governed-event-store-for-certificate-profile-lifecycle.md[ADR 0002] permits Git only as a governed, low-throughput source for certificate profile registry/lifecycle events and immutable artifact/manifest publication. It forbids secrets in Git, force-pushed event streams, uncontrolled stream merges, and use of Git as a runtime issuance database, high-volume event store, consensus ledger, or query engine. Git integration must remain replaceable infrastructure behind ports.
+
+| Protocol-specific algorithm taxonomies and stable wire identities
+| confirmed design / partially implementation-informed
+| link:../adr/0003-use-enriched-enums-for-stable-algorithm-wire-identities.md[ADR 0003] requires separate closed taxonomies for X.509 subject SPKI profiles, X.509 issuer signature suites, provider mechanisms, CVC, SSH, and content hashes. Serialized identity must use explicit immutable case-sensitive wire tokens, never enum ordinals or Java names. The current bare `PublicKeyAlgorithm` vocabulary is only `EC_P256` and `RSA_3072`; enriched metadata, protocol-role types, parsing, and the planned `SubjectPublicKeyProfile` rename are not implemented.
+
+| Governed deployment-policy snapshots
+| confirmed design / not implemented
+| link:../adr/0004-use-governed-content-addressed-yaml-deployment-policy-snapshots.md[ADR 0004] requires strictly admitted, signed, immutable, content-addressed YAML snapshots that select known wire tokens and invoke only compatible compiled Java validators. Evaluation must be deterministic at an explicit instant, local and network-free, fail closed, bind immutable evidence, reload atomically, resist rollback, and remain outside CertificateProfile v1 identity. YAML must not define algorithms or executable behavior.
 |===
 
 == 2.2 Organizational and Process Constraints
@@ -69,7 +77,7 @@ Status: implementation-informed, with confirmed product constraints and the Spri
 
 | Anti-fake completion rule
 | confirmed
-| Support status must be explicit. All currently observed X.509 and KMS scenarios are tagged `@not-implemented` and must not be reported as supported behavior.
+| Support status must be explicit. Current complete behavior scenarios are tagged `@not-implemented`; deployment-policy requirements `013` through `016` are explicitly `@placeholder`. Neither status may be reported as supported behavior, and accepted domain slices do not by themselves complete a feature scenario.
 
 | English generated artifacts
 | confirmed
@@ -115,9 +123,9 @@ Status: implementation-informed, with confirmed product constraints and the Spri
 
 | Feature coverage
 | implementation-informed
-| Existing feature files cover X.509 profile lifecycle event-envelope metadata, X.509 profile integrity, and KMS. Broader X.509 profile management beyond the envelope metadata, issuance, revocation, validation, CVC, SSH, HSM custody, and TPM attestation requirements are not yet represented as executable features.
+| Existing feature files cover X.509 profile integrity, profile lifecycle event-envelope metadata, subject-public-key profile taxonomy, deployment-policy snapshots, and KMS. Broader X.509 profile management beyond the envelope metadata, issuance, revocation, validation, CVC, SSH, HSM custody, and TPM attestation requirements are not yet represented as executable features.
 
 | Implementation depth
 | implementation-informed
-| The bootstrap entry point exists. After the dataset reset, the only accepted X.509 pure-domain implementation evidence is replacement episode 0001: `CertificateProfileId` is a Java record that preserves and exposes the supplied `String value`. This does not enforce the v1 identifier grammar and does not implement parsing, schema admission, defaults, normalization, JCS serialization, hashing, manifest comparison, audit emission, lifecycle envelopes, Git event-store behavior, or application use cases. Every X.509 feature scenario remains tagged `@not-implemented`.
+| The bootstrap entry point exists. Accepted replacement episodes 0001–0003 prove that `CertificateProfileId` preserves a canonical supplied value and rejects leading whitespace and explicit null under the complete v1 grammar. Episode 0004 proves only that the bare `PublicKeyAlgorithm` enum has exactly the case-sensitive tokens `EC_P256` and `RSA_3072`, without declaration-order semantics. No complete feature scenario is implemented: enriched wire-token metadata, exact token parsing, the `SubjectPublicKeyProfile` rename, separate role taxonomies, policy YAML/schema/canonical identity, validator catalog/evaluator, evidence, publication, reload, and all remaining profile identity/application behavior are absent.
 |===

@@ -34,7 +34,7 @@ The product roadmap is:
 . CVC second;
 . SSH third.
 
-Current executable requirements cover X.509 profile lifecycle event-envelope metadata, X.509 profile integrity, and KMS; all observed scenarios remain tagged `@not-implemented`. After the dataset reset, X.509 implementation evidence is limited to replacement episode 0001: `CertificateProfileId` preserves and exposes one supplied string value. The normative CertificateProfile v1 identity strategy is confirmed by link:../adr/0001-use-content-addressed-yaml-for-certificate-profiles.md[ADR 0001], but grammar enforcement, the six-field semantic model, strict YAML/schema admission, default expansion, NFC and unordered-set normalization, RFC 8785 JCS serialization, SHA-256 derivation, trusted-manifest comparison, audit emission, lifecycle envelopes, and application behavior are not implemented. Broader X.509, CVC, and SSH feature coverage is still missing.
+Current executable requirements cover X.509 profile integrity, lifecycle event-envelope metadata, subject-public-key profile taxonomy, governed deployment-policy snapshots, and KMS. Complete behavior scenarios remain `@not-implemented`; the four unresolved deployment-policy decision scenarios are `@placeholder`. Accepted replacement episodes 0001–0003 prove `CertificateProfileId` value preservation, complete-grammar rejection of leading whitespace, and explicit-null rejection. Episode 0004 proves only the exact two-token `PublicKeyAlgorithm` vocabulary (`EC_P256`, `RSA_3072`) without declaration-order semantics. The six-field profile model, YAML admission/canonicalization/hashing, enriched algorithm metadata and parsing, rename to `SubjectPublicKeyProfile`, protocol-role taxonomies, deployment-policy schema/evaluator, lifecycle envelopes, and application behavior remain unimplemented. Broader X.509, CVC, and SSH feature coverage is still missing.
 
 == 4.4 Technology Strategy
 
@@ -58,6 +58,14 @@ Current executable requirements cover X.509 profile lifecycle event-envelope met
 | confirmed design / not implemented
 | link:../adr/0002-use-git-backed-governed-event-store-for-certificate-profile-lifecycle.md[ADR 0002] chooses a Git-backed governed event store as the low-throughput source for certificate profile registry/lifecycle events and immutable profile artifact/manifest publication. CQRS keeps reads replaceable: simple Git-derived reads/caches may be used first, while PostgreSQL, OpenSearch, cache projections, or a dedicated event store remain available later. `features/x509/certificate-profile-lifecycle.feature` records the event-envelope requirement. No lifecycle-envelope domain implementation, Git event-store adapter, projectors, read models, CAS, signed commits, replay, or runtime support exists yet.
 
+| Algorithm identity
+| confirmed design / partially implementation-informed
+| link:../adr/0003-use-enriched-enums-for-stable-algorithm-wire-identities.md[ADR 0003] separates intrinsic protocol taxonomies and makes explicit wire tokens—not Java names or ordinals—the serialized identity. The current bare enum implements only the v1 two-token vocabulary; enriched metadata, role-specific types, exact parser, and rename are planned.
+
+| Deployment policy
+| confirmed design / not implemented
+| link:../adr/0004-use-governed-content-addressed-yaml-deployment-policy-snapshots.md[ADR 0004] separates mutable, profile- and time-scoped eligibility from intrinsic identity. Governed YAML snapshots select known wire tokens and closed compiled validators; explicit-time, immutable-evidence evaluation is deterministic and fail-closed. Signed publication, trusted distribution, rollback protection, atomic reload, and audit binding are required. Policy remains outside CertificateProfile v1 canonical content.
+
 | Build/scaffold
 | implementation-informed
 | Existing Maven modules express domain, application, infrastructure, API adapter, CLI adapter, and bootstrap layers, but do not define C4 containers. Full reactor packaging has passed with Spring Boot 4.1.0 and Java 21.
@@ -73,10 +81,10 @@ Current executable requirements cover X.509 profile lifecycle event-envelope met
 | Keep key custody explicit; isolate HSM/TPM/software custody choices; enforce policy before cryptographic use.
 
 | Correctness
-| Preserve protocol-specific bounded contexts and executable requirements.
+| Preserve protocol-specific bounded contexts and algorithm-role taxonomies; use stable explicit wire identities and deterministic profile/policy identities.
 
 | Auditability
-| Treat audit evidence as a cross-cutting concern and a shared kernel candidate.
+| Bind governed decisions to immutable profile, policy, evidence, evaluator, catalog, and explicit-time identities; treat audit evidence as a cross-cutting concern.
 
 | Modularity
 | Separate bounded contexts from Maven modules and packaging artifacts.
@@ -92,7 +100,7 @@ Current executable requirements cover X.509 profile lifecycle event-envelope met
 
 Status: implementation-informed.
 
-Existing strategy decisions are indexed in chapter 9, including link:../adr/0001-use-content-addressed-yaml-for-certificate-profiles.md[ADR 0001] for content-addressed YAML certificate profiles and link:../adr/0002-use-git-backed-governed-event-store-for-certificate-profile-lifecycle.md[ADR 0002] for the Git-backed governed profile lifecycle event-store direction.
+Existing strategy decisions are indexed in chapter 9: link:../adr/0001-use-content-addressed-yaml-for-certificate-profiles.md[ADR 0001] defines content-addressed CertificateProfile identity, link:../adr/0002-use-git-backed-governed-event-store-for-certificate-profile-lifecycle.md[ADR 0002] defines the governed lifecycle event-source direction, link:../adr/0003-use-enriched-enums-for-stable-algorithm-wire-identities.md[ADR 0003] defines stable protocol-specific algorithm identities, and link:../adr/0004-use-governed-content-addressed-yaml-deployment-policy-snapshots.md[ADR 0004] defines governed deployment-policy snapshots.
 
 Major strategy decisions still need ADRs, especially for:
 
@@ -100,4 +108,4 @@ Major strategy decisions still need ADRs, especially for:
 * Spring Boot 4 LTS platform baseline and dependency-management policy;
 * key custody profiles and cryptographic boundary rules;
 * broader audit storage and immutability beyond the governed profile lifecycle source;
-* compliance evidence approach.
+* the unresolved publication trust, rollback recovery, evidence schema, and validator-catalog details listed by ADR 0004.

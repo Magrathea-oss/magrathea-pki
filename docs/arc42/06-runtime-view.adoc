@@ -6,7 +6,7 @@ Runtime views should be added by c4model after the project chooses the first sce
 
 == 6.1 Current Runtime Evidence
 
-Existing Gherkin requirements cover X.509 profile lifecycle event-envelope metadata, X.509 profile integrity, and KMS, and all observed scenarios are tagged `@not-implemented`. After the dataset reset, X.509 pure-domain evidence is limited to replacement episode 0001: `CertificateProfileId` preserves and exposes the supplied string value; it does not yet validate the normative v1 grammar.
+Existing Gherkin requirements cover X.509 profile integrity, lifecycle event-envelope metadata, subject-public-key profile taxonomy, governed deployment-policy snapshots, and KMS. Complete behavior scenarios are `@not-implemented`; deployment-policy requirements `013` through `016` are `@placeholder`. Accepted replacement episodes 0001–0004 cover only `CertificateProfileId` value/grammar/null behavior and the exact bare `PublicKeyAlgorithm` two-token vocabulary. They do not implement any complete runtime flow, enriched taxonomy, policy admission/evaluation, publication, reload, or application use case.
 There is no implemented runtime flow. CertificateProfile v1 YAML admission, six-field model construction, canonicalization, hashing, manifest comparison, audit emission, lifecycle-envelope behavior, Git event-store behavior, and application use cases remain not implemented. Therefore the flows below are requirement-informed plans, not implemented runtime behavior.
 
 == 6.2 Candidate Runtime Scenarios

@@ -91,13 +91,43 @@ Status: confirmed priorities with planned and implementation-informed validation
 
 | Security / Correctness
 | Every public expected-ID construction path rejects a value unless the complete untrimmed value has the v1 prefix and exactly 64 lowercase hexadecimal digest characters.
-| planned / not implemented
-| `REQ-X509-PROFILE-INTEGRITY-014`. Replacement episode 0001 proves value preservation only, not grammar enforcement.
+| partially implementation-informed; complete scenario not implemented
+| `REQ-X509-PROFILE-INTEGRITY-014`. Episodes 0001–0003 prove canonical value preservation plus leading-whitespace and explicit-null rejection, but do not validate every malformed example or reader path in the scenario outline.
 
 | Security / Auditability
 | Before issuance-policy validation, a computed-ID mismatch rejects issuance eligibility and records a `PROFILE_INTEGRITY_FAILED` event with profile path, expected ID, computed ID, actor or system identity, timestamp, and reason.
 | planned / not implemented
 | `REQ-X509-PROFILE-INTEGRITY-002`; ADR 0001. Identity success must not bypass separate fail-closed issuance-policy validation.
+
+| Correctness / Compatibility
+| X.509 subject-public-key profile values expose explicit stable case-sensitive wire tokens; Java renaming cannot change CertificateProfile v1 canonical bytes, digest, profile ID, or YAML field/token vocabulary.
+| planned / not implemented
+| `REQ-X509-SUBJECT-PUBLIC-KEY-PROFILE-001`, `002`, and `004`; ADR 0003. Episode 0004 proves only the bare exact two-token enum vocabulary, not explicit wire data, parser, serialization, or rename compatibility.
+
+| Modularity / Correctness
+| Subject SPKI profiles cannot stand in for issuer signature suites, provider mechanisms, CVC, SSH, or content hashes; mutable deployment assertions remain outside intrinsic algorithm identities.
+| planned / not implemented
+| `REQ-X509-SUBJECT-PUBLIC-KEY-PROFILE-003` and `005`; ADR 0003.
+
+| Security / Determinism
+| Policy admission rejects unknown/miscased tokens, incompatible validators, open-ended executable content, and ambiguous YAML; evaluation uses an explicit instant, no implicit clock, and no network, and fails closed for unusable policy or evidence.
+| planned / not implemented
+| `REQ-X509-DEPLOYMENT-POLICY-001` through `006` and `012`; ADR 0004.
+
+| Auditability / Reproducibility
+| Every policy decision binds immutable profile, policy, evidence, evaluator, and catalog identities plus explicit instant, result, and stable reasons without claiming certification.
+| planned / not implemented
+| `REQ-X509-DEPLOYMENT-POLICY-007` and `008`; ADR 0004.
+
+| Reliability / Security
+| Reload activates one fully validated set atomically, retains the prior known-good set on failure, and rejects stale/conflicting publication state.
+| planned / not implemented
+| `REQ-X509-DEPLOYMENT-POLICY-009` through `011`; ADR 0004.
+
+| Specification completeness
+| Policy canonical identity, publication trust, rollback recovery, and profile-specific evidence/validator semantics are approved and fixed by executable examples before implementation.
+| placeholder / needs human decision
+| `REQ-X509-DEPLOYMENT-POLICY-013` through `016`; these are `@placeholder`, not executable support claims.
 
 | Modularity
 | X.509, CVC, and SSH maintain separate protocol-specific models.
@@ -138,10 +168,16 @@ Status: confirmed priorities with planned and implementation-informed validation
 | Define audit retention, tamper-evidence, and evidence-export requirements.
 
 | actionable
-| Complete `UC-X509-PROFILE-INTEGRITY` beyond replacement episode 0001 value preservation: enforce the ID grammar and implement the six-field model, YAML/schema admission, defaults, normalization, JCS bytes, SHA-256 derivation, trusted-reference comparison, audit evidence, and application/adapter behavior through clean RED/GREEN slices. Keep every scenario `@not-implemented` until semantic validation passes.
+| Complete `UC-X509-PROFILE-INTEGRITY` beyond episodes 0001–0003: cover the remaining ID-grammar examples and reader path, then implement the six-field model, YAML/schema admission, defaults, normalization, JCS bytes, SHA-256 derivation, trusted-reference comparison, audit evidence, and application/adapter behavior. Keep scenarios `@not-implemented` until semantic validation passes.
+
+| actionable
+| Implement enriched subject-public-key profile wire identities, exact parsing/serialization, protocol-role separation, mutable-assertion exclusion, and rename compatibility for `REQ-X509-SUBJECT-PUBLIC-KEY-PROFILE-001` through `005`; episode 0004's bare vocabulary is insufficient.
+
+| needs-review / blocked
+| Resolve deployment-policy placeholders `013` through `016`: canonical identity fixtures, publication trust/distribution, monotonic recovery and break-glass, evidence schemas/retention, catalog compatibility, and first named policy editions.
 
 | needs-review
-| Define the first-release trust/distribution model for `profiles/profiles.manifest.yaml` and the trigger for later signed-manifest hardening.
+| Reconcile the first-release trusted CertificateProfile manifest model with ADR 0004's stronger signed publication requirements for activatable policy manifests; neither mechanism is implemented.
 
 | actionable
 | Define operational SLOs and observability requirements.

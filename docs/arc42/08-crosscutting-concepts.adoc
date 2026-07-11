@@ -96,7 +96,7 @@ Expected IDs are stored separately in `profiles/profiles.manifest.yaml` or anoth
 
 Lifecycle states are `draft`, `active`, `deprecated`, `revoked`, and `archived`. The first release does not require manifest signatures, but the trust/distribution model remains an open security decision.
 
-Anti-fake status: replacement episode 0001 proves only that the current `CertificateProfileId` record preserves and exposes its supplied string value. It does not enforce the v1 grammar. No CertificateProfile model, YAML admission, defaulting, normalization, JCS serialization, hashing, manifest comparison, audit emission, or application/adapter behavior is implemented; all profile-integrity scenarios remain `@not-implemented`.
+Anti-fake status: accepted replacement episodes 0001–0003 prove only that the current `CertificateProfileId` record preserves an admitted canonical value and rejects leading whitespace and explicit null under the complete v1 grammar. This is implementation evidence for domain invariants, not complete support for `REQ-X509-PROFILE-INTEGRITY-014`, whose scenario outline includes additional malformed values and reader behavior. No CertificateProfile model, YAML admission, defaulting, normalization, JCS serialization, hashing, manifest comparison, audit emission, or application/adapter behavior is implemented; all profile-integrity scenarios remain `@not-implemented`.
 
 == 8.9 Governed Profile Lifecycle Event Store and CQRS Projections
 
@@ -120,12 +120,36 @@ CQRS read models must be idempotent and replayable. Simple Git-derived reads or 
 
 Anti-fake status: no implemented Git event-store adapter, event streams, remaining event-envelope fields, projectors, read models, CAS write path, signed-commit publication workflow, replay validation, or standard database/search/cache projections exist yet.
 
-== 8.10 Testing and Documentation Conventions
+== 8.10 Stable Algorithm Identity and Protocol Taxonomies
 
-Status: confirmed.
+Status: confirmed decision / partially implementation-informed.
+
+link:../adr/0003-use-enriched-enums-for-stable-algorithm-wire-identities.md[ADR 0003] separates intrinsic algorithm identities by protocol role. X.509 subject SPKI profiles, X.509 issuer signature suites, provider mechanisms, CVC algorithms, SSH algorithms, and content hashes are distinct closed taxonomies; no implicit cross-taxonomy conversion is permitted. Exact, immutable, case-sensitive `wireToken` values are the serialized/persisted identity. Enum ordinals and Java constant names are never wire or storage identities.
+
+Only stable intrinsic facts belong in these types. Deployment permission, standards edition, transition dates, jurisdiction, provider/module state, certification, and compliance evidence are mutable policy/evidence facts and are excluded. CertificateProfile v1 retains the field `publicKeyAlgorithms` and tokens `EC_P256` and `RSA_3072`; the planned Java rename to `SubjectPublicKeyProfile` must not change its golden canonical bytes, digest, or profile ID.
+
+Anti-fake status: replacement episode 0004 verifies only that the current bare `PublicKeyAlgorithm` enum has exactly `EC_P256` and `RSA_3072`, case-sensitively and without declaration-order semantics. It does not provide explicit `wireToken` data, serialization/parsing, the rename, separate role taxonomies, enriched metadata, or policy admission. Requirements `REQ-X509-SUBJECT-PUBLIC-KEY-PROFILE-001` through `005` remain `@not-implemented`.
+
+== 8.11 Governed Deployment Policy and Evidence
+
+Status: confirmed decision / not implemented.
+
+link:../adr/0004-use-governed-content-addressed-yaml-deployment-policy-snapshots.md[ADR 0004] places mutable deployment eligibility in immutable, content-addressed YAML snapshots outside CertificateProfile v1 identity. Policy is strictly admitted declarative data: it selects exact known wire tokens and invokes only stable rule IDs from a compatible closed catalog of compiled Java validators with typed bounded parameters. Expressions, scripts, reflection/class or method targets, regular expressions, and network references are forbidden.
+
+Evaluation is deterministic and fail-closed. Inputs include an explicit evaluation instant, identified policy and evidence snapshots, operation context, evaluator version, and validator-catalog version; evaluators use no implicit clock or network. Missing, stale, revoked, incompatible, ambiguous, inapplicable, or unverifiable inputs deny the operation with stable reasons. Audit evidence binds the CertificateProfile ID, policy snapshot ID, all evidence IDs, evaluator/catalog versions, explicit instant, result, and stable reason/rule IDs without implying certification.
+
+Publication and reload follow governed signed manifests, trusted distribution, compatibility checks, persistent monotonic rollback state, and `stage -> validate -> atomically swap`. Candidate failure retains the prior complete known-good set; mixed active sets are forbidden. Git remains the governed authoring/history/publication channel, not the runtime policy database, trust anchor, freshness proof, or online decision store.
+
+Anti-fake status: no policy schema, canonical identity, parser, signer, trusted distribution, validator catalog, evidence model, evaluator, audit binding, rollback mechanism, or atomic reload exists. `REQ-X509-DEPLOYMENT-POLICY-001` through `012` are `@not-implemented`; `013` through `016` are decision placeholders.
+
+== 8.12 Testing, Dataset, and Documentation Conventions
+
+Status: confirmed with implementation-informed tooling caveats.
 
 * Gherkin feature files are the executable plan.
 * Multiple validation modes must reuse the same feature text.
 * Adapter behavior is validated through Cucumber.
-* Java domain/application behavior follows javaspec red-green-refactor discipline.
+* Java domain/application behavior follows JavaSpec red-green-refactor discipline.
+* JavaSpec 1.0.0-RC1 can express current record/enum examples, but its observed generation model cannot coherently generate heterogeneous top-level sealed permittees. Such a case requires a `FRAMEWORK_INCOHERENCE` typed stop owned by JavaSpec, not a production-model workaround.
+* Passing tests and captured traces are not automatically reinforcement-learning evidence. Episodes 0001–0004 are accepted raw records and curated SFT candidates, with evaluation eligibility marked `NOT_ELIGIBLE`; none is claimed RL-ready. RL readiness requires a separately approved reward contract, state/action evidence, partition controls, hidden verification, and required preference alternatives.
 * Generated project artifacts are written in English.

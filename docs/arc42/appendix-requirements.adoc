@@ -2,7 +2,7 @@
 
 Status: implementation-informed from current Gherkin under `features/x509` and `features/kms`, with anti-fake implementation status.
 
-All observed feature scenarios are tagged `@not-implemented`. After the dataset reset, the only accepted X.509 pure-domain implementation evidence is replacement episode 0001: `CertificateProfileId` preserves and exposes its supplied `String value`. This does not enforce the normative v1 grammar and does not satisfy any complete feature scenario. The discarded 33-behavior corpus is not current evidence.
+Current complete behavior scenarios are tagged `@not-implemented`; deployment-policy requirements `REQ-X509-DEPLOYMENT-POLICY-013` through `016` are explicitly `@placeholder` because prerequisite decisions are unresolved. Accepted replacement episodes 0001–0003 prove only `CertificateProfileId` canonical-value preservation, leading-whitespace rejection, and explicit-null rejection under its complete v1 grammar. Episode 0004 proves only the exact bare `PublicKeyAlgorithm` vocabulary `EC_P256` and `RSA_3072`, without declaration-order semantics. No accepted slice satisfies a complete feature scenario. The discarded historical 33-behavior corpus is not current evidence.
 
 == A.1 Documentation Ownership and Status
 
@@ -21,6 +21,9 @@ This appendix owns the executable use-case catalogue, PlantUML use-case overview
 | not implemented
 | Must not be reported as supported behavior; this corresponds to `@not-implemented`.
 
+| placeholder
+| Records an unresolved prerequisite decision and future executable acceptance criteria; this corresponds to `@placeholder` and is not support.
+
 | needs-review
 | Requires human review or architectural/requirements clarification.
 |===
@@ -35,8 +38,8 @@ Use cases, orchestration, Cucumber validation, and adapters belong to `story-dri
 
 | X.509 CA
 | first
-| `features/x509/certificate-profile-integrity.feature`; `features/x509/certificate-profile-lifecycle.feature`; ADRs 0001 and 0002.
-| Requirements exist. All 15 X.509 scenario declarations are `@not-implemented`. Replacement episode 0001 proves only `CertificateProfileId` value preservation.
+| Four feature files under `features/x509`; ADRs 0001 through 0004.
+| 36 scenario declarations: 32 `@not-implemented` and 4 deployment-policy `@placeholder`. Episodes 0001–0004 provide partial domain evidence only; no complete scenario is validated.
 
 | CVC CA
 | later
@@ -72,6 +75,16 @@ Use cases, orchestration, Cucumber validation, and adapters belong to `story-dri
 | `features/x509/certificate-profile-lifecycle.feature`
 | 1
 | `@not-implemented`; `REQ-X509-PROFILE-LIFECYCLE-001`. No lifecycle-envelope domain or use-case implementation exists.
+
+| X.509 Subject Public-Key Profile Taxonomy
+| `features/x509/subject-public-key-profile-taxonomy.feature`
+| 5
+| `@not-implemented`; `REQ-X509-SUBJECT-PUBLIC-KEY-PROFILE-001` through `005`. Episode 0004 is partial vocabulary evidence only.
+
+| X.509 Deployment-Policy Snapshots
+| `features/x509/deployment-policy-snapshots.feature`
+| 16
+| `001`–`012` are `@not-implemented`; `013`–`016` are `@placeholder`. No policy implementation exists.
 
 | KMS Key Lifecycle Management
 | `features/kms/key-lifecycle.feature`
@@ -112,12 +125,16 @@ skinparam packageStyle rectangle
 actor "PKI Consumer" as Consumer
 actor "Registration Authority\nOperator" as RA
 actor "Certificate Authority\nOperator" as CA
+actor "PKI Platform\nMaintainer" as Maintainer
+actor "PKI Deployment\nOperator" as DeploymentOperator
 actor "Compliance Officer" as Compliance
 actor "KMS Administrator" as KMSAdmin
 
 rectangle "Magrathea PKI Trust Engine" {
   usecase "UC-X509-PROFILE\nManage X.509 certificate profile" as UC_X509_PROFILE
   usecase "UC-X509-PROFILE-INTEGRITY\nVerify profile identity before issuance policy" as UC_X509_PROFILE_INTEGRITY
+  usecase "UC-X509-ALGORITHM-TAXONOMY\nMaintain stable algorithm identities" as UC_X509_ALGORITHM_TAXONOMY
+  usecase "UC-X509-DEPLOYMENT-POLICY\nGovern deployment eligibility" as UC_X509_DEPLOYMENT_POLICY
   usecase "UC-X509-ISSUE\nIssue X.509 certificate" as UC_X509_ISSUE
   usecase "UC-X509-REVOKE\nRevoke X.509 certificate" as UC_X509_REVOKE
   usecase "UC-X509-VALIDATE\nValidate X.509 certificate" as UC_X509_VALIDATE
@@ -130,6 +147,8 @@ rectangle "Magrathea PKI Trust Engine" {
 
 RA --> UC_X509_PROFILE
 RA --> UC_X509_PROFILE_INTEGRITY
+Maintainer --> UC_X509_ALGORITHM_TAXONOMY
+DeploymentOperator --> UC_X509_DEPLOYMENT_POLICY
 RA --> UC_X509_ISSUE
 CA --> UC_X509_REVOKE
 Consumer --> UC_X509_VALIDATE
@@ -141,13 +160,16 @@ Compliance --> UC_AUDIT_REVIEW
 
 UC_X509_ISSUE .> UC_X509_PROFILE : <<uses>>
 UC_X509_ISSUE .> UC_X509_PROFILE_INTEGRITY : <<identity gate>>
+UC_X509_ISSUE .> UC_X509_DEPLOYMENT_POLICY : <<policy gate>>
+UC_X509_DEPLOYMENT_POLICY .> UC_X509_ALGORITHM_TAXONOMY : <<selects identities>>
 UC_X509_ISSUE .> UC_KMS_SIGN : <<uses>>
 UC_KMS_KEY_LIFECYCLE .> UC_AUDIT_REVIEW : <<records evidence>>
 UC_CUSTODY_CONFIG .> UC_AUDIT_REVIEW : <<records evidence>>
 
 note bottom
   X.509 is first; CVC and SSH are planned later.
-  All observed feature scenarios are @not-implemented.
+  Complete behavior scenarios are @not-implemented.
+  Four deployment-policy decision scenarios are @placeholder.
 end note
 @enduml
 ----
@@ -168,7 +190,19 @@ end note
 | Registration Authority Operator
 | Establish deterministic CertificateProfile v1 identity and compare it with a trusted expected ID before separate issuance-policy validation.
 | requirements exist / not implemented
-| `features/x509/certificate-profile-integrity.feature`; link:../adr/0001-use-content-addressed-yaml-for-certificate-profiles.md[ADR 0001]. Episode 0001 provides only identifier-value preservation.
+| `features/x509/certificate-profile-integrity.feature`; link:../adr/0001-use-content-addressed-yaml-for-certificate-profiles.md[ADR 0001]. Episodes 0001–0003 provide partial identifier invariant evidence only.
+
+| [[UC-X509-ALGORITHM-TAXONOMY]]`UC-X509-ALGORITHM-TAXONOMY`
+| PKI platform maintainer
+| Maintain protocol-specific intrinsic algorithm identities with stable explicit wire tokens without changing existing CertificateProfile v1 identity.
+| requirements exist / not implemented
+| `features/x509/subject-public-key-profile-taxonomy.feature`; link:../adr/0003-use-enriched-enums-for-stable-algorithm-wire-identities.md[ADR 0003]. Episode 0004 is partial bare-vocabulary evidence.
+
+| [[UC-X509-DEPLOYMENT-POLICY]]`UC-X509-DEPLOYMENT-POLICY`
+| PKI deployment operator
+| Govern profile-scoped deployment eligibility with immutable policy/evidence snapshots and deterministic fail-closed evaluation.
+| requirements exist / not implemented; four placeholders
+| `features/x509/deployment-policy-snapshots.feature`; link:../adr/0004-use-governed-content-addressed-yaml-deployment-policy-snapshots.md[ADR 0004].
 
 | [[UC-X509-ISSUE]]`UC-X509-ISSUE`
 | Registration Authority Operator
@@ -233,7 +267,17 @@ end note
 | <<UC-X509-PROFILE-INTEGRITY,UC-X509-PROFILE-INTEGRITY>>
 | `features/x509/certificate-profile-integrity.feature`
 | `REQ-X509-PROFILE-INTEGRITY-001` through `014`
-| Gherkin and ADR-informed / `@not-implemented`; episode 0001 value preservation is not complete scenario support.
+| Gherkin and ADR-informed / `@not-implemented`; episodes 0001–0003 are partial domain evidence, not complete scenario support.
+
+| <<UC-X509-ALGORITHM-TAXONOMY,UC-X509-ALGORITHM-TAXONOMY>>
+| `features/x509/subject-public-key-profile-taxonomy.feature`
+| `REQ-X509-SUBJECT-PUBLIC-KEY-PROFILE-001` through `005`
+| Gherkin and ADR-informed / `@not-implemented`; episode 0004 is partial bare-vocabulary evidence only.
+
+| <<UC-X509-DEPLOYMENT-POLICY,UC-X509-DEPLOYMENT-POLICY>>
+| `features/x509/deployment-policy-snapshots.feature`
+| `REQ-X509-DEPLOYMENT-POLICY-001` through `016`
+| `001`–`012`: `@not-implemented`; `013`–`016`: `@placeholder`; no implementation evidence.
 
 | <<UC-X509-ISSUE,UC-X509-ISSUE>>; <<UC-X509-REVOKE,UC-X509-REVOKE>>; <<UC-X509-VALIDATE,UC-X509-VALIDATE>>
 | _missing_
@@ -282,7 +326,7 @@ Normative architecture source: link:../adr/0001-use-content-addressed-yaml-for-c
 | `REQ-X509-PROFILE-INTEGRITY-001`
 | <<UC-X509-PROFILE-INTEGRITY,UC-X509-PROFILE-INTEGRITY>>
 | functional and non-functional
-| `@not-implemented`; episode 0001 preserves a supplied identifier value only and does not implement this scenario.
+| `@not-implemented`; episodes 0001–0003 cover identifier value/grammar/null invariants only and do not implement this scenario.
 
 | Reject a semantically changed TLS server baseline profile
 | `REQ-X509-PROFILE-INTEGRITY-002`
@@ -360,10 +404,10 @@ Normative architecture source: link:../adr/0001-use-content-addressed-yaml-for-c
 | `REQ-X509-PROFILE-INTEGRITY-014`
 | <<UC-X509-PROFILE-INTEGRITY,UC-X509-PROFILE-INTEGRITY>>
 | functional
-| `@not-implemented`; current record does not enforce the grammar
+| `@not-implemented`; episodes 0001–0003 prove preservation plus leading-whitespace and explicit-null rejection, but not all malformed examples or reader behavior
 |===
 
-Implementation evidence boundary: `trust-engine-domain/.../CertificateProfileId.java` is only `record CertificateProfileId(String value)`, and replacement episode 0001 verifies exact value preservation. No strict constructor, six-field `CertificateProfile`, parser, admission rules, normalization, canonical JSON, hash derivation, trusted-manifest comparison, audit event, or use case is implemented.
+Implementation evidence boundary: the current `CertificateProfileId` record enforces the complete v1 regex and accepted episodes 0001–0003 verify canonical-value preservation, leading-whitespace rejection, and explicit-null rejection. This does not complete the scenario outline. No six-field `CertificateProfile`, YAML reader/admission rules, normalization, canonical JSON, hash derivation, trusted-manifest comparison, audit event, or use case is implemented.
 
 === A.6.2 Certificate Profile Lifecycle
 
@@ -381,6 +425,158 @@ Source: `features/x509/certificate-profile-lifecycle.feature`.
 |===
 
 The requirement covers a structured envelope with `eventId`, `aggregateId`, `aggregateVersion`, `eventType`, `occurredAt`, `actor`, `causationId`, `correlationId`, `schemaVersion`, and `payload`, without secrets. Persistence, stream layout, CAS writes, signed publication, projections, replay, and runtime Git integration are explicitly outside this scenario and remain not implemented.
+
+=== A.6.3 Subject Public-Key Profile Taxonomy
+
+Source: `features/x509/subject-public-key-profile-taxonomy.feature`.
+
+Normative architecture source: link:../adr/0003-use-enriched-enums-for-stable-algorithm-wire-identities.md[ADR 0003]. These requirements preserve protocol boundaries: an X.509 subject SPKI profile is not an issuer signature suite, provider mechanism, CVC algorithm, SSH algorithm, or content hash. Explicit wire tokens—not Java names or ordinals—are the persisted identity.
+
+[cols="2,1,1,1,2",options="header"]
+|===
+| Scenario | Requirement ID | Use Case | Classification | Declared / Validated Status
+
+| Preserve the existing subject public-key profile wire vocabulary
+| `REQ-X509-SUBJECT-PUBLIC-KEY-PROFILE-001`
+| <<UC-X509-ALGORITHM-TAXONOMY,UC-X509-ALGORITHM-TAXONOMY>>
+| functional and non-functional
+| `@not-implemented`; episode 0004 proves only the exact bare enum vocabulary. Explicit `wireToken` data and serialization are absent.
+
+| Reject a subject public-key profile token unless it matches exactly
+| `REQ-X509-SUBJECT-PUBLIC-KEY-PROFILE-002`
+| <<UC-X509-ALGORITHM-TAXONOMY,UC-X509-ALGORITHM-TAXONOMY>>
+| functional
+| `@not-implemented`; scenario outline; no profile-token parser exists.
+
+| Prevent a subject public-key profile from standing in for another algorithm role
+| `REQ-X509-SUBJECT-PUBLIC-KEY-PROFILE-003`
+| <<UC-X509-ALGORITHM-TAXONOMY,UC-X509-ALGORITHM-TAXONOMY>>
+| functional
+| `@not-implemented`; scenario outline; other role taxonomies are absent.
+
+| Rename the Java taxonomy without changing CertificateProfile v1 identity
+| `REQ-X509-SUBJECT-PUBLIC-KEY-PROFILE-004`
+| <<UC-X509-ALGORITHM-TAXONOMY,UC-X509-ALGORITHM-TAXONOMY>>
+| functional and non-functional
+| `@not-implemented`; `PublicKeyAlgorithm` has not been renamed and golden identity compatibility is not validated.
+
+| Keep mutable deployment assertions out of the algorithm enum
+| `REQ-X509-SUBJECT-PUBLIC-KEY-PROFILE-005`
+| <<UC-X509-ALGORITHM-TAXONOMY,UC-X509-ALGORITHM-TAXONOMY>>
+| functional and non-functional
+| `@not-implemented`; current bare enum has no mutable metadata, but no enriched shape or separate policy/evidence path exists to complete the scenario.
+|===
+
+Implementation evidence boundary: episode 0004 verifies only the complete case-sensitive set `{EC_P256, RSA_3072}` without declaration-order semantics. It does not prove enriched metadata, explicit serialization identity, parsing, protocol-role separation, rename compatibility, or deployment-policy integration.
+
+=== A.6.4 Governed Deployment-Policy Snapshots
+
+Source: `features/x509/deployment-policy-snapshots.feature`.
+
+Normative architecture source: link:../adr/0004-use-governed-content-addressed-yaml-deployment-policy-snapshots.md[ADR 0004]. Policy snapshots remain outside CertificateProfile v1 canonical content and select exact identities from separate protocol taxonomies. A policy decision is scoped to immutable inputs, compiled semantics, and an explicit instant; it is not a certification or general conformance claim.
+
+[cols="2,1,1,1,2",options="header"]
+|===
+| Scenario | Requirement ID | Use Case | Classification | Declared / Validated Status
+
+| Admit only closed algorithm selections and compiled validator invocations
+| `REQ-X509-DEPLOYMENT-POLICY-001`
+| <<UC-X509-DEPLOYMENT-POLICY,UC-X509-DEPLOYMENT-POLICY>>
+| functional and non-functional
+| `@not-implemented`; no policy schema, admission, or validator catalog exists.
+
+| Reject an unknown or miscased algorithm token at policy admission
+| `REQ-X509-DEPLOYMENT-POLICY-002`
+| <<UC-X509-DEPLOYMENT-POLICY,UC-X509-DEPLOYMENT-POLICY>>
+| functional
+| `@not-implemented`; scenario outline.
+
+| Reject a validator invocation that is not provably compatible
+| `REQ-X509-DEPLOYMENT-POLICY-003`
+| <<UC-X509-DEPLOYMENT-POLICY,UC-X509-DEPLOYMENT-POLICY>>
+| functional
+| `@not-implemented`; scenario outline.
+
+| Reject executable or open-ended content in policy YAML
+| `REQ-X509-DEPLOYMENT-POLICY-004`
+| <<UC-X509-DEPLOYMENT-POLICY,UC-X509-DEPLOYMENT-POLICY>>
+| functional and non-functional
+| `@not-implemented`; scenario outline.
+
+| Evaluate a policy decision at the caller-supplied instant
+| `REQ-X509-DEPLOYMENT-POLICY-005`
+| <<UC-X509-DEPLOYMENT-POLICY,UC-X509-DEPLOYMENT-POLICY>>
+| functional and non-functional
+| `@not-implemented`; no evaluator exists.
+
+| Fail closed when required policy or evidence cannot govern the operation
+| `REQ-X509-DEPLOYMENT-POLICY-006`
+| <<UC-X509-DEPLOYMENT-POLICY,UC-X509-DEPLOYMENT-POLICY>>
+| functional and non-functional
+| `@not-implemented`; scenario outline.
+
+| Bind a deployment decision to immutable inputs and compiled semantics
+| `REQ-X509-DEPLOYMENT-POLICY-007`
+| <<UC-X509-DEPLOYMENT-POLICY,UC-X509-DEPLOYMENT-POLICY>>
+| functional and non-functional
+| `@not-implemented`; no decision or audit binding exists.
+
+| Keep deployment policy outside CertificateProfile v1 identity
+| `REQ-X509-DEPLOYMENT-POLICY-008`
+| <<UC-X509-DEPLOYMENT-POLICY,UC-X509-DEPLOYMENT-POLICY>>
+| functional and non-functional
+| `@not-implemented`; the architectural boundary is accepted, but no end-to-end identity/policy behavior exists.
+
+| Atomically activate a fully validated candidate policy set
+| `REQ-X509-DEPLOYMENT-POLICY-009`
+| <<UC-X509-DEPLOYMENT-POLICY,UC-X509-DEPLOYMENT-POLICY>>
+| functional and non-functional
+| `@not-implemented`; no staging or active-set runtime exists.
+
+| Retain the prior known-good set when reload validation fails
+| `REQ-X509-DEPLOYMENT-POLICY-010`
+| <<UC-X509-DEPLOYMENT-POLICY,UC-X509-DEPLOYMENT-POLICY>>
+| functional and non-functional
+| `@not-implemented`; scenario outline.
+
+| Reject rollback of governed publication state
+| `REQ-X509-DEPLOYMENT-POLICY-011`
+| <<UC-X509-DEPLOYMENT-POLICY,UC-X509-DEPLOYMENT-POLICY>>
+| functional and non-functional
+| `@not-implemented`; no persistent monotonic state or break-glass path exists.
+
+| Reject ambiguous or unsupported YAML before policy admission
+| `REQ-X509-DEPLOYMENT-POLICY-012`
+| <<UC-X509-DEPLOYMENT-POLICY,UC-X509-DEPLOYMENT-POLICY>>
+| functional and non-functional
+| `@not-implemented`; scenario outline.
+
+| Define the deployment-policy schema and canonical snapshot identity
+| `REQ-X509-DEPLOYMENT-POLICY-013`
+| <<UC-X509-DEPLOYMENT-POLICY,UC-X509-DEPLOYMENT-POLICY>>
+| non-functional
+| `@placeholder`; schema namespace, canonicalization, digest namespace, ID grammar, and golden fixtures require approval before implementation.
+
+| Define signed publication and trusted distribution
+| `REQ-X509-DEPLOYMENT-POLICY-014`
+| <<UC-X509-DEPLOYMENT-POLICY,UC-X509-DEPLOYMENT-POLICY>>
+| non-functional
+| `@placeholder`; signing, roles, trust-anchor custody/rotation/revocation, and distribution require approval.
+
+| Define monotonic state recovery and authorized break-glass rollback
+| `REQ-X509-DEPLOYMENT-POLICY-015`
+| <<UC-X509-DEPLOYMENT-POLICY,UC-X509-DEPLOYMENT-POLICY>>
+| functional and non-functional
+| `@placeholder`; rollback state, disaster recovery, authorization, and audit evidence require approval.
+
+| Define profile-specific evidence and validator semantics
+| `REQ-X509-DEPLOYMENT-POLICY-016`
+| <<UC-X509-DEPLOYMENT-POLICY,UC-X509-DEPLOYMENT-POLICY>>
+| functional and non-functional
+| `@placeholder`; evidence schemas/issuers/freshness/retention, catalog compatibility, and named policy editions require approval.
+|===
+
+Implementation evidence boundary: no deployment-policy schema, canonicalizer, ID, parser, signer, trust path, validator catalog, evidence model, evaluator, audit binding, rollback state, reload mechanism, or active policy set exists. Requirements `001`–`012` remain `@not-implemented`; `013`–`016` are placeholders rather than behavior claims.
 
 == A.7 KMS Scenario Catalogue
 
@@ -418,7 +614,13 @@ All entries below are declared functional requirements and remain `@not-implemen
 | Status | Gap
 
 | actionable
-| Implement CertificateProfile v1 incrementally against `REQ-X509-PROFILE-INTEGRITY-001` through `014`. Current evidence stops at identifier-value preservation; grammar enforcement and the complete identity/integrity mechanism are absent.
+| Implement CertificateProfile v1 incrementally against `REQ-X509-PROFILE-INTEGRITY-001` through `014`. Episodes 0001–0003 cover only canonical-value preservation, leading-whitespace rejection, and explicit-null rejection; remaining grammar examples and the complete identity/integrity mechanism are absent.
+
+| actionable
+| Implement `REQ-X509-SUBJECT-PUBLIC-KEY-PROFILE-001` through `005`. Episode 0004's bare vocabulary does not provide enriched wire tokens, parsing/serialization, role separation, rename compatibility, or policy separation.
+
+| blocked / needs-review
+| Resolve deployment-policy placeholders `REQ-X509-DEPLOYMENT-POLICY-013` through `016` before implementing dependent identity, publication, recovery, evidence, catalog, or named-policy behavior. Requirements `001` through `012` remain not implemented.
 
 | actionable
 | Implement `REQ-X509-PROFILE-LIFECYCLE-001` before claiming lifecycle-envelope support. Define additional lifecycle requirements separately from persistence decisions.

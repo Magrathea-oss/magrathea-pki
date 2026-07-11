@@ -14,14 +14,14 @@ Status: implementation-informed and needs-review.
 
 | Partial X.509 feature coverage
 | risk
-| Profile integrity now has requirements `REQ-X509-PROFILE-INTEGRITY-001` through `014`, and profile lifecycle has one event-envelope requirement. Profile management beyond that envelope, issuance, revocation, and validation scenarios remain missing. Every observed X.509 scenario is `@not-implemented`.
-| Implement one requirement slice at a time through the BDD-first workflow and retain anti-fake status until semantic validation passes.
-| bdd-java-planner / spec-driven / story-driven
+| X.509 now has profile-integrity requirements `001`–`014`, one lifecycle-envelope requirement, subject-public-key-profile requirements `001`–`005`, and deployment-policy requirements `001`–`016`. Complete behavior scenarios are `@not-implemented`, while deployment-policy `013`–`016` are unresolved `@placeholder` decisions. Profile management beyond the envelope, issuance, revocation, and validation scenarios remain missing.
+| Implement one coherent requirement slice at a time and resolve placeholders through human/ADR review; retain anti-fake status until semantic validation passes.
+| bdd-java-planner / spec-driven / story-driven / product and security owners
 
 | CertificateProfile v1 contract not implemented
-| risk / confirmed design
-| link:../adr/0001-use-content-addressed-yaml-for-certificate-profiles.md[ADR 0001] now fixes the six-field schema, strict admission boundary, normalization, JCS bytes, SHA-256 identity, ID grammar, and identity/issuance-policy boundary. Implementation drift could create incompatible IDs or unsafe acceptance. Replacement episode 0001 proves only that `CertificateProfileId` preserves and exposes a supplied string; it does not validate the v1 grammar. The historical 33-behavior corpus was discarded and is not support evidence.
-| Implement and validate the normative pipeline incrementally against requirements `001` through `014`, including the golden vector. Do not claim parsing, canonicalization, hashing, manifest comparison, audit emission, or issuance eligibility before corresponding validation is GREEN.
+| risk / confirmed design / partial domain evidence
+| link:../adr/0001-use-content-addressed-yaml-for-certificate-profiles.md[ADR 0001] fixes the six-field schema, strict admission, normalization, JCS bytes, SHA-256 identity, ID grammar, and identity/issuance-policy boundary. Episodes 0001–0003 prove canonical identifier preservation, leading-whitespace rejection, and explicit-null rejection only; they do not complete `REQ-X509-PROFILE-INTEGRITY-014` or the profile pipeline. The discarded 33-behavior corpus is not support evidence.
+| Complete the remaining grammar/reader examples and implement the normative pipeline incrementally against requirements `001` through `014`. Do not claim parsing, canonicalization, hashing, manifest comparison, audit emission, or issuance eligibility before corresponding validation is GREEN.
 | security architect / spec-driven / story-driven
 
 | Manifest signing and trusted distribution unresolved
@@ -54,10 +54,34 @@ Status: implementation-informed and needs-review.
 | Keep implementation status explicit until semantic validation passes.
 | story-driven / spec-driven
 
+| Algorithm taxonomy implementation lags ADR 0003
+| risk / partial domain evidence
+| Episode 0004 proves only the bare exact `EC_P256`/`RSA_3072` vocabulary. Depending on Java enum names, mixing protocol roles, or adding deployment assertions to enums would violate stable-wire and boundary rules; the rename could accidentally alter CertificateProfile v1 identity.
+| Implement explicit wire tokens, exact parsing/serialization, role-specific taxonomies, mutable-assertion exclusion, and golden-byte rename compatibility against requirements `001`–`005`.
+| PKI architect / spec-driven / story-driven
+
+| Deployment-policy trust and runtime model not implemented
+| high-impact risk / confirmed design
+| ADR 0004 requires strict admission, canonical identity, signatures/trust anchors, immutable evidence, deterministic explicit-time evaluation, fail-closed decisions, rollback state, and atomic reload. None exists; `REQ-X509-DEPLOYMENT-POLICY-001`–`012` are `@not-implemented`, and `013`–`016` leave critical governance choices unresolved.
+| Resolve placeholders before implementation, threat-model publication/evaluator supply chains, and deliver requirement slices without treating Git or content hashes as trust/freshness proofs.
+| security architect / operations / compliance officer / product owner
+
+| JavaSpec RC1 modeling limitation
+| technical risk
+| JavaSpec 1.0.0-RC1's observed generator cannot coherently generate heterogeneous top-level sealed permittees. Tooling pressure could distort the production model or lead to false completion.
+| Use enriched enums or narrow structured types where architecturally appropriate; if a justified sealed model hits the limitation, stop with `FRAMEWORK_INCOHERENCE` assigned to JavaSpec rather than work around it in production design.
+| spec-driven / JavaSpec owner
+
+| Dataset evidence could be overstated as RL-ready
+| governance risk
+| Episodes 0001–0004 are accepted raw records and curated SFT candidates, but evaluation eligibility is `NOT_ELIGIBLE`. Passing behavior/replay gates do not provide an RL reward contract, hidden evaluation, partition controls, state/action evidence, or preference alternatives.
+| Preserve independent dataset ownership and make no RL-readiness claim until those gates are separately defined and approved.
+| dataset-writer / evaluation owner
+
 | Broad compliance targets without scoped certification strategy
 | risk
-| FIPS, eIDAS, ETSI, and Common Criteria can impose conflicting or expensive obligations.
-| Define compliance scope, evidence model, and target assurance levels.
+| FIPS, eIDAS, ETSI, and Common Criteria can impose conflicting or expensive obligations. Algorithm tokens and policy decisions do not establish certification or general conformance.
+| Define edition- and deployment-scoped compliance goals, evidence issuers/retention, concrete evaluated configurations, and target assurance levels.
 | product owner / security architect / compliance officer
 
 | Key custody profile details unresolved
@@ -74,7 +98,7 @@ Status: implementation-informed and needs-review.
 
 | ADR coverage incomplete
 | debt
-| Major platform, bounded-context, custody, policy, audit, and compliance decisions still lack durable records.
+| Algorithm taxonomy and deployment-policy boundaries now have ADRs 0003/0004, but platform, bounded-context, custody, broader audit, and concrete compliance decisions remain incomplete. ADR 0004 also requires follow-up identity, trust, recovery, evidence, and catalog decisions.
 | Continue the ADR set without duplicating ADR bodies in ARC42.
 | adr-writer / arc42
 
@@ -92,8 +116,8 @@ Status: implementation-informed and needs-review.
 
 | Minimal production implementation
 | debt
-| Beyond the bootstrap scaffold, current accepted X.509 domain evidence is only `CertificateProfileId` value preservation from replacement episode 0001. No feature scenario is implemented.
-| Continue requirement-traced RED/GREEN slices before broader production behavior.
+| Beyond the bootstrap scaffold, accepted X.509 domain evidence is limited to episodes 0001–0003 for `CertificateProfileId` preservation/grammar/null behavior and episode 0004 for the exact bare `PublicKeyAlgorithm` two-token vocabulary. Enrichment, rename, policy YAML/evaluator, and every complete feature scenario remain unimplemented.
+| Continue requirement-traced RED/GREEN slices before claiming broader production behavior.
 | spec-driven / story-driven
 |===
 
@@ -104,10 +128,13 @@ Status: implementation-informed and needs-review.
 | Status | Review Point
 
 | needs-review
-| Confirm the next X.509 implementation priority among profile identity requirements `001` through `014`, lifecycle envelope behavior, and missing issuance/revocation/validation coverage.
+| Confirm the next X.509 implementation priority among remaining profile identity behavior, subject-public-key-profile enrichment/rename, lifecycle envelope behavior, deployment-policy foundations after placeholders resolve, and missing issuance/revocation/validation coverage.
 
 | needs-review
-| Confirm compliance scope and whether certification is a product goal or design-alignment target.
+| Confirm compliance scope and whether certification is a product goal or design-alignment target; do not infer certification from taxonomy values or policy decisions.
+
+| needs-review
+| Approve deployment-policy canonical identity, signing/trust distribution, monotonic recovery and break-glass, evidence schemas/retention, validator compatibility, and first named editions (`REQ-X509-DEPLOYMENT-POLICY-013`–`016`).
 
 | needs-review
 | Confirm supported HSM/TPM vendors, interfaces, and operational ownership model.
