@@ -1,0 +1,114 @@
+{
+  "schemaVersion": "rl-objective-reward-verifier-v1",
+  "producer": {
+    "id": "bdd-java-rl-objective-verifier",
+    "version": "1"
+  },
+  "rubric": [
+    {
+      "rule": "WRONG_ROOT_TOOL_FAILURE",
+      "value": -0.05,
+      "condition": "A trace-backed command fails because the launcher path is resolved from the wrong working directory."
+    },
+    {
+      "rule": "PROVENANCE_RECOVERY",
+      "value": 0.05,
+      "condition": "The next corrected pre-baseline launcher command returns exact version, selected JAR, and SHA-256."
+    },
+    {
+      "rule": "MEANINGFUL_JAVASPEC_RED",
+      "value": 0.25,
+      "condition": "A selected JavaSpec command fails before production mutation solely on the missing behavior member."
+    },
+    {
+      "rule": "BROKEN_SPEC_ASSERTION",
+      "value": -0.1,
+      "condition": "A post-production selected verifier is broken by an incorrect specification reflection assertion."
+    },
+    {
+      "rule": "SPEC_ONLY_RECOVERY",
+      "value": 0.1,
+      "condition": "The broken assertion is corrected without production mutation and selected verification then passes."
+    },
+    {
+      "rule": "OBJECTIVE_TASK_SUCCESS",
+      "value": 1.0,
+      "condition": "Independent selected, subject, full, no-pending, Java 21 Maven, shape, scope, and hash checks pass."
+    }
+  ],
+  "events": [
+    {
+      "id": "reward-wrong-root",
+      "rule": "WRONG_ROOT_TOOL_FAILURE",
+      "stepSequence": 0,
+      "value": -0.05,
+      "traceEvidence": [
+        18,
+        20
+      ]
+    },
+    {
+      "id": "reward-provenance-recovery",
+      "rule": "PROVENANCE_RECOVERY",
+      "stepSequence": 1,
+      "value": 0.05,
+      "traceEvidence": [
+        24,
+        26
+      ]
+    },
+    {
+      "id": "reward-meaningful-red",
+      "rule": "MEANINGFUL_JAVASPEC_RED",
+      "stepSequence": 4,
+      "value": 0.25,
+      "traceEvidence": [
+        108,
+        110
+      ]
+    },
+    {
+      "id": "reward-broken-reflection",
+      "rule": "BROKEN_SPEC_ASSERTION",
+      "stepSequence": 6,
+      "value": -0.1,
+      "traceEvidence": [
+        132,
+        134
+      ]
+    },
+    {
+      "id": "reward-spec-recovery",
+      "rule": "SPEC_ONLY_RECOVERY",
+      "stepSequence": 7,
+      "value": 0.1,
+      "traceEvidence": [
+        138,
+        140,
+        150,
+        152
+      ]
+    },
+    {
+      "id": "reward-task-success",
+      "rule": "OBJECTIVE_TASK_SUCCESS",
+      "stepSequence": null,
+      "value": 1.0,
+      "traceEvidence": [
+        152,
+        158,
+        164,
+        170,
+        182,
+        221,
+        233
+      ]
+    }
+  ],
+  "total": 1.25,
+  "limitations": [
+    "No hidden tests were used.",
+    "No counterfactual or unexecuted action was scored.",
+    "Values are contract-defined deterministic labels, not claims about human preference."
+  ]
+}

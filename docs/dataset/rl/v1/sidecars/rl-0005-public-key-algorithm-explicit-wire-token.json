@@ -1,0 +1,834 @@
+{
+  "schemaVersion": "bdd-java-rl-episode-v1",
+  "rlEpisodeId": "rl-0005-public-key-algorithm-explicit-wire-token",
+  "baseEpisode": {
+    "episodeId": "0005-public-key-algorithm-explicit-wire-token",
+    "v2Episode": {
+      "path": "docs/dataset/raw/v2/0005-public-key-algorithm-explicit-wire-token.json",
+      "sha256": "61b39e355b4216bb7aaf8351a46a012e276e9c2adbaf13c68135011438f215bd",
+      "mediaType": "application/json",
+      "byteSize": 24163
+    },
+    "sealedTrace": {
+      "events": {
+        "path": "trajectory://019f50dd-38bd-7616-bb56-cd3b05585ba9/ed1ccd30-80c5-4662-92f5-4fd86e7d0668/events.jsonl",
+        "sha256": "9295a72a627eac947d5cd963af712db30eb68858f9edd8173ea08053bf686e82",
+        "mediaType": "application/x-ndjson",
+        "byteSize": 809269
+      },
+      "metadata": {
+        "path": "trajectory://019f50dd-38bd-7616-bb56-cd3b05585ba9/ed1ccd30-80c5-4662-92f5-4fd86e7d0668/metadata.json",
+        "sha256": "3e7123dbfb5f11dfc0f7e1f22565942976daa395886778349703e72840a8c369",
+        "mediaType": "application/json",
+        "byteSize": 9043
+      },
+      "seal": {
+        "path": "trajectory://019f50dd-38bd-7616-bb56-cd3b05585ba9/ed1ccd30-80c5-4662-92f5-4fd86e7d0668/seal.json",
+        "sha256": "dd759bd0a15f66e9c3347860c46d48b2578561e6968661148750c8c5c9bb24de",
+        "mediaType": "application/json",
+        "byteSize": 14057
+      }
+    }
+  },
+  "environmentProvenance": {
+    "repository": {
+      "initialCommit": "995602e1bef5286db016a6c7778005cf77238070",
+      "initialTree": "df31fcc65c6b00202dfcf2fdb3f49e1399487d9e",
+      "finalCommit": "ddbbd081ad372570730832f6e734527928278dda",
+      "finalTree": "d037a38b29172086f21ba7373b31b17f78ebe233"
+    },
+    "runtime": {
+      "os": "Linux amd64",
+      "javaVersion": "OpenJDK 21.0.11 authoritative verification",
+      "buildTool": "Apache Maven 3.9.16"
+    },
+    "toolRegistry": {
+      "fingerprint": "58f9fb4ff63c4ac748fcf030b843b8687a38b4aab2362dd8974d2b5b32f7776b",
+      "capturedBeforeBaseline": true
+    },
+    "javaspecLauncher": {
+      "selectedJarPath": "<maven-repository>/io/github/jvmspec/javaspec/1.0.0-RC1/javaspec-1.0.0-RC1.jar",
+      "sha256": "293ac11e9fe3d1960ab8bfd0faf7e919c82aaa7a3240771ca695f90349a9573f",
+      "version": "1.0.0-RC1",
+      "capturedBeforeBaseline": true,
+      "fingerprintEventId": "trace-seq-26-observation"
+    },
+    "environmentSnapshot": {
+      "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/environment-snapshot.json",
+      "sha256": "4c586be86ab78f94cb750dda94db91942d8f18b1e2ff5920f237c047fe1ae24a",
+      "mediaType": "application/json",
+      "byteSize": 1577
+    }
+  },
+  "steps": [
+    {
+      "sequence": 0,
+      "state": {
+        "eventId": "trace-before-18",
+        "snapshot": {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        },
+        "availableInformationSha256": "d0eb3a508aa9da466e4832bfef17533d30d4d41dc1ea2ced3a07ba6c7b1f6d4b"
+      },
+      "action": {
+        "eventId": "trace-seq-18-action",
+        "actor": "spec-driven",
+        "kind": "TOOL_CALL",
+        "toolCallId": "trace-tool-18",
+        "argumentsSha256": "de16d825576d686ed409a971d561dc6d1ca69019f62307467569eba63c9e9c1e"
+      },
+      "observation": {
+        "eventId": "trace-seq-20-observation",
+        "kind": "TOOL_RESULT",
+        "resultSha256": "c9ce8fb36ce66351e92d30f71962728660b029ed7396d38958fa9f2d928a6ec6",
+        "exitCode": 127,
+        "artifact": {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        }
+      }
+    },
+    {
+      "sequence": 1,
+      "state": {
+        "eventId": "trace-before-24",
+        "snapshot": {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        },
+        "availableInformationSha256": "428a35406bf6d89941d1c7d0286585f010aefdb9c21518b3671b4b025fa3c02b"
+      },
+      "action": {
+        "eventId": "trace-seq-24-action",
+        "actor": "spec-driven",
+        "kind": "TOOL_CALL",
+        "toolCallId": "trace-tool-24",
+        "argumentsSha256": "1f687431986801f085248406470b8ed2239328b484a95a2937263a2cb4b4de70"
+      },
+      "observation": {
+        "eventId": "trace-seq-26-observation",
+        "kind": "TOOL_RESULT",
+        "resultSha256": "ab41fa2c4c166959d92ee7234633ba8304ba769af514fc15433fd6582095e1aa",
+        "exitCode": 0,
+        "artifact": {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        }
+      }
+    },
+    {
+      "sequence": 2,
+      "state": {
+        "eventId": "trace-before-78",
+        "snapshot": {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        },
+        "availableInformationSha256": "151d9d85af869c9c464715eaf44cc4fbde37f4a855cff1739867a10e3bb0081c"
+      },
+      "action": {
+        "eventId": "trace-seq-78-action",
+        "actor": "spec-driven",
+        "kind": "TOOL_CALL",
+        "toolCallId": "trace-tool-78",
+        "argumentsSha256": "11ba2e323b3cbdb69d9f9a3874025ced5a1c270f2374e06526dad17519204989"
+      },
+      "observation": {
+        "eventId": "trace-seq-80-observation",
+        "kind": "VERIFICATION_RESULT",
+        "resultSha256": "6524ed9143b3eb94946aff5afd07bbfef96937c219c36c93cefc0db14d6bf558",
+        "exitCode": 0,
+        "artifact": {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        }
+      }
+    },
+    {
+      "sequence": 3,
+      "state": {
+        "eventId": "trace-before-96",
+        "snapshot": {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        },
+        "availableInformationSha256": "f09897adc82a4fa917085c8f6110850269d042b2d50dd5dd3f4beecce065d83e"
+      },
+      "action": {
+        "eventId": "trace-seq-96-action",
+        "actor": "spec-driven",
+        "kind": "PATCH",
+        "toolCallId": null,
+        "argumentsSha256": "7326570c323c0e25a31c9f1f7d18cab75bae6df2f7fbff08f55dab3ab1892006"
+      },
+      "observation": {
+        "eventId": "trace-seq-98-observation",
+        "kind": "PATCH_RESULT",
+        "resultSha256": "891b2d43edd119c7e7498417521889eca100f34a2a217a7bf3a747929c4e2a36",
+        "exitCode": 0,
+        "artifact": {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        }
+      }
+    },
+    {
+      "sequence": 4,
+      "state": {
+        "eventId": "trace-before-108",
+        "snapshot": {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        },
+        "availableInformationSha256": "2f311ab059276fb1b743375d317d60310d1b774a285a583b3178946a0fd677a1"
+      },
+      "action": {
+        "eventId": "trace-seq-108-action",
+        "actor": "spec-driven",
+        "kind": "TOOL_CALL",
+        "toolCallId": "trace-tool-108",
+        "argumentsSha256": "9de6ce189585f36d6aeb67bd36d5ce5dfc6531748116984af9e32b85cf848e20"
+      },
+      "observation": {
+        "eventId": "trace-seq-110-observation",
+        "kind": "VERIFICATION_RESULT",
+        "resultSha256": "69b67c5228607fc22027c6db0a43d86daa6544e246004e928eced6cb78fa78bb",
+        "exitCode": 1,
+        "artifact": {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        }
+      }
+    },
+    {
+      "sequence": 5,
+      "state": {
+        "eventId": "trace-before-120",
+        "snapshot": {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        },
+        "availableInformationSha256": "b8b1402826735bddd6a8ef7955e4c4ebd7a3a4ff13f956612df56f26f33cb7c2"
+      },
+      "action": {
+        "eventId": "trace-seq-120-action",
+        "actor": "spec-driven",
+        "kind": "PATCH",
+        "toolCallId": null,
+        "argumentsSha256": "57242dd7436d3eec023455f3cfbdf9ac13d7b42420f7eb3cbb5eaca7e62ea209"
+      },
+      "observation": {
+        "eventId": "trace-seq-122-observation",
+        "kind": "PATCH_RESULT",
+        "resultSha256": "62ae977127aed13aeec5d71c6ed22477c2fbfc8cd57dbc04c75f1054a5054807",
+        "exitCode": 0,
+        "artifact": {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        }
+      }
+    },
+    {
+      "sequence": 6,
+      "state": {
+        "eventId": "trace-before-132",
+        "snapshot": {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        },
+        "availableInformationSha256": "67e6f3920c2f03b1032510260043b6046015dbdb7320dd78fc40613dedefebda"
+      },
+      "action": {
+        "eventId": "trace-seq-132-action",
+        "actor": "spec-driven",
+        "kind": "TOOL_CALL",
+        "toolCallId": "trace-tool-132",
+        "argumentsSha256": "9de6ce189585f36d6aeb67bd36d5ce5dfc6531748116984af9e32b85cf848e20"
+      },
+      "observation": {
+        "eventId": "trace-seq-134-observation",
+        "kind": "VERIFICATION_RESULT",
+        "resultSha256": "61c65874d15340867124c906f70cfdb53108cfe35d953aeab191f6c808829540",
+        "exitCode": 1,
+        "artifact": {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        }
+      }
+    },
+    {
+      "sequence": 7,
+      "state": {
+        "eventId": "trace-before-138",
+        "snapshot": {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        },
+        "availableInformationSha256": "4ee8377408a986c1222706578b6c0856b49778cd94e8acbe6f07789340cab27d"
+      },
+      "action": {
+        "eventId": "trace-seq-138-action",
+        "actor": "spec-driven",
+        "kind": "PATCH",
+        "toolCallId": null,
+        "argumentsSha256": "5e396c53bd199c2349db5fc99d532d5a64996eda07300fe0c383c9ee86927e68"
+      },
+      "observation": {
+        "eventId": "trace-seq-140-observation",
+        "kind": "PATCH_RESULT",
+        "resultSha256": "1e15b8ef03bd71bb252bc1949395ea2f276dc7b010ccf73ea3ea775f6ef208f3",
+        "exitCode": 0,
+        "artifact": {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        }
+      }
+    },
+    {
+      "sequence": 8,
+      "state": {
+        "eventId": "trace-before-150",
+        "snapshot": {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        },
+        "availableInformationSha256": "62a29950fda246801e55c17683981fa25210d4e080e37a2cc7ad04ff959cf3bb"
+      },
+      "action": {
+        "eventId": "trace-seq-150-action",
+        "actor": "spec-driven",
+        "kind": "TOOL_CALL",
+        "toolCallId": "trace-tool-150",
+        "argumentsSha256": "9de6ce189585f36d6aeb67bd36d5ce5dfc6531748116984af9e32b85cf848e20"
+      },
+      "observation": {
+        "eventId": "trace-seq-152-observation",
+        "kind": "VERIFICATION_RESULT",
+        "resultSha256": "cdd808c916b3920b55f99695b46bf01bdfffa6b771b417ff54992e92b1b4d5c3",
+        "exitCode": 0,
+        "artifact": {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        }
+      }
+    },
+    {
+      "sequence": 9,
+      "state": {
+        "eventId": "trace-before-162",
+        "snapshot": {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        },
+        "availableInformationSha256": "1bf50c7155f51ca36aef0596851b1cad57553e55893114e722be252daedf5325"
+      },
+      "action": {
+        "eventId": "trace-seq-162-action",
+        "actor": "spec-driven",
+        "kind": "TOOL_CALL",
+        "toolCallId": "trace-tool-162",
+        "argumentsSha256": "777c6116820cec4b49cebacb6afc79c8970606f96fe43d45bb5ac18c75c343ef"
+      },
+      "observation": {
+        "eventId": "trace-seq-164-observation",
+        "kind": "VERIFICATION_RESULT",
+        "resultSha256": "cc91bd87e995f371adccfbde09ef94c99c92918b7533104a89e366b6af0ab82d",
+        "exitCode": 0,
+        "artifact": {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        }
+      }
+    },
+    {
+      "sequence": 10,
+      "state": {
+        "eventId": "trace-before-219",
+        "snapshot": {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        },
+        "availableInformationSha256": "340012682aa277610c191e7f652b568377fddbdeeb0720530ba4a235b9246fe6"
+      },
+      "action": {
+        "eventId": "trace-seq-219-action",
+        "actor": "spec-driven",
+        "kind": "TOOL_CALL",
+        "toolCallId": "trace-tool-219",
+        "argumentsSha256": "f5997368a7d6f88fc00793853feecae4632254a674a879ed1dbc140f317539c6"
+      },
+      "observation": {
+        "eventId": "trace-seq-221-observation",
+        "kind": "VERIFICATION_RESULT",
+        "resultSha256": "b832c5605baeb0bf91fe7be697ead0fa7f9e31f9fd7762cd811b6ebc60e7ded9",
+        "exitCode": 0,
+        "artifact": {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        }
+      }
+    }
+  ],
+  "outcomes": {
+    "task": {
+      "status": "SUCCEEDED",
+      "evidence": [
+        {
+          "path": "docs/dataset/artifacts/0005-public-key-algorithm-explicit-wire-token/verification-evidence.json",
+          "sha256": "c008c89156216474db5a164840f2f9e261f681b8c77348d06e991478ed8fe13c",
+          "mediaType": "application/json",
+          "byteSize": 3549
+        },
+        {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        }
+      ]
+    },
+    "environment": {
+      "status": "HEALTHY",
+      "evidence": [
+        {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/environment-snapshot.json",
+          "sha256": "4c586be86ab78f94cb750dda94db91942d8f18b1e2ff5920f237c047fe1ae24a",
+          "mediaType": "application/json",
+          "byteSize": 1577
+        },
+        {
+          "path": "docs/dataset/artifacts/0005-public-key-algorithm-explicit-wire-token/verification-evidence.json",
+          "sha256": "c008c89156216474db5a164840f2f9e261f681b8c77348d06e991478ed8fe13c",
+          "mediaType": "application/json",
+          "byteSize": 3549
+        }
+      ]
+    },
+    "agentPolicy": {
+      "status": "COMPLIANT",
+      "evaluator": {
+        "producerType": "INDEPENDENT_AI",
+        "producerId": "dataset-writer-v9",
+        "role": "DATASET_WRITER",
+        "version": "bdd-java-dataset-writer-v9",
+        "promptSha256": "eb64397901cc8795932e9e1778095651634c0d4f5b8992e8fe9e74ebd9f3dfed",
+        "model": "openai-codex/gpt-5.6-sol"
+      },
+      "evidence": [
+        {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/objective-reward-verification.json",
+          "sha256": "05d8f4f488d4a364febe9798235afaf4840ef5be80322593914314620164dab0",
+          "mediaType": "application/json",
+          "byteSize": 2811
+        },
+        {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/privacy-redaction-validation.json",
+          "sha256": "4cb9fdbe17b2f30108b1455444acaccc0910c4815e6452b6940cd66e84ef249e",
+          "mediaType": "application/json",
+          "byteSize": 1257
+        },
+        {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        }
+      ]
+    },
+    "typedStop": {
+      "type": "VERIFIED_SUCCESS",
+      "suspectedOwner": "SPEC_DRIVEN",
+      "summary": "Exact wire-token behavior and required verification passed after trace-visible process corrections.",
+      "evidence": [
+        {
+          "path": "docs/dataset/artifacts/0005-public-key-algorithm-explicit-wire-token/verification-evidence.json",
+          "sha256": "c008c89156216474db5a164840f2f9e261f681b8c77348d06e991478ed8fe13c",
+          "mediaType": "application/json",
+          "byteSize": 3549
+        }
+      ]
+    }
+  },
+  "rewardEvents": [
+    {
+      "rewardEventId": "reward-wrong-root",
+      "target": "STEP",
+      "stepSequence": 0,
+      "value": -0.05,
+      "producer": {
+        "producerType": "DETERMINISTIC",
+        "producerId": "bdd-java-rl-objective-verifier",
+        "role": "VALIDATOR",
+        "version": "1"
+      },
+      "evidence": [
+        {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/objective-reward-verification.json",
+          "sha256": "05d8f4f488d4a364febe9798235afaf4840ef5be80322593914314620164dab0",
+          "mediaType": "application/json",
+          "byteSize": 2811
+        },
+        {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        }
+      ],
+      "approval": {
+        "status": "APPROVED",
+        "approvedBy": {
+          "producerType": "INDEPENDENT_AI",
+          "producerId": "dataset-writer-v9",
+          "role": "DATASET_WRITER",
+          "version": "bdd-java-dataset-writer-v9",
+          "promptSha256": "eb64397901cc8795932e9e1778095651634c0d4f5b8992e8fe9e74ebd9f3dfed",
+          "model": "openai-codex/gpt-5.6-sol"
+        },
+        "decidedAt": "2026-07-11T16:31:22Z",
+        "reason": "Independent dataset-writer replay matched the declared deterministic rule and sealed trace sequences; producer and approver are distinct."
+      }
+    },
+    {
+      "rewardEventId": "reward-provenance-recovery",
+      "target": "STEP",
+      "stepSequence": 1,
+      "value": 0.05,
+      "producer": {
+        "producerType": "DETERMINISTIC",
+        "producerId": "bdd-java-rl-objective-verifier",
+        "role": "VALIDATOR",
+        "version": "1"
+      },
+      "evidence": [
+        {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/objective-reward-verification.json",
+          "sha256": "05d8f4f488d4a364febe9798235afaf4840ef5be80322593914314620164dab0",
+          "mediaType": "application/json",
+          "byteSize": 2811
+        },
+        {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        }
+      ],
+      "approval": {
+        "status": "APPROVED",
+        "approvedBy": {
+          "producerType": "INDEPENDENT_AI",
+          "producerId": "dataset-writer-v9",
+          "role": "DATASET_WRITER",
+          "version": "bdd-java-dataset-writer-v9",
+          "promptSha256": "eb64397901cc8795932e9e1778095651634c0d4f5b8992e8fe9e74ebd9f3dfed",
+          "model": "openai-codex/gpt-5.6-sol"
+        },
+        "decidedAt": "2026-07-11T16:31:22Z",
+        "reason": "Independent dataset-writer replay matched the declared deterministic rule and sealed trace sequences; producer and approver are distinct."
+      }
+    },
+    {
+      "rewardEventId": "reward-meaningful-red",
+      "target": "STEP",
+      "stepSequence": 4,
+      "value": 0.25,
+      "producer": {
+        "producerType": "DETERMINISTIC",
+        "producerId": "bdd-java-rl-objective-verifier",
+        "role": "VALIDATOR",
+        "version": "1"
+      },
+      "evidence": [
+        {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/objective-reward-verification.json",
+          "sha256": "05d8f4f488d4a364febe9798235afaf4840ef5be80322593914314620164dab0",
+          "mediaType": "application/json",
+          "byteSize": 2811
+        },
+        {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        }
+      ],
+      "approval": {
+        "status": "APPROVED",
+        "approvedBy": {
+          "producerType": "INDEPENDENT_AI",
+          "producerId": "dataset-writer-v9",
+          "role": "DATASET_WRITER",
+          "version": "bdd-java-dataset-writer-v9",
+          "promptSha256": "eb64397901cc8795932e9e1778095651634c0d4f5b8992e8fe9e74ebd9f3dfed",
+          "model": "openai-codex/gpt-5.6-sol"
+        },
+        "decidedAt": "2026-07-11T16:31:22Z",
+        "reason": "Independent dataset-writer replay matched the declared deterministic rule and sealed trace sequences; producer and approver are distinct."
+      }
+    },
+    {
+      "rewardEventId": "reward-broken-reflection",
+      "target": "STEP",
+      "stepSequence": 6,
+      "value": -0.1,
+      "producer": {
+        "producerType": "DETERMINISTIC",
+        "producerId": "bdd-java-rl-objective-verifier",
+        "role": "VALIDATOR",
+        "version": "1"
+      },
+      "evidence": [
+        {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/objective-reward-verification.json",
+          "sha256": "05d8f4f488d4a364febe9798235afaf4840ef5be80322593914314620164dab0",
+          "mediaType": "application/json",
+          "byteSize": 2811
+        },
+        {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        }
+      ],
+      "approval": {
+        "status": "APPROVED",
+        "approvedBy": {
+          "producerType": "INDEPENDENT_AI",
+          "producerId": "dataset-writer-v9",
+          "role": "DATASET_WRITER",
+          "version": "bdd-java-dataset-writer-v9",
+          "promptSha256": "eb64397901cc8795932e9e1778095651634c0d4f5b8992e8fe9e74ebd9f3dfed",
+          "model": "openai-codex/gpt-5.6-sol"
+        },
+        "decidedAt": "2026-07-11T16:31:22Z",
+        "reason": "Independent dataset-writer replay matched the declared deterministic rule and sealed trace sequences; producer and approver are distinct."
+      }
+    },
+    {
+      "rewardEventId": "reward-spec-recovery",
+      "target": "STEP",
+      "stepSequence": 7,
+      "value": 0.1,
+      "producer": {
+        "producerType": "DETERMINISTIC",
+        "producerId": "bdd-java-rl-objective-verifier",
+        "role": "VALIDATOR",
+        "version": "1"
+      },
+      "evidence": [
+        {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/objective-reward-verification.json",
+          "sha256": "05d8f4f488d4a364febe9798235afaf4840ef5be80322593914314620164dab0",
+          "mediaType": "application/json",
+          "byteSize": 2811
+        },
+        {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        }
+      ],
+      "approval": {
+        "status": "APPROVED",
+        "approvedBy": {
+          "producerType": "INDEPENDENT_AI",
+          "producerId": "dataset-writer-v9",
+          "role": "DATASET_WRITER",
+          "version": "bdd-java-dataset-writer-v9",
+          "promptSha256": "eb64397901cc8795932e9e1778095651634c0d4f5b8992e8fe9e74ebd9f3dfed",
+          "model": "openai-codex/gpt-5.6-sol"
+        },
+        "decidedAt": "2026-07-11T16:31:22Z",
+        "reason": "Independent dataset-writer replay matched the declared deterministic rule and sealed trace sequences; producer and approver are distinct."
+      }
+    },
+    {
+      "rewardEventId": "reward-task-success",
+      "target": "TRAJECTORY",
+      "stepSequence": null,
+      "value": 1.0,
+      "producer": {
+        "producerType": "DETERMINISTIC",
+        "producerId": "bdd-java-rl-objective-verifier",
+        "role": "VALIDATOR",
+        "version": "1"
+      },
+      "evidence": [
+        {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/objective-reward-verification.json",
+          "sha256": "05d8f4f488d4a364febe9798235afaf4840ef5be80322593914314620164dab0",
+          "mediaType": "application/json",
+          "byteSize": 2811
+        },
+        {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        }
+      ],
+      "approval": {
+        "status": "APPROVED",
+        "approvedBy": {
+          "producerType": "INDEPENDENT_AI",
+          "producerId": "dataset-writer-v9",
+          "role": "DATASET_WRITER",
+          "version": "bdd-java-dataset-writer-v9",
+          "promptSha256": "eb64397901cc8795932e9e1778095651634c0d4f5b8992e8fe9e74ebd9f3dfed",
+          "model": "openai-codex/gpt-5.6-sol"
+        },
+        "decidedAt": "2026-07-11T16:31:22Z",
+        "reason": "Independent dataset-writer replay matched the declared deterministic rule and sealed trace sequences; producer and approver are distinct."
+      }
+    }
+  ],
+  "privacyAndLeakage": {
+    "reviewStatus": "PASSED",
+    "secretScan": {
+      "status": "PASSED",
+      "producer": {
+        "producerType": "DETERMINISTIC",
+        "producerId": "bdd-java-rl-objective-verifier",
+        "role": "VALIDATOR",
+        "version": "1"
+      },
+      "evidence": [
+        {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/privacy-redaction-validation.json",
+          "sha256": "4cb9fdbe17b2f30108b1455444acaccc0910c4815e6452b6940cd66e84ef249e",
+          "mediaType": "application/json",
+          "byteSize": 1257
+        }
+      ]
+    },
+    "privatePathScan": {
+      "status": "PASSED",
+      "producer": {
+        "producerType": "DETERMINISTIC",
+        "producerId": "bdd-java-rl-objective-verifier",
+        "role": "VALIDATOR",
+        "version": "1"
+      },
+      "evidence": [
+        {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/privacy-redaction-validation.json",
+          "sha256": "4cb9fdbe17b2f30108b1455444acaccc0910c4815e6452b6940cd66e84ef249e",
+          "mediaType": "application/json",
+          "byteSize": 1257
+        }
+      ]
+    },
+    "trainingDataLeakageScan": {
+      "status": "PASSED",
+      "producer": {
+        "producerType": "DETERMINISTIC",
+        "producerId": "bdd-java-rl-objective-verifier",
+        "role": "VALIDATOR",
+        "version": "1"
+      },
+      "evidence": [
+        {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/privacy-redaction-validation.json",
+          "sha256": "4cb9fdbe17b2f30108b1455444acaccc0910c4815e6452b6940cd66e84ef249e",
+          "mediaType": "application/json",
+          "byteSize": 1257
+        },
+        {
+          "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/trajectory-boundaries.json",
+          "sha256": "67edd17717a090dc42c79459a3995978b9bac76b51baba4c3349046e4e441cbd",
+          "mediaType": "application/json",
+          "byteSize": 11116
+        }
+      ]
+    },
+    "hiddenEvaluationProtected": true,
+    "redactions": [
+      {
+        "path": "docs/dataset/rl/v1/artifacts/0005-public-key-algorithm-explicit-wire-token/privacy-redaction-validation.json",
+        "sha256": "4cb9fdbe17b2f30108b1455444acaccc0910c4815e6452b6940cd66e84ef249e",
+        "mediaType": "application/json",
+        "byteSize": 1257
+      }
+    ]
+  },
+  "partition": {
+    "split": "TRAIN",
+    "groupKeys": [
+      "repository:magrathea-pki",
+      "requirement:REQ-X509-SUBJECT-PUBLIC-KEY-PROFILE-001",
+      "subject:PublicKeyAlgorithm",
+      "continuation:public-key-algorithm"
+    ],
+    "assignmentAlgorithm": "SHA256_GROUP_MODULO",
+    "algorithmVersion": "1",
+    "seed": "bdd-java-rl-v1-2026",
+    "assignedBy": {
+      "producerType": "DETERMINISTIC",
+      "producerId": "bdd-java-rl-partitioner",
+      "role": "PARTITION_SERVICE",
+      "version": "1"
+    }
+  },
+  "preferenceGroup": null,
+  "admission": {
+    "status": "RL_ADMITTED",
+    "decidedBy": {
+      "producerType": "INDEPENDENT_AI",
+      "producerId": "dataset-writer-v9",
+      "role": "DATASET_WRITER",
+      "version": "bdd-java-dataset-writer-v9",
+      "promptSha256": "eb64397901cc8795932e9e1778095651634c0d4f5b8992e8fe9e74ebd9f3dfed",
+      "model": "openai-codex/gpt-5.6-sol"
+    },
+    "reason": "Trace-backed state/action/observation boundaries, contemporaneous sanitized environment evidence, independently produced and approved objective rewards, privacy/leakage controls, and deterministic group partition all validate; no hidden tests, preferences, alternatives, or counterfactuals are claimed.",
+    "validatedAt": "2026-07-11T16:31:22Z"
+  }
+}

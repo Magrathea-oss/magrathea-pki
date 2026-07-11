@@ -1,0 +1,5 @@
+# Episode 0005 evidence summary
+
+Accepted continuation JavaSpec slice for ADR 0003 and REQ-X509-SUBJECT-PUBLIC-KEY-PROFILE-001. Existing `PublicKeyAlgorithm` values now carry explicit immutable case-sensitive mappings `EC_P256 -> "EC_P256"` and `RSA_3072 -> "RSA_3072"`; no type rename, parsing, policy behavior, or vocabulary expansion was admitted.
+
+The sealed raw trace contains a stable pre-baseline launcher fingerprint, a green 4/4 continuation baseline, one specification edit, meaningful missing-member RED before production, one bounded enriched-enum GREEN edit, and selected/subject/full verification. The initial wrong-root launcher command (exit 127) and the first BROKEN reflection assertion (`NoSuchMethodException` caused by synthetic enum constructor parameters) are retained. The latter was corrected by a specification-only edit without production mutation. Final selected 1/1, subject 2/2, full 5/5, classpath-correct dry-run 2/2, zero pending/stubs, Java 21 Maven, exact bytecode shape, launcher stability, commit scope, and independent replay pass.

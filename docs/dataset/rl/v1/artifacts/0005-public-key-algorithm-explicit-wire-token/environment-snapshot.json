@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "rl-environment-snapshot-v1",
+  "phaseSnapshots": {
+    "preBaseline": {
+      "commit": "995602e1bef5286db016a6c7778005cf77238070",
+      "tree": "df31fcc65c6b00202dfcf2fdb3f49e1399487d9e",
+      "sourceHashes": {
+        "production": "0fc94ff23a3d298ff2ecb187c89935650d0fd7e30d39d46aa8d14a3e31dc3dfb",
+        "specification": "f1a7aa1afe6a2d66883c36641ad2e6d8d76e42e6a3c648da350b5bc0c2896138"
+      },
+      "java": "Java 25.0.3 default runtime; Java 21 profile selected for JavaSpec",
+      "maven": "Apache Maven 3.9.16",
+      "os": "Linux amd64",
+      "locale": "it_IT.UTF-8",
+      "timezone": "Europe/Rome"
+    },
+    "final": {
+      "implementationCommit": "ddbbd081ad372570730832f6e734527928278dda",
+      "implementationTree": "d037a38b29172086f21ba7373b31b17f78ebe233",
+      "sourceHashes": {
+        "production": "86984de780956efbc52eaeec47d4f241cfaf58958629f06fd3523af7ec0e6cd7",
+        "specification": "114b52157c9c09dadad99fc5aa18bd2be73762f2ee8f387977c256e7f9d27b88"
+      },
+      "verificationRuntime": "OpenJDK 21.0.11",
+      "maven": "Apache Maven 3.9.16"
+    }
+  },
+  "javaspec": {
+    "version": "1.0.0-RC1",
+    "selectedJar": "<maven-repository>/io/github/jvmspec/javaspec/1.0.0-RC1/javaspec-1.0.0-RC1.jar",
+    "sha256": "293ac11e9fe3d1960ab8bfd0faf7e919c82aaa7a3240771ca695f90349a9573f"
+  },
+  "toolRegistryFingerprint": "58f9fb4ff63c4ac748fcf030b843b8687a38b4aab2362dd8974d2b5b32f7776b",
+  "redaction": "Machine-local executable, repository, home, and trace paths replaced by semantic labels or safe URI references."
+}

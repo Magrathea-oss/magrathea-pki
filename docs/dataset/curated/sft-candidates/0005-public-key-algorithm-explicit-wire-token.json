@@ -1,0 +1,204 @@
+{
+  "schemaVersion": "sft-view-v1",
+  "sourceEpisodeId": "0005-public-key-algorithm-explicit-wire-token",
+  "sourceCaptureMode": "RAW_EVENT_STREAM",
+  "curationStatus": "CURATED_SFT_CANDIDATE",
+  "independentApprovalRequired": true,
+  "derivation": {
+    "sourceTraceId": "ed1ccd30-80c5-4662-92f5-4fd86e7d0668",
+    "selectedToolCalls": 11,
+    "sanitization": "Private machine paths replaced; wrong-root command and reflection assertion correction retained; hidden reasoning omitted."
+  },
+  "knownIssues": [
+    "The initial launcher command used a module-relative path from the repository root and exited 127; the corrected pre-baseline command succeeded and is the provenance source.",
+    "The first candidate GREEN was BROKEN by an incorrect reflection assertion about enum constructor parameters; it was corrected specification-only, with no production mutation, before all GREEN evidence.",
+    "An early no-classpath dry-run skipped the example; it is not used as behavior evidence. The corrected classpath dry-run passed 2/2 with zero pending work.",
+    "Default Maven initially used Java 25; the authoritative rerun explicitly selected OpenJDK 21 and passed.",
+    "Final CURATED_SFT still requires independent approval."
+  ],
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a spec-driven Java domain agent. Implement exactly one authorized continuation behavior using JavaSpec RED-GREEN-REFACTOR, preserving complete observable failures and corrections."
+    },
+    {
+      "role": "user",
+      "content": "For existing PublicKeyAlgorithm values, expose explicit immutable case-sensitive wireToken mappings EC_P256->EC_P256 and RSA_3072->RSA_3072. Do not repeat describe, rename the type, or expand vocabulary. Trace ADR 0003 and REQ-X509-SUBJECT-PUBLIC-KEY-PROFILE-001."
+    },
+    {
+      "role": "assistant",
+      "content": "Capture launcher provenance before baseline.",
+      "tool_calls": [
+        {
+          "id": "call_1",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\":\"../bin/javaspec --launcher-fingerprint\",\"cwd\":\"<repository-root>\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_1",
+      "content": "launcher path not found; exit 127"
+    },
+    {
+      "role": "assistant",
+      "content": "The path was module-relative but the command ran at repository root. Correct the working directory before baseline.",
+      "tool_calls": [
+        {
+          "id": "call_2",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\":\"../bin/javaspec --launcher-fingerprint\",\"cwd\":\"<domain-module>\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_2",
+      "content": "version=1.0.0-RC1; selectedJar=<maven-repository>/io/github/jvmspec/javaspec/1.0.0-RC1/javaspec-1.0.0-RC1.jar; sha256=293ac11e9fe3d1960ab8bfd0faf7e919c82aaa7a3240771ca695f90349a9573f"
+    },
+    {
+      "role": "assistant",
+      "content": "Establish continuation baseline without repeating describe.",
+      "tool_calls": [
+        {
+          "id": "call_3",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\":\"javaspec run --compile --profile java21\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_3",
+      "content": "Examples: 4 total, 4 passed, 0 pending."
+    },
+    {
+      "role": "assistant",
+      "content": "Add one specification example for exact mappings and immutable storage/access shape.",
+      "tool_calls": [
+        {
+          "id": "call_4",
+          "type": "function",
+          "function": {
+            "name": "edit",
+            "arguments": "{\"path\":\"PublicKeyAlgorithmSpec.java\",\"change\":\"add one mapping and immutable-shape example\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_4",
+      "content": "Specification changed; production unchanged."
+    },
+    {
+      "role": "assistant",
+      "content": "Run the selected example to establish RED.",
+      "tool_calls": [
+        {
+          "id": "call_5",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\":\"javaspec run --compile --class PublicKeyAlgorithm --example wire-token-example\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_5",
+      "content": "Compilation failed: cannot find symbol method wireToken(); exit 1."
+    },
+    {
+      "role": "assistant",
+      "content": "Apply the smallest coherent production change: explicit literals, private final field, private constructor assignment, and public accessor.",
+      "tool_calls": [
+        {
+          "id": "call_6",
+          "type": "function",
+          "function": {
+            "name": "edit",
+            "arguments": "{\"path\":\"PublicKeyAlgorithm.java\",\"change\":\"add exact explicit wire-token enriched-enum shape\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_6",
+      "content": "Production changed; enum kind and two-value vocabulary preserved."
+    },
+    {
+      "role": "assistant",
+      "content": "Verify the selected behavior.",
+      "tool_calls": [
+        {
+          "id": "call_7",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\":\"javaspec selected wire-token example\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_7",
+      "content": "BROKEN: NoSuchMethodException for enum constructor lookup by source-only String signature; exit 1."
+    },
+    {
+      "role": "assistant",
+      "content": "The failure is an incorrect reflection assertion: runtime enum constructors include synthetic name and ordinal parameters. Correct only the specification to assert exactly one private runtime constructor; do not mutate production.",
+      "tool_calls": [
+        {
+          "id": "call_8",
+          "type": "function",
+          "function": {
+            "name": "edit",
+            "arguments": "{\"path\":\"PublicKeyAlgorithmSpec.java\",\"change\":\"replace source-only constructor lookup with single-private-runtime-constructor assertion\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_8",
+      "content": "Specification-only correction applied; production unchanged."
+    },
+    {
+      "role": "assistant",
+      "content": "Re-run selected, subject, full, no-pending, and OpenJDK 21 Maven verification.",
+      "tool_calls": [
+        {
+          "id": "call_9",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\":\"run selected, subject, full, classpath-correct dry-run, and explicit Java 21 Maven verify\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_9",
+      "content": "Selected 1/1; subject 2/2; full 5/5; dry-run 2/2 with no pending work; OpenJDK 21 Maven BUILD SUCCESS."
+    },
+    {
+      "role": "assistant",
+      "content": "BEHAVIOR_VERIFIED. Both existing values expose exact explicit immutable case-sensitive wire tokens; enum kind and vocabulary are unchanged. The wrong-root provenance attempt and broken reflection assertion were retained and corrected before final GREEN."
+    }
+  ]
+}

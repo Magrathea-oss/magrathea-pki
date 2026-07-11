@@ -1,0 +1,292 @@
+{
+  "schemaVersion": "rl-boundaries-v1",
+  "traceId": "ed1ccd30-80c5-4662-92f5-4fd86e7d0668",
+  "derivation": "Only observable sealed events are included. No hidden state, counterfactual, preference, or unexecuted action is represented.",
+  "steps": [
+    {
+      "sequence": 0,
+      "name": "wrong-root-fingerprint",
+      "stateEventId": "trace-before-18",
+      "actionEventId": "trace-seq-18-action",
+      "observationEventId": "trace-seq-20-observation",
+      "traceActionSequence": 18,
+      "traceObservationSequence": 20,
+      "state": {
+        "step": 0,
+        "beforeTraceSequence": 18,
+        "availableInformation": "initial task and repository state",
+        "sourceState": "base"
+      },
+      "action": {
+        "command": "../bin/javaspec --launcher-fingerprint",
+        "cwd": "<repository-root>"
+      },
+      "observation": {
+        "exitCode": 127,
+        "result": "launcher path not found"
+      },
+      "availableInformationSha256": "d0eb3a508aa9da466e4832bfef17533d30d4d41dc1ea2ced3a07ba6c7b1f6d4b",
+      "argumentsSha256": "de16d825576d686ed409a971d561dc6d1ca69019f62307467569eba63c9e9c1e",
+      "resultSha256": "c9ce8fb36ce66351e92d30f71962728660b029ed7396d38958fa9f2d928a6ec6"
+    },
+    {
+      "sequence": 1,
+      "name": "corrected-fingerprint",
+      "stateEventId": "trace-before-24",
+      "actionEventId": "trace-seq-24-action",
+      "observationEventId": "trace-seq-26-observation",
+      "traceActionSequence": 24,
+      "traceObservationSequence": 26,
+      "state": {
+        "step": 1,
+        "beforeTraceSequence": 24,
+        "availableInformation": "observations through prior step 0",
+        "sourceState": "base"
+      },
+      "action": {
+        "command": "../bin/javaspec --launcher-fingerprint",
+        "cwd": "<domain-module>"
+      },
+      "observation": {
+        "exitCode": 0,
+        "version": "1.0.0-RC1",
+        "jarSha256": "293ac11e9fe3d1960ab8bfd0faf7e919c82aaa7a3240771ca695f90349a9573f"
+      },
+      "availableInformationSha256": "428a35406bf6d89941d1c7d0286585f010aefdb9c21518b3671b4b025fa3c02b",
+      "argumentsSha256": "1f687431986801f085248406470b8ed2239328b484a95a2937263a2cb4b4de70",
+      "resultSha256": "ab41fa2c4c166959d92ee7234633ba8304ba769af514fc15433fd6582095e1aa"
+    },
+    {
+      "sequence": 2,
+      "name": "baseline",
+      "stateEventId": "trace-before-78",
+      "actionEventId": "trace-seq-78-action",
+      "observationEventId": "trace-seq-80-observation",
+      "traceActionSequence": 78,
+      "traceObservationSequence": 80,
+      "state": {
+        "step": 2,
+        "beforeTraceSequence": 78,
+        "availableInformation": "observations through prior step 1",
+        "sourceState": "base"
+      },
+      "action": {
+        "command": "javaspec run --compile --profile java21"
+      },
+      "observation": {
+        "exitCode": 0,
+        "examples": "4/4",
+        "pending": 0
+      },
+      "availableInformationSha256": "151d9d85af869c9c464715eaf44cc4fbde37f4a855cff1739867a10e3bb0081c",
+      "argumentsSha256": "11ba2e323b3cbdb69d9f9a3874025ced5a1c270f2374e06526dad17519204989",
+      "resultSha256": "6524ed9143b3eb94946aff5afd07bbfef96937c219c36c93cefc0db14d6bf558"
+    },
+    {
+      "sequence": 3,
+      "name": "specification-edit",
+      "stateEventId": "trace-before-96",
+      "actionEventId": "trace-seq-96-action",
+      "observationEventId": "trace-seq-98-observation",
+      "traceActionSequence": 96,
+      "traceObservationSequence": 98,
+      "state": {
+        "step": 3,
+        "beforeTraceSequence": 96,
+        "availableInformation": "observations through prior step 2",
+        "sourceState": "spec-only-red"
+      },
+      "action": {
+        "edit": "add one wire-token mapping and immutable-shape example"
+      },
+      "observation": {
+        "exitCode": 0,
+        "changed": "specification only"
+      },
+      "availableInformationSha256": "f09897adc82a4fa917085c8f6110850269d042b2d50dd5dd3f4beecce065d83e",
+      "argumentsSha256": "7326570c323c0e25a31c9f1f7d18cab75bae6df2f7fbff08f55dab3ab1892006",
+      "resultSha256": "891b2d43edd119c7e7498417521889eca100f34a2a217a7bf3a747929c4e2a36"
+    },
+    {
+      "sequence": 4,
+      "name": "meaningful-red",
+      "stateEventId": "trace-before-108",
+      "actionEventId": "trace-seq-108-action",
+      "observationEventId": "trace-seq-110-observation",
+      "traceActionSequence": 108,
+      "traceObservationSequence": 110,
+      "state": {
+        "step": 4,
+        "beforeTraceSequence": 108,
+        "availableInformation": "observations through prior step 3",
+        "sourceState": "spec-only-red"
+      },
+      "action": {
+        "command": "selected javaspec example --compile"
+      },
+      "observation": {
+        "exitCode": 1,
+        "classification": "MISSING_PRODUCTION_MEMBER",
+        "missing": "wireToken()"
+      },
+      "availableInformationSha256": "2f311ab059276fb1b743375d317d60310d1b774a285a583b3178946a0fd677a1",
+      "argumentsSha256": "9de6ce189585f36d6aeb67bd36d5ce5dfc6531748116984af9e32b85cf848e20",
+      "resultSha256": "69b67c5228607fc22027c6db0a43d86daa6544e246004e928eced6cb78fa78bb"
+    },
+    {
+      "sequence": 5,
+      "name": "production-green-edit",
+      "stateEventId": "trace-before-120",
+      "actionEventId": "trace-seq-120-action",
+      "observationEventId": "trace-seq-122-observation",
+      "traceActionSequence": 120,
+      "traceObservationSequence": 122,
+      "state": {
+        "step": 5,
+        "beforeTraceSequence": 120,
+        "availableInformation": "observations through prior step 4",
+        "sourceState": "candidate-green"
+      },
+      "action": {
+        "edit": "explicit literals, private final field, private constructor assignment, accessor"
+      },
+      "observation": {
+        "exitCode": 0,
+        "changed": "production only"
+      },
+      "availableInformationSha256": "b8b1402826735bddd6a8ef7955e4c4ebd7a3a4ff13f956612df56f26f33cb7c2",
+      "argumentsSha256": "57242dd7436d3eec023455f3cfbdf9ac13d7b42420f7eb3cbb5eaca7e62ea209",
+      "resultSha256": "62ae977127aed13aeec5d71c6ed22477c2fbfc8cd57dbc04c75f1054a5054807"
+    },
+    {
+      "sequence": 6,
+      "name": "broken-reflection-verification",
+      "stateEventId": "trace-before-132",
+      "actionEventId": "trace-seq-132-action",
+      "observationEventId": "trace-seq-134-observation",
+      "traceActionSequence": 132,
+      "traceObservationSequence": 134,
+      "state": {
+        "step": 6,
+        "beforeTraceSequence": 132,
+        "availableInformation": "observations through prior step 5",
+        "sourceState": "candidate-green"
+      },
+      "action": {
+        "command": "selected javaspec example --compile"
+      },
+      "observation": {
+        "exitCode": 1,
+        "classification": "BROKEN_SPEC_ASSERTION",
+        "exception": "NoSuchMethodException for source-only enum constructor signature"
+      },
+      "availableInformationSha256": "67e6f3920c2f03b1032510260043b6046015dbdb7320dd78fc40613dedefebda",
+      "argumentsSha256": "9de6ce189585f36d6aeb67bd36d5ce5dfc6531748116984af9e32b85cf848e20",
+      "resultSha256": "61c65874d15340867124c906f70cfdb53108cfe35d953aeab191f6c808829540"
+    },
+    {
+      "sequence": 7,
+      "name": "reflection-assertion-correction",
+      "stateEventId": "trace-before-138",
+      "actionEventId": "trace-seq-138-action",
+      "observationEventId": "trace-seq-140-observation",
+      "traceActionSequence": 138,
+      "traceObservationSequence": 140,
+      "state": {
+        "step": 7,
+        "beforeTraceSequence": 138,
+        "availableInformation": "observations through prior step 6",
+        "sourceState": "candidate-green"
+      },
+      "action": {
+        "edit": "inspect the single private runtime enum constructor rather than lookup source-only signature"
+      },
+      "observation": {
+        "exitCode": 0,
+        "changed": "specification only; production unchanged"
+      },
+      "availableInformationSha256": "4ee8377408a986c1222706578b6c0856b49778cd94e8acbe6f07789340cab27d",
+      "argumentsSha256": "5e396c53bd199c2349db5fc99d532d5a64996eda07300fe0c383c9ee86927e68",
+      "resultSha256": "1e15b8ef03bd71bb252bc1949395ea2f276dc7b010ccf73ea3ea775f6ef208f3"
+    },
+    {
+      "sequence": 8,
+      "name": "selected-green",
+      "stateEventId": "trace-before-150",
+      "actionEventId": "trace-seq-150-action",
+      "observationEventId": "trace-seq-152-observation",
+      "traceActionSequence": 150,
+      "traceObservationSequence": 152,
+      "state": {
+        "step": 8,
+        "beforeTraceSequence": 150,
+        "availableInformation": "observations through prior step 7",
+        "sourceState": "verified-green"
+      },
+      "action": {
+        "command": "selected javaspec example --compile"
+      },
+      "observation": {
+        "exitCode": 0,
+        "examples": "1/1",
+        "pending": 0
+      },
+      "availableInformationSha256": "62a29950fda246801e55c17683981fa25210d4e080e37a2cc7ad04ff959cf3bb",
+      "argumentsSha256": "9de6ce189585f36d6aeb67bd36d5ce5dfc6531748116984af9e32b85cf848e20",
+      "resultSha256": "cdd808c916b3920b55f99695b46bf01bdfffa6b771b417ff54992e92b1b4d5c3"
+    },
+    {
+      "sequence": 9,
+      "name": "full-green",
+      "stateEventId": "trace-before-162",
+      "actionEventId": "trace-seq-162-action",
+      "observationEventId": "trace-seq-164-observation",
+      "traceActionSequence": 162,
+      "traceObservationSequence": 164,
+      "state": {
+        "step": 9,
+        "beforeTraceSequence": 162,
+        "availableInformation": "observations through prior step 8",
+        "sourceState": "verified-green"
+      },
+      "action": {
+        "command": "full domain javaspec --compile"
+      },
+      "observation": {
+        "exitCode": 0,
+        "examples": "5/5",
+        "pending": 0
+      },
+      "availableInformationSha256": "1bf50c7155f51ca36aef0596851b1cad57553e55893114e722be252daedf5325",
+      "argumentsSha256": "777c6116820cec4b49cebacb6afc79c8970606f96fe43d45bb5ac18c75c343ef",
+      "resultSha256": "cc91bd87e995f371adccfbde09ef94c99c92918b7533104a89e366b6af0ab82d"
+    },
+    {
+      "sequence": 10,
+      "name": "java21-maven",
+      "stateEventId": "trace-before-219",
+      "actionEventId": "trace-seq-219-action",
+      "observationEventId": "trace-seq-221-observation",
+      "traceActionSequence": 219,
+      "traceObservationSequence": 221,
+      "state": {
+        "step": 10,
+        "beforeTraceSequence": 219,
+        "availableInformation": "observations through prior step 9",
+        "sourceState": "verified-green"
+      },
+      "action": {
+        "command": "JAVA_HOME=<java-21-home> mvn -pl trust-engine-domain -am verify"
+      },
+      "observation": {
+        "exitCode": 0,
+        "tests": "5/5",
+        "javaspec": "5/5",
+        "pending": 0
+      },
+      "availableInformationSha256": "340012682aa277610c191e7f652b568377fddbdeeb0720530ba4a235b9246fe6",
+      "argumentsSha256": "f5997368a7d6f88fc00793853feecae4632254a674a879ed1dbc140f317539c6",
+      "resultSha256": "b832c5605baeb0bf91fe7be697ead0fa7f9e31f9fd7762cd811b6ebc60e7ded9"
+    }
+  ]
+}

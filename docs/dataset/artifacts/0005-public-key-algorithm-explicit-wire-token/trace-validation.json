@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "trace-validation-v1",
+  "traceId": "ed1ccd30-80c5-4662-92f5-4fd86e7d0668",
+  "captureMode": "RAW_EVENT_STREAM",
+  "agent": "spec-driven",
+  "promptVersion": "bdd-java-spec-driven-v8",
+  "seal": {
+    "complete": true,
+    "eventCount": 254,
+    "eventsSha256": "9295a72a627eac947d5cd963af712db30eb68858f9edd8173ea08053bf686e82",
+    "metadataSha256": "3e7123dbfb5f11dfc0f7e1f22565942976daa395886778349703e72840a8c369",
+    "patchSha256": "2cbe28402b901395d39e3bf1e345da136c3c544ce435c5d6eb4a5dcb8e0a4100",
+    "finalEventHash": "2a37bdf6c953e14eb46eccbd43409c20d037fe7b1c7548b72a9a692e20728d9d"
+  },
+  "checks": {
+    "eventCountMatches": true,
+    "hashChainValid": true,
+    "toolPairsComplete": false,
+    "toolPairCount": 45,
+    "initialCommit": "995602e1bef5286db016a6c7778005cf77238070",
+    "initialTree": "df31fcc65c6b00202dfcf2fdb3f49e1399487d9e",
+    "implementationCommit": "ddbbd081ad372570730832f6e734527928278dda",
+    "implementationTree": "d037a38b29172086f21ba7373b31b17f78ebe233",
+    "implementationParentMatches": true,
+    "exactChangedTrackedPaths": [
+      "trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithm.java",
+      "trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithmSpec.java"
+    ],
+    "continuationSubjectPresentAtBase": true,
+    "describeToolCallExecuted": false,
+    "preBaselineFingerprintSequence": 26,
+    "baselineSequence": 80,
+    "specificationEditSequence": 98,
+    "meaningfulRedSequence": 110,
+    "productionEditSequence": 122,
+    "firstCandidateGreenBrokenSequence": 134,
+    "specificationCorrectionSequence": 140,
+    "selectedGreenSequence": 152,
+    "fullGreenSequence": 164,
+    "finalFingerprintSequence": 233
+  },
+  "privacy": {
+    "rawTraceRetainedExternally": true,
+    "trainingArtifactsSanitized": true,
+    "privatePathsNotCopied": true
+  },
+  "decision": "ACCEPTED"
+}

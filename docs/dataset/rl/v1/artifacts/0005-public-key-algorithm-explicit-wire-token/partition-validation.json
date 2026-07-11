@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "rl-partition-validation-v1",
+  "algorithm": "SHA256_GROUP_MODULO",
+  "version": "1",
+  "seed": "bdd-java-rl-v1-2026",
+  "groupKeys": [
+    "repository:magrathea-pki",
+    "requirement:REQ-X509-SUBJECT-PUBLIC-KEY-PROFILE-001",
+    "subject:PublicKeyAlgorithm",
+    "continuation:public-key-algorithm"
+  ],
+  "bucket": 1,
+  "split": "TRAIN",
+  "leakageCheck": "No other RL sidecar currently carries this sorted group-key set."
+}

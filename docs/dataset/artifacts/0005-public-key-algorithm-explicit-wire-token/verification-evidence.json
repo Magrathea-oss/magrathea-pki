@@ -1,0 +1,114 @@
+{
+  "schemaVersion": "verification-evidence-v1",
+  "episodeId": "0005-public-key-algorithm-explicit-wire-token",
+  "authorization": {
+    "adr": "ADR 0003",
+    "requirementId": "REQ-X509-SUBJECT-PUBLIC-KEY-PROFILE-001",
+    "behavior": "Existing EC_P256 and RSA_3072 values return explicit same-spelling case-sensitive wire tokens; no rename or vocabulary expansion."
+  },
+  "chronology": [
+    {
+      "sequence": 20,
+      "result": "Initial wrong-root ../bin/javaspec fingerprint command exited 127; no source mutation."
+    },
+    {
+      "sequence": 26,
+      "result": "Corrected module-root launcher fingerprint succeeded before baseline."
+    },
+    {
+      "sequence": 80,
+      "result": "Baseline JavaSpec 4/4, zero pending."
+    },
+    {
+      "sequence": 98,
+      "result": "One specification example added; production unchanged."
+    },
+    {
+      "sequence": 110,
+      "result": "Meaningful RED: compilation cannot find PublicKeyAlgorithm.wireToken()."
+    },
+    {
+      "sequence": 122,
+      "result": "Smallest coherent production GREEN applied."
+    },
+    {
+      "sequence": 134,
+      "result": "First selected verification BROKEN by incorrect reflection assertion; production remained unchanged."
+    },
+    {
+      "sequence": 140,
+      "result": "Specification-only correction accounts for synthetic enum constructor parameters."
+    },
+    {
+      "sequence": 152,
+      "result": "Selected GREEN 1/1."
+    },
+    {
+      "sequence": 158,
+      "result": "Subject GREEN 2/2."
+    },
+    {
+      "sequence": 164,
+      "result": "Full GREEN 5/5."
+    },
+    {
+      "sequence": 170,
+      "result": "Classpath-correct dry-run 2/2, no pending generation/update work."
+    },
+    {
+      "sequence": 221,
+      "result": "Explicit OpenJDK 21 Maven verify passed 5 tests and JavaSpec 5/5."
+    },
+    {
+      "sequence": 233,
+      "result": "Launcher fingerprint stable."
+    }
+  ],
+  "launcher": {
+    "version": "1.0.0-RC1",
+    "selectedJar": "<maven-repository>/io/github/jvmspec/javaspec/1.0.0-RC1/javaspec-1.0.0-RC1.jar",
+    "sha256": "293ac11e9fe3d1960ab8bfd0faf7e919c82aaa7a3240771ca695f90349a9573f"
+  },
+  "commit": {
+    "base": "995602e1bef5286db016a6c7778005cf77238070",
+    "baseTree": "df31fcc65c6b00202dfcf2fdb3f49e1399487d9e",
+    "implementation": "ddbbd081ad372570730832f6e734527928278dda",
+    "implementationTree": "d037a38b29172086f21ba7373b31b17f78ebe233",
+    "changedTrackedFiles": 2
+  },
+  "files": [
+    {
+      "path": "trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithm.java",
+      "sha256": "86984de780956efbc52eaeec47d4f241cfaf58958629f06fd3523af7ec0e6cd7",
+      "byteSize": 330
+    },
+    {
+      "path": "trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithmSpec.java",
+      "sha256": "114b52157c9c09dadad99fc5aa18bd2be73762f2ee8f387977c256e7f9d27b88",
+      "byteSize": 1902
+    }
+  ],
+  "shape": {
+    "kind": "enum",
+    "constants": [
+      "EC_P256",
+      "RSA_3072"
+    ],
+    "field": "private final String wireToken",
+    "constructor": "private PublicKeyAlgorithm(String wireToken)",
+    "accessor": "public String wireToken()",
+    "majorVersion": 65,
+    "pendingStubCount": 0
+  },
+  "independentReplay": {
+    "commit": "ddbbd081ad372570730832f6e734527928278dda",
+    "launcherStable": true,
+    "selected": "1/1",
+    "subject": "2/2",
+    "full": "5/5",
+    "dryRun": "2/2; zero pending",
+    "maven": "OpenJDK 21; exit 0",
+    "stubScan": 0,
+    "performedBy": "dataset-writer"
+  }
+}

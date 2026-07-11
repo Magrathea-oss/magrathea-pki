@@ -1,0 +1,624 @@
+{
+  "schemaVersion": "2.0",
+  "episodeId": "0005-public-key-algorithm-explicit-wire-token",
+  "parentEpisodeId": "0004-public-key-algorithm-v1-vocabulary",
+  "continuationId": "public-key-algorithm",
+  "provenance": {
+    "captureMode": "RAW_EVENT_STREAM",
+    "promptVersion": "bdd-java-spec-driven-v8",
+    "toolRegistryVersion": "sha256:58f9fb4ff63c4ac748fcf030b843b8687a38b4aab2362dd8974d2b5b32f7776b",
+    "initialCommit": "995602e1bef5286db016a6c7778005cf77238070",
+    "initialTree": "df31fcc65c6b00202dfcf2fdb3f49e1399487d9e",
+    "finalCommit": "ddbbd081ad372570730832f6e734527928278dda",
+    "finalTree": "d037a38b29172086f21ba7373b31b17f78ebe233",
+    "workflow": "bdd-java",
+    "agent": "spec-driven",
+    "effectiveModel": "openai-codex/gpt-5.6-sol",
+    "javaspec": {
+      "version": "1.0.0-RC1",
+      "commit": null,
+      "fingerprint": "launcher=1.0.0-RC1; selectedJar=<maven-repository>/io/github/jvmspec/javaspec/1.0.0-RC1/javaspec-1.0.0-RC1.jar; jarSha256=293ac11e9fe3d1960ab8bfd0faf7e919c82aaa7a3240771ca695f90349a9573f"
+    }
+  },
+  "environment": {
+    "os": "Linux amd64",
+    "javaVersion": "OpenJDK 21.0.11 for authoritative Maven verification",
+    "buildTool": "Apache Maven 3.9.16",
+    "repositoryStatus": "Implementation commit has exactly two authorized modified source files; pre-existing untracked .ide harness artifacts were untouched.",
+    "variables": {}
+  },
+  "task": {
+    "userRequest": "Implement one continuation behavior: every existing PublicKeyAlgorithm value exposes an explicit immutable case-sensitive wireToken mapping EC_P256 to EC_P256 and RSA_3072 to RSA_3072, without rename or vocabulary expansion.",
+    "requirements": [
+      "ADR 0003 stable enriched-enum wire identities",
+      "REQ-X509-SUBJECT-PUBLIC-KEY-PROFILE-001 explicit stable subject-public-key profile wire identities"
+    ],
+    "requirementIds": [
+      "REQ-X509-SUBJECT-PUBLIC-KEY-PROFILE-001"
+    ],
+    "scenarioIds": [
+      "req-x509-subject-public-key-profile-001"
+    ],
+    "allowedFiles": [
+      "trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithm.java",
+      "trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithmSpec.java",
+      "trust-engine-domain/target/** (ignored evidence/build output)",
+      "docs/dataset/** (dataset-writer only)"
+    ]
+  },
+  "admission": {
+    "decision": "ACCEPTED",
+    "reason": "Sealed spec-driven RAW_EVENT_STREAM proves one authorized continuation behavior with stable pre-baseline executable provenance, 4/4 baseline, no repeated describe, spec-only meaningful missing-member RED before production, corrected specification chronology without production mutation, bounded exact enriched-enum GREEN, selected/subject/full 5/5, zero pending/stubs, explicit OpenJDK 21 Maven success, exact two-file commit/hashes, privacy/schema validation, and independent replay.",
+    "checks": [
+      {
+        "name": "validTrainingTarget",
+        "status": "PASS",
+        "evidence": "spec-driven v8; JavaSpec is the RED/GREEN source."
+      },
+      {
+        "name": "sealAndHashChain",
+        "status": "PASS",
+        "evidence": "254 events, complete seal, matching file digests, valid chain, and 45 complete chronological tool pairs."
+      },
+      {
+        "name": "continuationBoundary",
+        "status": "PASS",
+        "evidence": "Subject/spec existed at base; no describe tool call was executed or required."
+      },
+      {
+        "name": "launcherProvenance",
+        "status": "PASS",
+        "evidence": "Sequence 26 captured exact JAR path, SHA-256, and RC1 version before baseline; sequence 233 is stable."
+      },
+      {
+        "name": "meaningfulRed",
+        "status": "PASS",
+        "evidence": "Sequence 110 missing wireToken() compile RED followed the spec edit and preceded production sequence 122."
+      },
+      {
+        "name": "specificationCorrection",
+        "status": "PASS",
+        "evidence": "Sequence 134 BROKEN reflection assertion was corrected spec-only at 140; production remained unchanged."
+      },
+      {
+        "name": "exactShape",
+        "status": "PASS",
+        "evidence": "Two mappings, private final String field, private constructor assignment, public accessor, same two constants, no rename/expansion."
+      },
+      {
+        "name": "verification",
+        "status": "PASS",
+        "evidence": "Selected 1/1, subject 2/2, full 5/5, dry-run 2/2, zero pending/stubs, OpenJDK 21 Maven pass."
+      },
+      {
+        "name": "scopeCommitHashes",
+        "status": "PASS",
+        "evidence": "Implementation commit/tree/parent exact; only two authorized paths; source and patch hashes match."
+      },
+      {
+        "name": "privacySchemaReplay",
+        "status": "PASS",
+        "evidence": "Private paths sanitized; authoritative V2 schema, repository validators, and independent behavior replay pass."
+      }
+    ]
+  },
+  "rawObservableEvents": [
+    {
+      "sequence": 20,
+      "timestamp": "2026-07-11T16:17:13.983Z",
+      "eventType": "process_observation",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "command": "../bin/javaspec --launcher-fingerprint",
+        "workingDirectory": "<repository-root>"
+      },
+      "result": "Launcher path not found because the command used the module-relative path from the repository root.",
+      "exitCode": 127,
+      "summary": "Initial wrong-root launcher command failed honestly before baseline and caused no source mutation."
+    },
+    {
+      "sequence": 26,
+      "timestamp": "2026-07-11T16:17:17.830Z",
+      "eventType": "launcher_fingerprint",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "command": "../bin/javaspec --launcher-fingerprint",
+        "workingDirectory": "<domain-module>"
+      },
+      "result": {
+        "version": "1.0.0-RC1",
+        "selectedJar": "<maven-repository>/io/github/jvmspec/javaspec/1.0.0-RC1/javaspec-1.0.0-RC1.jar",
+        "sha256": "293ac11e9fe3d1960ab8bfd0faf7e919c82aaa7a3240771ca695f90349a9573f"
+      },
+      "exitCode": 0,
+      "summary": "Exact selected launcher fingerprint captured before baseline."
+    },
+    {
+      "sequence": 53,
+      "timestamp": "2026-07-11T16:17:52.763Z",
+      "eventType": "rl_prebaseline_evidence",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "artifact": "<ignored-target>/rl-evidence-public-key-algorithm-wire-token-pre.txt"
+      },
+      "result": {
+        "sha256": "0f5f32867e41af7ca114a5863fe5a94651f11bc45d94ae162e94fdf84507c93f",
+        "byteSize": 2567
+      },
+      "exitCode": 0,
+      "summary": "Contemporaneous pre-baseline environment and source-state evidence captured; private paths are not copied into training artifacts."
+    },
+    {
+      "sequence": 80,
+      "timestamp": "2026-07-11T16:18:10.414Z",
+      "eventType": "continuation_baseline",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "command": "javaspec run --compile --profile java21"
+      },
+      "result": {
+        "total": 4,
+        "passed": 4,
+        "pending": 0
+      },
+      "exitCode": 0,
+      "summary": "Existing full domain JavaSpec baseline passed; describe was correctly not repeated."
+    },
+    {
+      "sequence": 98,
+      "timestamp": "2026-07-11T16:18:44.464Z",
+      "eventType": "specification_edit",
+      "actor": "spec-driven",
+      "toolName": "edit",
+      "arguments": {
+        "examplesAdded": 1
+      },
+      "result": {
+        "changed": "PublicKeyAlgorithmSpec.java only"
+      },
+      "exitCode": 0,
+      "summary": "One externally meaningful mapping and immutable-shape example was added without production mutation."
+    },
+    {
+      "sequence": 110,
+      "timestamp": "2026-07-11T16:18:54.366Z",
+      "eventType": "meaningful_red",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "selectedExample": "it_exposes_each_wire_token_as_explicit_immutable_case_sensitive_data"
+      },
+      "result": {
+        "classification": "MISSING_PRODUCTION_MEMBER",
+        "message": "cannot find symbol: method wireToken()"
+      },
+      "exitCode": 1,
+      "summary": "Selected JavaSpec compilation produced meaningful missing-member RED before production."
+    },
+    {
+      "sequence": 116,
+      "timestamp": "2026-07-11T16:19:00.976Z",
+      "eventType": "generation_dry_run",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "dryRun": true
+      },
+      "result": {
+        "pendingGenerationWork": 0,
+        "exampleSkippedForMissingClasspath": true
+      },
+      "exitCode": 0,
+      "summary": "RC1 proposed no generation/update work for the existing subject; this skipped run was not used as behavioral evidence."
+    },
+    {
+      "sequence": 122,
+      "timestamp": "2026-07-11T16:19:11.285Z",
+      "eventType": "bounded_green_edit",
+      "actor": "spec-driven",
+      "toolName": "edit",
+      "arguments": {
+        "mappings": {
+          "EC_P256": "EC_P256",
+          "RSA_3072": "RSA_3072"
+        }
+      },
+      "result": {
+        "shape": "two explicit literals, private final String field, private constructor assignment, public accessor"
+      },
+      "exitCode": 0,
+      "summary": "Smallest coherent enriched-enum GREEN preserved kind and vocabulary."
+    },
+    {
+      "sequence": 134,
+      "timestamp": "2026-07-11T16:19:22.166Z",
+      "eventType": "broken_verifier_observation",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "selectedExample": "it_exposes_each_wire_token_as_explicit_immutable_case_sensitive_data"
+      },
+      "result": {
+        "classification": "BROKEN_SPEC_ASSERTION",
+        "exception": "NoSuchMethodException for source-only enum constructor signature"
+      },
+      "exitCode": 1,
+      "summary": "First candidate GREEN exposed an incorrect reflection assertion; production was not changed."
+    },
+    {
+      "sequence": 140,
+      "timestamp": "2026-07-11T16:19:38.511Z",
+      "eventType": "specification_correction",
+      "actor": "spec-driven",
+      "toolName": "edit",
+      "arguments": {
+        "correction": "inspect the single private runtime enum constructor"
+      },
+      "result": {
+        "changed": "specification only",
+        "productionMutation": false
+      },
+      "exitCode": 0,
+      "summary": "Reflection assertion was corrected honestly for synthetic enum constructor parameters."
+    },
+    {
+      "sequence": 152,
+      "timestamp": "2026-07-11T16:19:48.240Z",
+      "eventType": "selected_green",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "selectedExample": "it_exposes_each_wire_token_as_explicit_immutable_case_sensitive_data"
+      },
+      "result": {
+        "total": 1,
+        "passed": 1,
+        "pending": 0
+      },
+      "exitCode": 0,
+      "summary": "Selected behavior passed 1/1."
+    },
+    {
+      "sequence": 158,
+      "timestamp": "2026-07-11T16:19:54.715Z",
+      "eventType": "subject_green",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "subject": "PublicKeyAlgorithm"
+      },
+      "result": {
+        "total": 2,
+        "passed": 2,
+        "pending": 0
+      },
+      "exitCode": 0,
+      "summary": "Subject specification passed 2/2, preserving exact unordered vocabulary."
+    },
+    {
+      "sequence": 164,
+      "timestamp": "2026-07-11T16:19:58.152Z",
+      "eventType": "full_green",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": null,
+      "result": {
+        "total": 5,
+        "passed": 5,
+        "pending": 0
+      },
+      "exitCode": 0,
+      "summary": "Full domain JavaSpec passed 5/5."
+    },
+    {
+      "sequence": 170,
+      "timestamp": "2026-07-11T16:20:04.646Z",
+      "eventType": "no_pending_check",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "dryRun": true,
+        "classpath": "<compiled-javaspec-classes>"
+      },
+      "result": {
+        "total": 2,
+        "passed": 2,
+        "pending": 0,
+        "pendingGenerationWork": 0
+      },
+      "exitCode": 0,
+      "summary": "Classpath-correct dry-run proved zero pending generation/update work."
+    },
+    {
+      "sequence": 182,
+      "timestamp": "2026-07-11T16:20:27.129Z",
+      "eventType": "exact_shape",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "tool": "javap"
+      },
+      "result": {
+        "majorVersion": 65,
+        "kind": "enum",
+        "constants": [
+          "EC_P256",
+          "RSA_3072"
+        ],
+        "field": "private final String wireToken",
+        "constructor": "private source-level String constructor",
+        "accessor": "public String wireToken()",
+        "literalAssignments": [
+          "EC_P256",
+          "RSA_3072"
+        ]
+      },
+      "exitCode": 0,
+      "summary": "Compiled Java 21 shape and literal assignments are exact."
+    },
+    {
+      "sequence": 221,
+      "timestamp": "2026-07-11T16:21:39.911Z",
+      "eventType": "java21_maven_green",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "java": "OpenJDK 21",
+        "goal": "verify"
+      },
+      "result": {
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "javaspecPassed": 5,
+        "pending": 0,
+        "build": "SUCCESS"
+      },
+      "exitCode": 0,
+      "summary": "Authoritative explicit OpenJDK 21 Maven verification passed."
+    },
+    {
+      "sequence": 233,
+      "timestamp": "2026-07-11T16:22:01.679Z",
+      "eventType": "launcher_stability",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "command": "../bin/javaspec --launcher-fingerprint"
+      },
+      "result": {
+        "version": "1.0.0-RC1",
+        "sha256": "293ac11e9fe3d1960ab8bfd0faf7e919c82aaa7a3240771ca695f90349a9573f"
+      },
+      "exitCode": 0,
+      "summary": "Final launcher fingerprint exactly matches pre-baseline provenance."
+    },
+    {
+      "sequence": 249,
+      "timestamp": "2026-07-11T16:23:06.580Z",
+      "eventType": "handoff",
+      "actor": "spec-driven",
+      "toolName": null,
+      "arguments": null,
+      "result": {
+        "outcome": "VERIFIED_SUCCESS",
+        "examplesAdded": 1,
+        "pendingStubCount": 0
+      },
+      "exitCode": null,
+      "summary": "Structured successful handoff emitted before sealing."
+    }
+  ],
+  "patches": [
+    {
+      "path": "docs/dataset/artifacts/0005-public-key-algorithm-explicit-wire-token/worktree.patch",
+      "sha256": "2cbe28402b901395d39e3bf1e345da136c3c544ce435c5d6eb4a5dcb8e0a4100",
+      "byteSize": 3005,
+      "description": "Exact two-file base-to-implementation patch matching sealed and committed bytes."
+    }
+  ],
+  "verification": {
+    "commands": [
+      {
+        "command": "corrected pre-baseline javaspec launcher fingerprint",
+        "exitCode": 0,
+        "summary": "RC1 selected-JAR path and SHA-256 captured before baseline."
+      },
+      {
+        "command": "continuation baseline JavaSpec",
+        "exitCode": 0,
+        "summary": "4/4, zero pending."
+      },
+      {
+        "command": "selected JavaSpec RED",
+        "exitCode": 1,
+        "summary": "Missing wireToken() compile RED before production."
+      },
+      {
+        "command": "first selected candidate verification",
+        "exitCode": 1,
+        "summary": "BROKEN incorrect reflection assertion; retained and corrected spec-only."
+      },
+      {
+        "command": "selected/subject/full JavaSpec GREEN",
+        "exitCode": 0,
+        "summary": "1/1, 2/2, and 5/5; zero pending."
+      },
+      {
+        "command": "classpath-correct JavaSpec dry-run",
+        "exitCode": 0,
+        "summary": "2/2 and no pending generation/update work."
+      },
+      {
+        "command": "JAVA_HOME=<java-21-home> mvn -pl trust-engine-domain -am verify",
+        "exitCode": 0,
+        "summary": "OpenJDK 21, five tests, JavaSpec 5/5, BUILD SUCCESS."
+      },
+      {
+        "command": "independent replay at implementation commit",
+        "exitCode": 0,
+        "summary": "Fingerprint, selected, subject, full, dry-run, Java 21 Maven, shape, and stub checks pass."
+      },
+      {
+        "command": "./scripts/validate-dataset && ./scripts/validate-rl-dataset && ./scripts/validate-agent-contracts",
+        "exitCode": 0,
+        "summary": "Authoritative schemas, references, privacy/leakage, partitions, and contracts pass."
+      }
+    ],
+    "outcome": "PASSED",
+    "evidence": [
+      {
+        "path": "docs/dataset/artifacts/0005-public-key-algorithm-explicit-wire-token/trace-validation.json",
+        "sha256": "7b1887539c13417e8645cbcb4857e44b7e7bb34601646fe24a40719ae2f6ec3c",
+        "mediaType": "application/json",
+        "byteSize": 1941,
+        "description": "Independent seal, hash-chain, chronology, scope, and privacy validation."
+      },
+      {
+        "path": "docs/dataset/artifacts/0005-public-key-algorithm-explicit-wire-token/verification-evidence.json",
+        "sha256": "c008c89156216474db5a164840f2f9e261f681b8c77348d06e991478ed8fe13c",
+        "mediaType": "application/json",
+        "byteSize": 3549,
+        "description": "Sanitized authorization, RED/GREEN, shape, commit, and replay evidence."
+      },
+      {
+        "path": "docs/dataset/artifacts/0005-public-key-algorithm-explicit-wire-token/worktree.patch",
+        "sha256": "2cbe28402b901395d39e3bf1e345da136c3c544ce435c5d6eb4a5dcb8e0a4100",
+        "mediaType": "text/x-patch",
+        "byteSize": 3005,
+        "description": "Exact two-file base-to-implementation patch."
+      },
+      {
+        "path": "docs/dataset/artifacts/0005-public-key-algorithm-explicit-wire-token/evidence-summary.md",
+        "sha256": "4729cd414ca3682c4dfd62c662339377f7140b73801ff970909d0cb1ae0cefee",
+        "mediaType": "text/markdown",
+        "byteSize": 1070,
+        "description": "Human-readable evidence summary."
+      },
+      {
+        "path": "docs/dataset/artifacts/0005-public-key-algorithm-explicit-wire-token/resume-capsule.md",
+        "sha256": "1dba744224d4f66fe9db43880cfc6aa228ddf15d7df751f93c4afbd973fcc2df",
+        "mediaType": "text/markdown",
+        "byteSize": 936,
+        "description": "Compact safe-resume state."
+      }
+    ]
+  },
+  "termination": {
+    "type": "VERIFIED_SUCCESS",
+    "suspectedOwner": "SPEC_DRIVEN",
+    "summary": "Existing PublicKeyAlgorithm values expose exact explicit immutable case-sensitive same-spelling wire tokens without rename or vocabulary expansion."
+  },
+  "contextMetrics": {
+    "metricCollectionStatus": "PARTIAL",
+    "maximumContextTokens": null,
+    "peakContextTokens": null,
+    "totalInputTokens": 66960,
+    "cachedInputTokens": 1236480,
+    "outputTokens": 13622,
+    "uniqueSourceBytesRead": null,
+    "repeatedSourceBytesRead": null,
+    "toolOutputBytesPresentedToModel": null,
+    "compactionCount": 0,
+    "iterationCount": 45
+  },
+  "curation": {
+    "status": "CURATED_SFT_CANDIDATE",
+    "reviewers": [
+      "dataset-writer"
+    ],
+    "knownIssues": [
+      "The initial launcher command used a module-relative path from the repository root and exited 127; the corrected pre-baseline command succeeded and is the provenance source.",
+      "The first candidate GREEN was BROKEN by an incorrect reflection assertion about enum constructor parameters; it was corrected specification-only, with no production mutation, before all GREEN evidence.",
+      "An early no-classpath dry-run skipped the example; it is not used as behavior evidence. The corrected classpath dry-run passed 2/2 with zero pending work.",
+      "Default Maven initially used Java 25; the authoritative rerun explicitly selected OpenJDK 21 and passed.",
+      "Final CURATED_SFT still requires independent approval."
+    ],
+    "sftEligibility": {
+      "status": "CANDIDATE",
+      "reason": "Exactly one authorized RAW_EVENT_STREAM behavior with complete provenance, honest process failures, meaningful RED, bounded GREEN, full verification, scope/hash/privacy/schema checks, and independent replay."
+    },
+    "evaluationEligibility": {
+      "status": "NOT_ELIGIBLE",
+      "reason": "No independent evaluation-case approval has been performed."
+    }
+  },
+  "artifacts": [
+    {
+      "path": "docs/dataset/artifacts/0005-public-key-algorithm-explicit-wire-token/trace-validation.json",
+      "sha256": "7b1887539c13417e8645cbcb4857e44b7e7bb34601646fe24a40719ae2f6ec3c",
+      "mediaType": "application/json",
+      "byteSize": 1941,
+      "description": "Independent seal, hash-chain, chronology, scope, and privacy validation."
+    },
+    {
+      "path": "docs/dataset/artifacts/0005-public-key-algorithm-explicit-wire-token/verification-evidence.json",
+      "sha256": "c008c89156216474db5a164840f2f9e261f681b8c77348d06e991478ed8fe13c",
+      "mediaType": "application/json",
+      "byteSize": 3549,
+      "description": "Sanitized authorization, RED/GREEN, shape, commit, and replay evidence."
+    },
+    {
+      "path": "docs/dataset/artifacts/0005-public-key-algorithm-explicit-wire-token/worktree.patch",
+      "sha256": "2cbe28402b901395d39e3bf1e345da136c3c544ce435c5d6eb4a5dcb8e0a4100",
+      "mediaType": "text/x-patch",
+      "byteSize": 3005,
+      "description": "Exact two-file base-to-implementation patch."
+    },
+    {
+      "path": "docs/dataset/artifacts/0005-public-key-algorithm-explicit-wire-token/evidence-summary.md",
+      "sha256": "4729cd414ca3682c4dfd62c662339377f7140b73801ff970909d0cb1ae0cefee",
+      "mediaType": "text/markdown",
+      "byteSize": 1070,
+      "description": "Human-readable evidence summary."
+    },
+    {
+      "path": "docs/dataset/artifacts/0005-public-key-algorithm-explicit-wire-token/resume-capsule.md",
+      "sha256": "1dba744224d4f66fe9db43880cfc6aa228ddf15d7df751f93c4afbd973fcc2df",
+      "mediaType": "text/markdown",
+      "byteSize": 936,
+      "description": "Compact safe-resume state."
+    }
+  ],
+  "resumeCapsule": {
+    "currentCommit": "ddbbd081ad372570730832f6e734527928278dda",
+    "currentTree": "d037a38b29172086f21ba7373b31b17f78ebe233",
+    "requirementIds": [
+      "REQ-X509-SUBJECT-PUBLIC-KEY-PROFILE-001"
+    ],
+    "scenarioIds": [
+      "req-x509-subject-public-key-profile-001"
+    ],
+    "currentBehavior": "Existing EC_P256 and RSA_3072 values expose explicit immutable same-spelling case-sensitive wireToken values without rename or vocabulary expansion.",
+    "owningAgent": "spec-driven",
+    "fileHashes": [
+      {
+        "path": "trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithm.java",
+        "sha256": "86984de780956efbc52eaeec47d4f241cfaf58958629f06fd3523af7ec0e6cd7",
+        "byteSize": 330
+      },
+      {
+        "path": "trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithmSpec.java",
+        "sha256": "114b52157c9c09dadad99fc5aa18bd2be73762f2ee8f387977c256e7f9d27b88",
+        "byteSize": 1902
+      }
+    ],
+    "lastVerifiedResult": "Selected 1/1, subject 2/2, full 5/5, dry-run 2/2, zero pending/stubs, OpenJDK 21 Maven and independent replay pass.",
+    "lastFailureOrStop": "First selected candidate was BROKEN by a source-only enum constructor reflection lookup; corrected specification-only.",
+    "unresolvedWork": [
+      "Type rename, vocabulary expansion, parsing, policy/compliance behavior, and final SFT approval remain separate."
+    ],
+    "allowedFiles": [
+      "trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithm.java",
+      "trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithmSpec.java",
+      "docs/dataset/**"
+    ],
+    "javaspecFingerprint": "launcher=1.0.0-RC1; jarSha256=293ac11e9fe3d1960ab8bfd0faf7e919c82aaa7a3240771ca695f90349a9573f",
+    "nextPermittedAction": "Parent reviews and may commit dataset artifacts; any next domain behavior requires a separate authorized continuation slice without describe."
+  }
+}
