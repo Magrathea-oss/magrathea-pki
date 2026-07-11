@@ -1,0 +1,18 @@
+{
+  "baseline": {"javaspec": "No specifications found; exit 0", "maven": "BUILD SUCCESS; no tests; exit 0", "java": "OpenJDK 21.0.11"},
+  "describe": {"exitCode": 0, "initialSpecGenerated": true, "productionGenerated": false},
+  "red": {"exitCode": 1, "classification": "MISSING_PRODUCTION_MEMBER", "filesWritten": 0},
+  "generation": {"exitCode": 1, "productionFirstCreated": true, "failed": 1, "broken": 1, "pendingStubs": 1},
+  "green": {
+    "selected": {"total": 1, "passed": 1},
+    "subject": {"total": 1, "passed": 1},
+    "full": {"total": 1, "passed": 1},
+    "pendingStubs": 0,
+    "recordShape": "public record CertificateProfileId(String value)"
+  },
+  "mavenJava21": {"exitCode": 0, "tests": 1, "failures": 0, "errors": 0, "skipped": 0, "unsupportedWarningCount": 0},
+  "sourceHashes": {
+    "production": "0d1364e872f896de4cd988e305aac14c1fb8edca29f24230f0dcd67a13e55227",
+    "specification": "c5c47750b7dbe23903c70958e57ce7f96b4cbe32a672379f8ca456da2e08b583"
+  }
+}

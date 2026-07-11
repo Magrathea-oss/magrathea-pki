@@ -1,0 +1,38 @@
+{
+  "traceId": "3d6b8135-6327-4fec-b9df-5c65826ed7ca",
+  "captureMode": "RAW_EVENT_STREAM",
+  "eventCount": 311,
+  "eventsSha256": "c81ba76891dab7d595a34301c8408d2562c228b881bfd06a79433ad16fae802d",
+  "metadataSha256": "be9dac9a74640e470d46cdfb537f1f5d0eaec579fd2077a8cba50987f54bbc3c",
+  "sealSha256": "d92eaf85afcb1da798bcaefca767fdf20cb286df9968ba052632cbcf2ea7d7cd",
+  "finalEventHash": "c43b3abe1ca89a5175fb481318457508517102a979b784258e9c39388a49e936",
+  "toolPairs": {"starts": 60, "ends": 60, "complete": true},
+  "checks": {
+    "sealComplete": true,
+    "sequenceAndHashChainValid": true,
+    "canonicalTaskMatches": true,
+    "agentPromptToolProvenanceValid": true,
+    "successfulLauncherFingerprintBeforeBaseline": true,
+    "initialGitAndReplacementCorpusClean": true,
+    "newSubjectDescribeBoundaryValid": true,
+    "structuralRedBeforeProduction": true,
+    "productionFirstCreatedByGenerate": true,
+    "boundedGreenValid": true,
+    "selectedSubjectFullGreen": true,
+    "zeroStubsAndExactRecordShape": true,
+    "java21MavenOneTestNoUnsupportedWarning": true,
+    "exactTwoFileCommitAndCleanFinalGit": true,
+    "cacheCleanupIgnoredBuildOutputOnly": true,
+    "privacySanitized": true
+  },
+  "generation": {
+    "toolCallId": "call_5aiatlX306feQHkkAVkN7fTH|fc_04b61d6489a65030016a521040b5c0819181232e98b82b9fe5",
+    "output": "Generated record skeleton: src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileId.java"
+  },
+  "cacheIncident": {
+    "failure": "NoSuchMethodError for stale Object value() generated-support signature",
+    "productionHashBeforeAndAfterRetry": "0d1364e872f896de4cd988e305aac14c1fb8edca29f24230f0dcd67a13e55227",
+    "cleanup": "Removed ignored trust-engine-domain/target/javaspec-classes only",
+    "behaviorBypassed": false
+  }
+}

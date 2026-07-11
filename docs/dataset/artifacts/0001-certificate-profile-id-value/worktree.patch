@@ -1,0 +1,30 @@
+diff --git a/trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileId.java b/trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileId.java
+new file mode 100644
+index 0000000..5e74876
+--- /dev/null
++++ b/trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileId.java
+@@ -0,0 +1,4 @@
++package com.magrathea.trustengine.x509.profile;
++
++public record CertificateProfileId(String value) {
++}
+diff --git a/trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileIdSpec.java b/trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileIdSpec.java
+new file mode 100644
+index 0000000..3397a9f
+--- /dev/null
++++ b/trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileIdSpec.java
+@@ -0,0 +1,14 @@
++package spec.com.magrathea.trustengine.x509.profile;
++
++import com.magrathea.trustengine.x509.profile.CertificateProfileId;
++
++public class CertificateProfileIdSpec extends CertificateProfileIdSpecSupport {
++    public void it_preserves_the_complete_canonical_profile_identifier() {
++        String canonicalValue = "x509-profile-v1-sha256-6f1ed002ab5595859014ebf0951522d9b0214b864e3ae49b43c9d9f9b8a47f76";
++
++        shouldBeARecord();
++        beConstructedWith(canonicalValue);
++
++        value().shouldReturn(canonicalValue);
++    }
++}

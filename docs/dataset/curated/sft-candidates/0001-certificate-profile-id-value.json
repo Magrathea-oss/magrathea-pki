@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "sft-view-v1",
+  "sourceEpisodeId": "0001-certificate-profile-id-value",
+  "sourceCaptureMode": "RAW_EVENT_STREAM",
+  "curationStatus": "CURATED_SFT_CANDIDATE",
+  "independentApprovalRequired": true,
+  "derivation": {
+    "sourceTraceId": "3d6b8135-6327-4fec-b9df-5c65826ed7ca",
+    "selectedToolCalls": 10,
+    "sanitization": "Machine-local paths replaced with neutral placeholders; hidden reasoning excluded; concise observable rationale retained."
+  },
+  "knownIssues": [
+    "A stale ignored JavaSpec class cache caused two NoSuchMethodError results after the bounded GREEN edit; production remained byte-identical, only ignored target output was removed, and all canonical verification then passed.",
+    "Mechanically and behaviorally validated candidate still requires independent approval for final CURATED_SFT."
+  ],
+  "messages": [
+    {"role":"system","content":"You are a spec-driven Java domain development agent. Implement exactly one authorized behavior with JavaSpec new-subject describe/generate boundaries, meaningful RED, smallest coherent GREEN, and complete verification."},
+    {"role":"user","content":"Start replacement episode 0001 for new subject com.magrathea.trustengine.x509.profile.CertificateProfileId. Implement one ADR-0001 and req-x509-profile-integrity-001 behavior: preserve a supplied canonical x509-profile-v1-sha256-<64 lowercase hex> identifier and expose its complete text. Use raw capture, pre-baseline launcher fingerprint, clean baseline, javaspec describe before initial spec edit, no-write structural RED, run --generate as first production creator, exact String value Java 21 record component, selected/subject/full 1/1, zero stubs, Java 21 Maven one test/no unsupported warning, and exact two-file scope."},
+    {"role":"assistant","content":"Capture the exact executable fingerprint before baseline.","tool_calls":[{"id":"call_1","type":"function","function":{"name":"bash","arguments":"{\"command\":\"cd trust-engine-domain && ../bin/javaspec --launcher-fingerprint\"}"}}]},
+    {"role":"tool","tool_call_id":"call_1","content":"version=1.0.0-RC1; jar=<maven-repository>/io/github/jvmspec/javaspec/1.0.0-RC1/javaspec-1.0.0-RC1.jar; sha256=8522dc72ab0ca87a508436419c4ed430e0ad470375445c689fa871218a8ab501"},
+    {"role":"assistant","content":"Establish the empty JavaSpec baseline, then describe the absent subject as the first authoring action.","tool_calls":[{"id":"call_2","type":"function","function":{"name":"bash","arguments":"{\"command\":\"cd trust-engine-domain && ../bin/javaspec run --compile --profile java21 && ../bin/javaspec describe com.magrathea.trustengine.x509.profile.CertificateProfileId\"}"}}]},
+    {"role":"tool","tool_call_id":"call_2","content":"No specifications found. Generated specification: src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileIdSpec.java. No production class was generated."},
+    {"role":"assistant","content":"Use one bounded spec edit for exactly the authorized record-value behavior.","tool_calls":[{"id":"call_3","type":"function","function":{"name":"edit","arguments":"{\"path\":\"trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileIdSpec.java\",\"change\":\"replace initializable example with one record/value example\"}"}}]},
+    {"role":"tool","tool_call_id":"call_3","content":"Successfully replaced 1 block."},
+    {"role":"assistant","content":"Capture meaningful no-write structural RED while production is absent.","tool_calls":[{"id":"call_4","type":"function","function":{"name":"bash","arguments":"{\"command\":\"javaspec run --dry-run --compile --profile java21 --class CertificateProfileId --example it_preserves_the_complete_canonical_profile_identifier\"}"}}]},
+    {"role":"tool","tool_call_id":"call_4","content":"Would generate record skeleton at the exact production path. Dry-run found pending work; no files were written. exit 1"},
+    {"role":"assistant","content":"Apply generation only after RED.","tool_calls":[{"id":"call_5","type":"function","function":{"name":"bash","arguments":"{\"command\":\"javaspec run --generate --compile --profile java21 --class CertificateProfileId --example it_preserves_the_complete_canonical_profile_identifier\"}"}}]},
+    {"role":"tool","tool_call_id":"call_5","content":"Generated record skeleton: src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileId.java. Assertion failed; pending stubs: 1. exit 1"},
+    {"role":"assistant","content":"Make one coherent GREEN edit: the exact String value component supplies preservation and the implicit accessor without implementation-detail APIs.","tool_calls":[{"id":"call_6","type":"function","function":{"name":"edit","arguments":"{\"path\":\"trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileId.java\",\"change\":\"replace generated canonicalValue plus Object value stub with String value record component\"}"}}]},
+    {"role":"tool","tool_call_id":"call_6","content":"Successfully replaced 1 block."},
+    {"role":"assistant","content":"Run selected verification.","tool_calls":[{"id":"call_7","type":"function","function":{"name":"bash","arguments":"{\"command\":\"javaspec run --compile --profile java21 --class CertificateProfileId --example it_preserves_the_complete_canonical_profile_identifier\"}"}}]},
+    {"role":"tool","tool_call_id":"call_7","content":"BROKEN: NoSuchMethodError for stale Object value() generated-support signature. exit 1"},
+    {"role":"assistant","content":"A generation retry leaves production byte-identical, proving a cache-only mismatch. Refresh only ignored JavaSpec class output.","tool_calls":[{"id":"call_8","type":"function","function":{"name":"bash","arguments":"{\"command\":\"rm -rf trust-engine-domain/target/javaspec-classes\"}"}}]},
+    {"role":"tool","tool_call_id":"call_8","content":"Removed ignored build output only."},
+    {"role":"assistant","content":"Verify selected, subject, full suite, exact shape, zero stubs, and official Java 21 Maven.","tool_calls":[{"id":"call_9","type":"function","function":{"name":"bash","arguments":"{\"command\":\"run selected; run subject; run full; inspect shape/stubs; run Maven in official Java 21 image\"}"}}]},
+    {"role":"tool","tool_call_id":"call_9","content":"selected 1/1; subject 1/1; full 1/1; zero stubs; public record CertificateProfileId(String value); Maven tests 1, failures/errors/skips 0; unsupported warnings 0; BUILD SUCCESS"},
+    {"role":"assistant","content":"BEHAVIOR_VERIFIED. Exactly two authorized source files were committed; the final worktree is clean. Cache cleanup affected ignored build output only and did not bypass behavior."}
+  ]
+}
