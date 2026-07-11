@@ -1,0 +1,638 @@
+{
+  "schemaVersion": "2.0",
+  "episodeId": "0006-public-key-algorithm-find-by-wire-token",
+  "parentEpisodeId": "0005-public-key-algorithm-explicit-wire-token",
+  "continuationId": "public-key-algorithm",
+  "provenance": {
+    "captureMode": "RAW_EVENT_STREAM",
+    "promptVersion": "bdd-java-spec-driven-v8",
+    "toolRegistryVersion": "sha256:58f9fb4ff63c4ac748fcf030b843b8687a38b4aab2362dd8974d2b5b32f7776b",
+    "initialCommit": "c30d45965e2caa2e86ce40c8b6ca901895fe93f2",
+    "initialTree": "c9b4ca7a258ed87e2268f418a10d3a30975a4139",
+    "finalCommit": "f39c7c0edcd683aea32f9aa8fb7cb568d32b1b15",
+    "finalTree": "2ae992bebd6a9dc012f2eace6c2823426713769c",
+    "workflow": "bdd-java",
+    "agent": "spec-driven",
+    "effectiveModel": "openai-codex/gpt-5.6-sol",
+    "javaspec": {
+      "version": "1.0.0-RC1",
+      "commit": null,
+      "fingerprint": "launcher=1.0.0-RC1; selectedJar=<maven-repository>/io/github/jvmspec/javaspec/1.0.0-RC1/javaspec-1.0.0-RC1.jar; jarSha256=293ac11e9fe3d1960ab8bfd0faf7e919c82aaa7a3240771ca695f90349a9573f"
+    }
+  },
+  "environment": {
+    "os": "Linux amd64",
+    "javaVersion": "OpenJDK 21.0.11 for JavaSpec and authoritative Maven verification",
+    "buildTool": "Apache Maven 3.9.16",
+    "repositoryStatus": "Implementation commit has exactly two authorized modified source files; pre-existing untracked .ide harness artifacts were untouched.",
+    "variables": {}
+  },
+  "task": {
+    "userRequest": "Implement one continuation behavior: PublicKeyAlgorithm.findByWireToken(String) returns EC_P256 only for exact EC_P256 and empty for lowercase ec_p256 by comparing explicit wireToken without case folding, preserving a public static Optional API.",
+    "requirements": [
+      "ADR 0003 stable enriched-enum wire identities",
+      "Partial observation under REQ-X509-SUBJECT-PUBLIC-KEY-PROFILE-002; not full Scenario Outline completion"
+    ],
+    "requirementIds": [
+      "REQ-X509-SUBJECT-PUBLIC-KEY-PROFILE-002"
+    ],
+    "scenarioIds": [
+      "req-x509-subject-public-key-profile-002-partial-exact-token-row"
+    ],
+    "allowedFiles": [
+      "trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithm.java",
+      "trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithmSpec.java",
+      "trust-engine-domain/target/** (ignored evidence/build output)",
+      "docs/dataset/** (dataset-writer only)"
+    ]
+  },
+  "admission": {
+    "decision": "ACCEPTED",
+    "reason": "Sealed spec-driven RAW_EVENT_STREAM proves one authorized continuation behavior with stable pre-baseline executable provenance, 5/5 baseline, no repeated describe, one spec-only meaningful missing-static-member RED before production, exact public static Optional GREEN without generator-driven API distortion, selected/subject/full 6/6, corrected no-pending evidence, OpenJDK 21 Maven, exact two-file commit/hashes, privacy/schema validation, and independent replay.",
+    "checks": [
+      {
+        "name": "validTrainingTarget",
+        "status": "PASS",
+        "evidence": "spec-driven v8; JavaSpec is the RED/GREEN source."
+      },
+      {
+        "name": "sealAndHashChain",
+        "status": "PASS",
+        "evidence": "286 events, complete seal, matching digests, valid chain, and 45 complete chronological tool pairs."
+      },
+      {
+        "name": "continuationBoundary",
+        "status": "PASS",
+        "evidence": "Subject/spec existed at base; no describe tool call was executed or required."
+      },
+      {
+        "name": "launcherProvenance",
+        "status": "PASS",
+        "evidence": "Sequence 26 captured exact JAR path, SHA-256, and RC1 version before baseline; sequence 218 is stable."
+      },
+      {
+        "name": "meaningfulRed",
+        "status": "PASS",
+        "evidence": "Sequence 152 missing static findByWireToken(String) compile RED followed spec edit 140 and preceded production edit 158."
+      },
+      {
+        "name": "noApiDistortion",
+        "status": "PASS",
+        "evidence": "No dedicated static-parser generator was available; required public static Optional shape was preserved rather than changed to an instance API."
+      },
+      {
+        "name": "exactBehaviorAndPreservation",
+        "status": "PASS",
+        "evidence": "Exact EC_P256 matches; lowercase ec_p256 does not; comparison uses explicit wireToken, no case folding; constants and tokens unchanged."
+      },
+      {
+        "name": "verification",
+        "status": "PASS",
+        "evidence": "Selected 1/1, subject 3/3, full 6/6, corrected dry-run 3/3, zero pending/stubs, OpenJDK 21 Maven 6/6."
+      },
+      {
+        "name": "scopeCommitHashes",
+        "status": "PASS",
+        "evidence": "Implementation commit/tree/parent exact; only two authorized paths; source and patch hashes match."
+      },
+      {
+        "name": "privacySchemaReplay",
+        "status": "PASS",
+        "evidence": "Private paths sanitized; authoritative V2/RL schemas, repository validators, and independent replay pass."
+      }
+    ]
+  },
+  "rawObservableEvents": [
+    {
+      "sequence": 14,
+      "timestamp": "2026-07-11T17:25:22.319Z",
+      "eventType": "process_observation",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "command": "../bin/javaspec --launcher-fingerprint",
+        "workingDirectory": "<repository-root>"
+      },
+      "result": "Launcher path not found; command exited 127.",
+      "exitCode": 127,
+      "summary": "Wrong-root fingerprint failure retained honestly before baseline."
+    },
+    {
+      "sequence": 26,
+      "timestamp": "2026-07-11T17:25:31.722Z",
+      "eventType": "launcher_fingerprint",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "command": "./bin/javaspec --launcher-fingerprint",
+        "workingDirectory": "<repository-root>"
+      },
+      "result": {
+        "version": "1.0.0-RC1",
+        "selectedJar": "<maven-repository>/io/github/jvmspec/javaspec/1.0.0-RC1/javaspec-1.0.0-RC1.jar",
+        "sha256": "293ac11e9fe3d1960ab8bfd0faf7e919c82aaa7a3240771ca695f90349a9573f"
+      },
+      "exitCode": 0,
+      "summary": "Exact executable provenance captured before baseline."
+    },
+    {
+      "sequence": 116,
+      "timestamp": "2026-07-11T17:26:46.418Z",
+      "eventType": "rl_prebaseline_evidence",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "artifact": "<ignored-target>/rl-evidence-public-key-algorithm-find-by-wire-token-pre.txt"
+      },
+      "result": {
+        "sha256": "051863c7c2129006b2404c2aa1605984a478cd4c2d12e4d7030d2d6fb739e757",
+        "byteSize": 2340
+      },
+      "exitCode": 0,
+      "summary": "Contemporaneous pre-baseline evidence captured; private paths are sanitized in retained artifacts."
+    },
+    {
+      "sequence": 122,
+      "timestamp": "2026-07-11T17:26:50.668Z",
+      "eventType": "process_observation",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "command": "../bin/javaspec run --help",
+        "workingDirectory": "<repository-root>"
+      },
+      "result": "Launcher path not found; command exited 127.",
+      "exitCode": 127,
+      "summary": "Wrong-root help failure retained honestly."
+    },
+    {
+      "sequence": 128,
+      "timestamp": "2026-07-11T17:26:54.892Z",
+      "eventType": "tool_recovery",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "command": "../bin/javaspec run --help",
+        "workingDirectory": "<domain-module>"
+      },
+      "result": "Help displayed; no dedicated static-parser generator is available.",
+      "exitCode": 0,
+      "summary": "Corrected help informed the decision not to distort the required static API."
+    },
+    {
+      "sequence": 134,
+      "timestamp": "2026-07-11T17:27:00.529Z",
+      "eventType": "continuation_baseline",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "command": "javaspec run --compile --profile java21"
+      },
+      "result": {
+        "total": 5,
+        "passed": 5,
+        "pending": 0
+      },
+      "exitCode": 0,
+      "summary": "Existing full domain JavaSpec baseline passed; describe was correctly not repeated."
+    },
+    {
+      "sequence": 140,
+      "timestamp": "2026-07-11T17:27:09.411Z",
+      "eventType": "specification_edit",
+      "actor": "spec-driven",
+      "toolName": "edit",
+      "arguments": {
+        "examplesAdded": 1
+      },
+      "result": {
+        "changed": "PublicKeyAlgorithmSpec.java only"
+      },
+      "exitCode": 0,
+      "summary": "One exact/lowercase lookup and public-static-shape example added before production."
+    },
+    {
+      "sequence": 152,
+      "timestamp": "2026-07-11T17:27:20.333Z",
+      "eventType": "meaningful_red",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "selectedExample": "it_finds_only_an_exact_explicit_wire_token_match"
+      },
+      "result": {
+        "classification": "MISSING_PRODUCTION_MEMBER",
+        "message": "cannot find symbol: method findByWireToken(java.lang.String)",
+        "report": "not written because compilation failed"
+      },
+      "exitCode": 1,
+      "summary": "Selected JavaSpec compilation produced meaningful missing-static-member RED."
+    },
+    {
+      "sequence": 158,
+      "timestamp": "2026-07-11T17:27:34.096Z",
+      "eventType": "bounded_green_edit",
+      "actor": "spec-driven",
+      "toolName": "edit",
+      "arguments": {
+        "api": "public static Optional<PublicKeyAlgorithm> findByWireToken(String)"
+      },
+      "result": {
+        "comparison": "algorithm.wireToken.equals(wireToken)",
+        "caseFolding": false,
+        "vocabularyChanged": false
+      },
+      "exitCode": 0,
+      "summary": "Smallest coherent GREEN preserved the required static API despite generator limitations."
+    },
+    {
+      "sequence": 170,
+      "timestamp": "2026-07-11T17:27:42.856Z",
+      "eventType": "selected_green",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "selectedExample": "it_finds_only_an_exact_explicit_wire_token_match"
+      },
+      "result": {
+        "total": 1,
+        "passed": 1,
+        "pending": 0
+      },
+      "exitCode": 0,
+      "summary": "Selected behavior passed 1/1."
+    },
+    {
+      "sequence": 176,
+      "timestamp": "2026-07-11T17:27:47.396Z",
+      "eventType": "subject_green",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "subject": "PublicKeyAlgorithm"
+      },
+      "result": {
+        "total": 3,
+        "passed": 3,
+        "pending": 0
+      },
+      "exitCode": 0,
+      "summary": "Subject specification passed 3/3 and preserved vocabulary/wire tokens."
+    },
+    {
+      "sequence": 182,
+      "timestamp": "2026-07-11T17:27:51.243Z",
+      "eventType": "full_green",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": null,
+      "result": {
+        "total": 6,
+        "passed": 6,
+        "pending": 0
+      },
+      "exitCode": 0,
+      "summary": "Full domain JavaSpec passed 6/6."
+    },
+    {
+      "sequence": 188,
+      "timestamp": "2026-07-11T17:27:58.090Z",
+      "eventType": "omitted_classpath_dry_run",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "dryRun": true,
+        "classpath": null
+      },
+      "result": {
+        "total": 3,
+        "passed": 0,
+        "skipped": 3,
+        "pending": 0,
+        "pendingGenerationWork": 0
+      },
+      "exitCode": 0,
+      "summary": "First dry-run skipped all examples because compiled classpath was omitted; not used as GREEN evidence."
+    },
+    {
+      "sequence": 194,
+      "timestamp": "2026-07-11T17:28:06.228Z",
+      "eventType": "corrected_no_pending_check",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "dryRun": true,
+        "classpath": "<compiled-javaspec-classes>"
+      },
+      "result": {
+        "total": 3,
+        "passed": 3,
+        "skipped": 0,
+        "pending": 0,
+        "pendingGenerationWork": 0
+      },
+      "exitCode": 0,
+      "summary": "Corrected classpath dry-run proved zero pending generation/update work."
+    },
+    {
+      "sequence": 206,
+      "timestamp": "2026-07-11T17:28:23.926Z",
+      "eventType": "java21_maven_green",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "java": "OpenJDK 21",
+        "goal": "verify"
+      },
+      "result": {
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "javaspecPassed": 6,
+        "pending": 0,
+        "build": "SUCCESS"
+      },
+      "exitCode": 0,
+      "summary": "Authoritative OpenJDK 21 Maven verification passed."
+    },
+    {
+      "sequence": 212,
+      "timestamp": "2026-07-11T17:28:27.970Z",
+      "eventType": "exact_shape",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "tool": "javap"
+      },
+      "result": {
+        "method": "public static java.util.Optional<PublicKeyAlgorithm> findByWireToken(java.lang.String)",
+        "constants": [
+          "EC_P256",
+          "RSA_3072"
+        ],
+        "wireTokens": [
+          "EC_P256",
+          "RSA_3072"
+        ]
+      },
+      "exitCode": 0,
+      "summary": "Compiled public static Optional shape is exact."
+    },
+    {
+      "sequence": 218,
+      "timestamp": "2026-07-11T17:28:33.175Z",
+      "eventType": "launcher_stability",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "command": "./bin/javaspec --launcher-fingerprint"
+      },
+      "result": {
+        "version": "1.0.0-RC1",
+        "sha256": "293ac11e9fe3d1960ab8bfd0faf7e919c82aaa7a3240771ca695f90349a9573f"
+      },
+      "exitCode": 0,
+      "summary": "Final launcher fingerprint matches pre-baseline provenance."
+    },
+    {
+      "sequence": 241,
+      "timestamp": "2026-07-11T17:29:39.305Z",
+      "eventType": "rl_final_evidence",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": {
+        "artifact": "<ignored-target>/rl-evidence-public-key-algorithm-find-by-wire-token-final.txt"
+      },
+      "result": {
+        "sha256": "e7516f899efb9de3f1a2e8fe29110048bff969f553687f192df3aad264cf199d",
+        "byteSize": 3874
+      },
+      "exitCode": 0,
+      "summary": "Final contemporaneous RL evidence recorded process mistakes and limitations."
+    },
+    {
+      "sequence": 281,
+      "timestamp": "2026-07-11T17:31:06.103Z",
+      "eventType": "handoff",
+      "actor": "spec-driven",
+      "toolName": null,
+      "arguments": null,
+      "result": {
+        "outcome": "BEHAVIOR_VERIFIED",
+        "examplesAdded": 1,
+        "pendingStubCount": 0,
+        "scenarioCompletion": "PARTIAL"
+      },
+      "exitCode": null,
+      "summary": "Structured successful V2/RL handoff emitted before sealing."
+    }
+  ],
+  "patches": [
+    {
+      "path": "docs/dataset/artifacts/0006-public-key-algorithm-find-by-wire-token/worktree.patch",
+      "sha256": "0470a3fcdc895a577a5d3308c6761da0926c2d477be31f69d81e2aa0e67d74a1",
+      "byteSize": 2541,
+      "description": "Exact two-file base-to-implementation patch."
+    }
+  ],
+  "verification": {
+    "commands": [
+      {
+        "command": "corrected pre-baseline javaspec launcher fingerprint",
+        "exitCode": 0,
+        "summary": "RC1 selected-JAR path and SHA-256 captured before baseline."
+      },
+      {
+        "command": "continuation baseline JavaSpec",
+        "exitCode": 0,
+        "summary": "5/5, zero pending."
+      },
+      {
+        "command": "selected JavaSpec RED",
+        "exitCode": 1,
+        "summary": "Missing public static findByWireToken(String) compilation RED before production."
+      },
+      {
+        "command": "selected/subject/full JavaSpec GREEN",
+        "exitCode": 0,
+        "summary": "1/1, 3/3, and 6/6; zero pending."
+      },
+      {
+        "command": "first no-classpath JavaSpec dry-run",
+        "exitCode": 0,
+        "summary": "3/3 skipped; omitted classpath; explicitly not used as GREEN."
+      },
+      {
+        "command": "classpath-correct JavaSpec dry-run",
+        "exitCode": 0,
+        "summary": "3/3 and no pending generation/update work."
+      },
+      {
+        "command": "JAVA_HOME=<java-21-home> mvn -pl trust-engine-domain -am verify",
+        "exitCode": 0,
+        "summary": "OpenJDK 21, six tests, JavaSpec 6/6, BUILD SUCCESS."
+      },
+      {
+        "command": "independent replay at implementation commit",
+        "exitCode": 0,
+        "summary": "Selected, subject, full, dry-run, Java 21 Maven, shape, scope, behavior, and hashes pass."
+      },
+      {
+        "command": "./scripts/validate-dataset && ./scripts/validate-rl-dataset && ./scripts/validate-agent-contracts",
+        "exitCode": 0,
+        "summary": "Authoritative schemas, references, privacy/leakage, deterministic partition, and contracts pass."
+      }
+    ],
+    "outcome": "PASSED",
+    "evidence": [
+      {
+        "path": "docs/dataset/artifacts/0006-public-key-algorithm-find-by-wire-token/trace-validation.json",
+        "sha256": "6f717d7d8a6da3e8e0c20ec86c3ff197d2f0eeb85bcbf9a6842cf1f1be9f4d2a",
+        "mediaType": "application/json",
+        "byteSize": 1996,
+        "description": "Independent seal, hash-chain, chronology, scope, commit, and privacy validation."
+      },
+      {
+        "path": "docs/dataset/artifacts/0006-public-key-algorithm-find-by-wire-token/verification-evidence.json",
+        "sha256": "b5e2768d20a7d7f02b682ae8cba55c58792d5d43515e9304625f5e81fb28bde2",
+        "mediaType": "application/json",
+        "byteSize": 3866,
+        "description": "Sanitized authorization, RED/GREEN, API shape, exact behavior, commit, and replay evidence."
+      },
+      {
+        "path": "docs/dataset/artifacts/0006-public-key-algorithm-find-by-wire-token/worktree.patch",
+        "sha256": "0470a3fcdc895a577a5d3308c6761da0926c2d477be31f69d81e2aa0e67d74a1",
+        "mediaType": "text/x-patch",
+        "byteSize": 2541,
+        "description": "Exact two-file base-to-implementation patch."
+      },
+      {
+        "path": "docs/dataset/artifacts/0006-public-key-algorithm-find-by-wire-token/evidence-summary.md",
+        "sha256": "87e341ad4bfa98906211f0ca332b549766f796e31cb54af3ed7e78f81a6dcfd9",
+        "mediaType": "text/markdown",
+        "byteSize": 1394,
+        "description": "Human-readable evidence summary."
+      },
+      {
+        "path": "docs/dataset/artifacts/0006-public-key-algorithm-find-by-wire-token/resume-capsule.md",
+        "sha256": "168682cfb5b9d2ac75256324f0d48152b219abcf024d2800e06bd592bc87b6a0",
+        "mediaType": "text/markdown",
+        "byteSize": 1093,
+        "description": "Compact safe-resume state."
+      }
+    ]
+  },
+  "termination": {
+    "type": "VERIFIED_SUCCESS",
+    "suspectedOwner": "SPEC_DRIVEN",
+    "summary": "PublicKeyAlgorithm performs exact case-sensitive lookup against explicit wireToken values through the required public static Optional API."
+  },
+  "contextMetrics": {
+    "metricCollectionStatus": "PARTIAL",
+    "maximumContextTokens": null,
+    "peakContextTokens": null,
+    "totalInputTokens": 99787,
+    "cachedInputTokens": 1075200,
+    "outputTokens": 9990,
+    "uniqueSourceBytesRead": null,
+    "repeatedSourceBytesRead": null,
+    "toolOutputBytesPresentedToModel": null,
+    "compactionCount": 0,
+    "iterationCount": 45
+  },
+  "curation": {
+    "status": "CURATED_SFT_CANDIDATE",
+    "reviewers": [
+      "dataset-writer"
+    ],
+    "knownIssues": [
+      "The initial fingerprint used module-relative ../bin/javaspec from repository root and exited 127; corrected pre-baseline fingerprint is authoritative.",
+      "The help command repeated the wrong-root launcher path and exited 127; corrected module-root help succeeded.",
+      "The first dry-run omitted compiled classpath and skipped 3/3; it is not GREEN evidence. Corrected classpath dry-run passed 3/3 with zero pending work.",
+      "This is partial traceability to one requirement observation, not completion of YAML parsing or the Scenario Outline.",
+      "Final CURATED_SFT requires independent approval."
+    ],
+    "sftEligibility": {
+      "status": "CANDIDATE",
+      "reason": "Exactly one authorized RAW_EVENT_STREAM JavaSpec behavior with complete provenance, honest process failures/corrections, meaningful RED, bounded GREEN, scope/hash/privacy/schema checks, and independent replay."
+    },
+    "evaluationEligibility": {
+      "status": "NOT_ELIGIBLE",
+      "reason": "No independent evaluation-case approval has been performed; RL HOLDOUT partition metadata does not itself approve an evaluation case."
+    }
+  },
+  "artifacts": [
+    {
+      "path": "docs/dataset/artifacts/0006-public-key-algorithm-find-by-wire-token/trace-validation.json",
+      "sha256": "6f717d7d8a6da3e8e0c20ec86c3ff197d2f0eeb85bcbf9a6842cf1f1be9f4d2a",
+      "mediaType": "application/json",
+      "byteSize": 1996,
+      "description": "Independent seal, hash-chain, chronology, scope, commit, and privacy validation."
+    },
+    {
+      "path": "docs/dataset/artifacts/0006-public-key-algorithm-find-by-wire-token/verification-evidence.json",
+      "sha256": "b5e2768d20a7d7f02b682ae8cba55c58792d5d43515e9304625f5e81fb28bde2",
+      "mediaType": "application/json",
+      "byteSize": 3866,
+      "description": "Sanitized authorization, RED/GREEN, API shape, exact behavior, commit, and replay evidence."
+    },
+    {
+      "path": "docs/dataset/artifacts/0006-public-key-algorithm-find-by-wire-token/worktree.patch",
+      "sha256": "0470a3fcdc895a577a5d3308c6761da0926c2d477be31f69d81e2aa0e67d74a1",
+      "mediaType": "text/x-patch",
+      "byteSize": 2541,
+      "description": "Exact two-file base-to-implementation patch."
+    },
+    {
+      "path": "docs/dataset/artifacts/0006-public-key-algorithm-find-by-wire-token/evidence-summary.md",
+      "sha256": "87e341ad4bfa98906211f0ca332b549766f796e31cb54af3ed7e78f81a6dcfd9",
+      "mediaType": "text/markdown",
+      "byteSize": 1394,
+      "description": "Human-readable evidence summary."
+    },
+    {
+      "path": "docs/dataset/artifacts/0006-public-key-algorithm-find-by-wire-token/resume-capsule.md",
+      "sha256": "168682cfb5b9d2ac75256324f0d48152b219abcf024d2800e06bd592bc87b6a0",
+      "mediaType": "text/markdown",
+      "byteSize": 1093,
+      "description": "Compact safe-resume state."
+    }
+  ],
+  "resumeCapsule": {
+    "currentCommit": "f39c7c0edcd683aea32f9aa8fb7cb568d32b1b15",
+    "currentTree": "2ae992bebd6a9dc012f2eace6c2823426713769c",
+    "requirementIds": [
+      "REQ-X509-SUBJECT-PUBLIC-KEY-PROFILE-002"
+    ],
+    "scenarioIds": [
+      "req-x509-subject-public-key-profile-002-partial-exact-token-row"
+    ],
+    "currentBehavior": "Exact EC_P256 resolves to EC_P256 and lowercase ec_p256 resolves empty by comparing explicit wireToken without case folding through a public static Optional API.",
+    "owningAgent": "spec-driven",
+    "fileHashes": [
+      {
+        "path": "trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithm.java",
+        "sha256": "f8a7a771415bfaef5d7ef56f030c8cc9831569a15d744086366f44f8108d90ce",
+        "byteSize": 665
+      },
+      {
+        "path": "trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithmSpec.java",
+        "sha256": "cea97be9b63b598fd47a2b400cc6fbef9791529965c4a0ae0c2065cff421f776",
+        "byteSize": 2459
+      }
+    ],
+    "lastVerifiedResult": "Selected 1/1, subject 3/3, full 6/6, corrected dry-run 3/3, zero pending/stubs, OpenJDK 21 Maven and independent replay pass.",
+    "lastFailureOrStop": "First dry-run omitted compiled classpath and skipped 3/3; corrected classpath run passed and is authoritative.",
+    "unresolvedWork": [
+      "YAML parsing, remaining Scenario Outline observations, null, whitespace/tab, other near-matches, serialization, rename, and policy behavior remain separate."
+    ],
+    "allowedFiles": [
+      "trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithm.java",
+      "trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithmSpec.java",
+      "docs/dataset/**"
+    ],
+    "javaspecFingerprint": "launcher=1.0.0-RC1; jarSha256=293ac11e9fe3d1960ab8bfd0faf7e919c82aaa7a3240771ca695f90349a9573f",
+    "nextPermittedAction": "Parent reviews and may commit dataset-only artifacts; any next domain behavior requires a separate authorized continuation slice without describe."
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "schemaVersion": "rl-objective-reward-verifier-v1",
+  "producer": {
+    "id": "bdd-java-rl-objective-verifier",
+    "version": "1"
+  },
+  "rubric": [
+    {
+      "rule": "WRONG_ROOT_TOOL_FAILURE",
+      "value": -0.05,
+      "condition": "Fingerprint command fails from the wrong root."
+    },
+    {
+      "rule": "PROVENANCE_RECOVERY",
+      "value": 0.05,
+      "condition": "Corrected pre-baseline fingerprint captures version, selected JAR and SHA-256."
+    },
+    {
+      "rule": "WRONG_ROOT_HELP_FAILURE",
+      "value": -0.02,
+      "condition": "Help command repeats the wrong-root launcher path."
+    },
+    {
+      "rule": "HELP_RECOVERY",
+      "value": 0.02,
+      "condition": "Corrected module-root help succeeds and informs the static-parser generation decision."
+    },
+    {
+      "rule": "MEANINGFUL_JAVASPEC_RED",
+      "value": 0.25,
+      "condition": "Selected JavaSpec compilation fails before production only on missing findByWireToken(String)."
+    },
+    {
+      "rule": "OMITTED_CLASSPATH_DRY_RUN",
+      "value": -0.05,
+      "condition": "Dry-run omits compiled classpath and skips all examples; not used as GREEN."
+    },
+    {
+      "rule": "CLASSPATH_DRY_RUN_RECOVERY",
+      "value": 0.05,
+      "condition": "Corrected dry-run passes 3/3 with zero pending generation work."
+    },
+    {
+      "rule": "OBJECTIVE_TASK_SUCCESS",
+      "value": 1.0,
+      "condition": "Independent selected, subject, full, no-pending, Java 21 Maven, API shape, behavior, scope, commit and hash checks pass."
+    }
+  ],
+  "events": [
+    {
+      "id": "reward-wrong-root-fingerprint",
+      "rule": "WRONG_ROOT_TOOL_FAILURE",
+      "stepSequence": 0,
+      "value": -0.05,
+      "traceEvidence": [
+        13,
+        14
+      ]
+    },
+    {
+      "id": "reward-provenance-recovery",
+      "rule": "PROVENANCE_RECOVERY",
+      "stepSequence": 1,
+      "value": 0.05,
+      "traceEvidence": [
+        25,
+        26
+      ]
+    },
+    {
+      "id": "reward-wrong-root-help",
+      "rule": "WRONG_ROOT_HELP_FAILURE",
+      "stepSequence": 2,
+      "value": -0.02,
+      "traceEvidence": [
+        121,
+        122
+      ]
+    },
+    {
+      "id": "reward-help-recovery",
+      "rule": "HELP_RECOVERY",
+      "stepSequence": 3,
+      "value": 0.02,
+      "traceEvidence": [
+        127,
+        128
+      ]
+    },
+    {
+      "id": "reward-meaningful-red",
+      "rule": "MEANINGFUL_JAVASPEC_RED",
+      "stepSequence": 6,
+      "value": 0.25,
+      "traceEvidence": [
+        151,
+        152
+      ]
+    },
+    {
+      "id": "reward-omitted-classpath",
+      "rule": "OMITTED_CLASSPATH_DRY_RUN",
+      "stepSequence": 11,
+      "value": -0.05,
+      "traceEvidence": [
+        187,
+        188
+      ]
+    },
+    {
+      "id": "reward-classpath-recovery",
+      "rule": "CLASSPATH_DRY_RUN_RECOVERY",
+      "stepSequence": 12,
+      "value": 0.05,
+      "traceEvidence": [
+        193,
+        194
+      ]
+    },
+    {
+      "id": "reward-task-success",
+      "rule": "OBJECTIVE_TASK_SUCCESS",
+      "stepSequence": null,
+      "value": 1.0,
+      "traceEvidence": [
+        170,
+        176,
+        182,
+        194,
+        206,
+        212,
+        218
+      ]
+    }
+  ],
+  "total": 1.25,
+  "approvalBasis": "Deterministic event rules were independently checked by dataset-writer-v9 against the sealed trace and replay; producer and approver are distinct.",
+  "limitations": [
+    "No hidden tests were used.",
+    "No counterfactual, preference, alternative, or unexecuted action was scored.",
+    "Values are deterministic contract labels, not claims about human preference."
+  ],
+  "independentApproval": {
+    "producerId": "dataset-writer-v9",
+    "promptVersion": "bdd-java-dataset-writer-v9",
+    "effectiveSystemPromptSha256": "19431e74bd677c3b166b56aaf4937bb2fe1fca3c0788436c50213406aa45be82",
+    "model": "openai-codex/gpt-5.6-sol",
+    "decision": "APPROVED"
+  }
+}

@@ -1,0 +1,262 @@
+{
+  "schemaVersion": "sft-view-v1",
+  "sourceEpisodeId": "0006-public-key-algorithm-find-by-wire-token",
+  "sourceCaptureMode": "RAW_EVENT_STREAM",
+  "curationStatus": "CURATED_SFT_CANDIDATE",
+  "independentApprovalRequired": true,
+  "derivation": {
+    "sourceTraceId": "b8408537-b9e1-4405-9a74-1e0443d50900",
+    "selectedToolCalls": 12,
+    "sanitization": "Private machine paths replaced; both wrong-root failures and omitted-classpath dry-run correction retained; hidden reasoning omitted."
+  },
+  "knownIssues": [
+    "The initial fingerprint used module-relative ../bin/javaspec from repository root and exited 127; corrected pre-baseline fingerprint is authoritative.",
+    "The help command repeated the wrong-root launcher path and exited 127; corrected module-root help succeeded.",
+    "The first dry-run omitted compiled classpath and skipped 3/3; it is not GREEN evidence. Corrected classpath dry-run passed 3/3 with zero pending work.",
+    "Trace-backed timestamps for summarized intermediate events are normalized to the sealed event time range; raw chronology remains authoritative.",
+    "This is partial traceability to one requirement observation, not completion of YAML parsing or the Scenario Outline.",
+    "Final CURATED_SFT requires independent approval."
+  ],
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a spec-driven Java domain agent. Implement exactly one authorized continuation behavior using JavaSpec RED-GREEN-REFACTOR and preserve observable failures and corrections."
+    },
+    {
+      "role": "user",
+      "content": "For existing PublicKeyAlgorithm, add public static Optional<PublicKeyAlgorithm> findByWireToken(String). Exact EC_P256 must match; lowercase ec_p256 must not. Compare explicit wireToken without case folding. Do not repeat describe or distort the API for JavaSpec generation. Trace ADR 0003 and only partial REQ-X509-SUBJECT-PUBLIC-KEY-PROFILE-002 coverage."
+    },
+    {
+      "role": "assistant",
+      "content": "Capture launcher provenance before baseline.",
+      "tool_calls": [
+        {
+          "id": "call_1",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\":\"../bin/javaspec --launcher-fingerprint\",\"cwd\":\"<repository-root>\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_1",
+      "content": "launcher path not found; exit 127"
+    },
+    {
+      "role": "assistant",
+      "content": "Correct the wrong-root path before baseline.",
+      "tool_calls": [
+        {
+          "id": "call_2",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\":\"./bin/javaspec --launcher-fingerprint\",\"cwd\":\"<repository-root>\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_2",
+      "content": "version=1.0.0-RC1; selectedJar=<maven-repository>/io/github/jvmspec/javaspec/1.0.0-RC1/javaspec-1.0.0-RC1.jar; sha256=293ac11e9fe3d1960ab8bfd0faf7e919c82aaa7a3240771ca695f90349a9573f"
+    },
+    {
+      "role": "assistant",
+      "content": "Inspect run help for generator constraints.",
+      "tool_calls": [
+        {
+          "id": "call_3",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\":\"../bin/javaspec run --help\",\"cwd\":\"<repository-root>\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_3",
+      "content": "launcher path not found; exit 127"
+    },
+    {
+      "role": "assistant",
+      "content": "Correct the help working directory. The CLI has no dedicated static-parser generator; retain the required public static API.",
+      "tool_calls": [
+        {
+          "id": "call_4",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\":\"../bin/javaspec run --help\",\"cwd\":\"<domain-module>\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_4",
+      "content": "help displayed; no dedicated static-parser generator option"
+    },
+    {
+      "role": "assistant",
+      "content": "Establish the existing-subject baseline without describe.",
+      "tool_calls": [
+        {
+          "id": "call_5",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\":\"javaspec run --compile --profile java21\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_5",
+      "content": "Examples: 5 total, 5 passed, 0 pending."
+    },
+    {
+      "role": "assistant",
+      "content": "Add one exact/lowercase lookup and public-static-shape specification example.",
+      "tool_calls": [
+        {
+          "id": "call_6",
+          "type": "function",
+          "function": {
+            "name": "edit",
+            "arguments": "{\"path\":\"PublicKeyAlgorithmSpec.java\",\"change\":\"add one lookup example\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_6",
+      "content": "Specification changed; production unchanged."
+    },
+    {
+      "role": "assistant",
+      "content": "Run the selected example to establish RED.",
+      "tool_calls": [
+        {
+          "id": "call_7",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\":\"javaspec selected lookup example --compile\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_7",
+      "content": "Compilation failed: cannot find symbol method findByWireToken(java.lang.String); exit 1."
+    },
+    {
+      "role": "assistant",
+      "content": "Apply the smallest coherent production change while preserving the public static Optional API and explicit wireToken comparison.",
+      "tool_calls": [
+        {
+          "id": "call_8",
+          "type": "function",
+          "function": {
+            "name": "edit",
+            "arguments": "{\"path\":\"PublicKeyAlgorithm.java\",\"change\":\"add exact static Optional lookup without case folding\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_8",
+      "content": "Production changed; enum vocabulary and explicit tokens preserved."
+    },
+    {
+      "role": "assistant",
+      "content": "Verify selected, subject, and full specifications.",
+      "tool_calls": [
+        {
+          "id": "call_9",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\":\"run selected, subject, and full JavaSpec\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_9",
+      "content": "Selected 1/1; subject 3/3; full 6/6; zero pending."
+    },
+    {
+      "role": "assistant",
+      "content": "Check pending work with dry-run.",
+      "tool_calls": [
+        {
+          "id": "call_10",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\":\"javaspec dry-run without explicit classpath\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_10",
+      "content": "No pending generation work, but 3/3 examples skipped because compiled specification classpath was omitted. Not GREEN evidence."
+    },
+    {
+      "role": "assistant",
+      "content": "Correct the dry-run with the compiled JavaSpec classpath.",
+      "tool_calls": [
+        {
+          "id": "call_11",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\":\"javaspec dry-run --classpath <compiled-javaspec-classes>\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_11",
+      "content": "3/3 passed; zero pending generation/update work."
+    },
+    {
+      "role": "assistant",
+      "content": "Run authoritative OpenJDK 21 Maven and verify the compiled method shape.",
+      "tool_calls": [
+        {
+          "id": "call_12",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\":\"OpenJDK 21 Maven verify and javap shape check\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_12",
+      "content": "Six tests and JavaSpec 6/6 passed; BUILD SUCCESS; public static Optional method shape verified."
+    },
+    {
+      "role": "assistant",
+      "content": "BEHAVIOR_VERIFIED. Exact EC_P256 matches, lowercase ec_p256 does not, explicit wireToken is compared without case folding, and vocabulary is preserved. This is partial requirement coverage only."
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "verification-evidence-v1",
+  "episodeId": "0006-public-key-algorithm-find-by-wire-token",
+  "authorization": {
+    "adr": "ADR-0003",
+    "requirementId": "REQ-X509-SUBJECT-PUBLIC-KEY-PROFILE-002",
+    "traceability": "PARTIAL_ROW_OBSERVATION",
+    "scenarioCompletion": "PARTIAL"
+  },
+  "chronology": {
+    "fingerprintBeforeBaseline": true,
+    "baseline": "5/5, zero pending",
+    "describeExecuted": false,
+    "specificationEditBeforeProduction": true,
+    "red": {
+      "sequence": 152,
+      "classification": "MISSING_PRODUCTION_MEMBER",
+      "message": "cannot find symbol: method findByWireToken(java.lang.String)",
+      "report": "not written because compilation failed"
+    },
+    "productionEditSequence": 158,
+    "green": {
+      "selected": "1/1",
+      "subject": "3/3",
+      "full": "6/6",
+      "dryRun": "3/3, no pending generation/update work",
+      "pendingStubCount": 0
+    }
+  },
+  "behavior": {
+    "exactInput": "EC_P256",
+    "exactResult": "Optional.of(EC_P256)",
+    "lowercaseInput": "ec_p256",
+    "lowercaseResult": "Optional.empty()",
+    "comparison": "algorithm.wireToken.equals(wireToken)",
+    "caseFolding": false,
+    "api": "public static Optional<PublicKeyAlgorithm> findByWireToken(String)"
+  },
+  "preservation": {
+    "constants": [
+      "EC_P256",
+      "RSA_3072"
+    ],
+    "wireTokens": [
+      "EC_P256",
+      "RSA_3072"
+    ],
+    "renamed": false,
+    "vocabularyExpanded": false,
+    "apiDistortedForGenerator": false,
+    "javaspecStaticParserGenerationLimit": "No dedicated static-parser generator; meaningful compile RED was retained and the public static API was implemented directly."
+  },
+  "commit": {
+    "base": "c30d45965e2caa2e86ce40c8b6ca901895fe93f2",
+    "baseTree": "c9b4ca7a258ed87e2268f418a10d3a30975a4139",
+    "implementation": "f39c7c0edcd683aea32f9aa8fb7cb568d32b1b15",
+    "tree": "2ae992bebd6a9dc012f2eace6c2823426713769c",
+    "changedTrackedFiles": 2,
+    "patchSha256": "0470a3fcdc895a577a5d3308c6761da0926c2d477be31f69d81e2aa0e67d74a1"
+  },
+  "fileHashes": [
+    {
+      "path": "trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithm.java",
+      "sha256": "f8a7a771415bfaef5d7ef56f030c8cc9831569a15d744086366f44f8108d90ce",
+      "byteSize": 665
+    },
+    {
+      "path": "trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithmSpec.java",
+      "sha256": "cea97be9b63b598fd47a2b400cc6fbef9791529965c4a0ae0c2065cff421f776",
+      "byteSize": 2459
+    }
+  ],
+  "runtime": {
+    "java": "OpenJDK 21.0.11",
+    "maven": "Apache Maven 3.9.16",
+    "mavenResult": "6 tests, 0 failures, 0 errors, 0 skipped, BUILD SUCCESS"
+  },
+  "launcher": {
+    "version": "1.0.0-RC1",
+    "selectedJar": "<maven-repository>/io/github/jvmspec/javaspec/1.0.0-RC1/javaspec-1.0.0-RC1.jar",
+    "sha256": "293ac11e9fe3d1960ab8bfd0faf7e919c82aaa7a3240771ca695f90349a9573f",
+    "stable": true
+  },
+  "independentReplay": {
+    "commit": "f39c7c0edcd683aea32f9aa8fb7cb568d32b1b15",
+    "selected": "1/1",
+    "subject": "3/3",
+    "full": "6/6",
+    "dryRun": "3/3 and no pending work",
+    "maven": "6/6 BUILD SUCCESS",
+    "shape": "public static Optional method verified with javap",
+    "result": "PASSED"
+  },
+  "processCorrections": [
+    "Wrong-root launcher fingerprint exited 127; corrected before baseline.",
+    "Wrong-root launcher help exited 127; corrected by entering the domain module.",
+    "First dry-run omitted the compiled classpath and skipped 3/3; it is not GREEN evidence. Corrected classpath dry-run passed 3/3."
+  ],
+  "limitations": [
+    "No null, whitespace, tab, other near-match, YAML parsing, serialization, rename, policy, or full Scenario Outline coverage is claimed.",
+    "No hidden tests, preference comparisons, alternatives, or counterfactuals are claimed."
+  ]
+}

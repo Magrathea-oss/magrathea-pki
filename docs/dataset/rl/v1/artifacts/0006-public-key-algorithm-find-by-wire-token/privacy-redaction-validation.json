@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "rl-privacy-redaction-validation-v1",
+  "result": "PASSED",
+  "scans": {
+    "secretScan": "No private key, credential, password, access-key, or unredacted secret pattern in sidecar-bound artifacts.",
+    "privatePathScan": "No private absolute home path occurs in retained sidecar artifacts; raw trace remains external behind trajectory URI references.",
+    "trainingDataLeakageScan": "No hidden evaluation, future solution, unexecuted alternative, preference, or post-outcome state is included in an earlier state hash.",
+    "hiddenEvaluationProtected": true
+  },
+  "redactions": [
+    {
+      "source": "raw pre/final RL evidence",
+      "fields": [
+        "java.path",
+        "maven.path",
+        "javaspec.launcher.jar",
+        "trace.path",
+        "trace.metadataPath"
+      ],
+      "replacement": "semantic runtime labels, <maven-repository>, evidence SHA-256, or trajectory:// reference"
+    },
+    {
+      "source": "raw command output",
+      "fields": [
+        "absolute build output paths",
+        "private host identity"
+      ],
+      "replacement": "repository-relative or omitted"
+    }
+  ],
+  "limitations": [
+    "The immutable external trace contains machine-local paths and is not copied into training messages; controlled replay may dereference it.",
+    "The TRAIN assignment is deterministic metadata only; no hidden test content is claimed or embedded."
+  ]
+}

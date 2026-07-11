@@ -1,0 +1,52 @@
+diff --git a/trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithm.java b/trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithm.java
+index 86d7b12..17440fe 100644
+--- a/trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithm.java
++++ b/trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithm.java
+@@ -1,5 +1,7 @@
+ package com.magrathea.trustengine.x509.profile;
+ 
++import java.util.Optional;
++
+ public enum PublicKeyAlgorithm {
+     EC_P256("EC_P256"),
+     RSA_3072("RSA_3072");
+@@ -13,4 +15,13 @@ public enum PublicKeyAlgorithm {
+     public String wireToken() {
+         return wireToken;
+     }
++
++    public static Optional<PublicKeyAlgorithm> findByWireToken(String wireToken) {
++        for (PublicKeyAlgorithm algorithm : values()) {
++            if (algorithm.wireToken.equals(wireToken)) {
++                return Optional.of(algorithm);
++            }
++        }
++        return Optional.empty();
++    }
+ }
+diff --git a/trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithmSpec.java b/trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithmSpec.java
+index 1b79387..448824a 100644
+--- a/trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithmSpec.java
++++ b/trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithmSpec.java
+@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
+ import java.lang.reflect.Modifier;
+ import java.util.Arrays;
+ import java.util.Map;
++import java.util.Optional;
+ import java.util.Set;
+ import java.util.stream.Collectors;
+ 
+@@ -42,4 +43,13 @@ public class PublicKeyAlgorithmSpec extends PublicKeyAlgorithmSpecSupport {
+         shouldEqual(accessor.getReturnType(), String.class);
+         shouldEqual(accessor.getModifiers(), Modifier.PUBLIC);
+     }
++
++    public void it_finds_only_an_exact_explicit_wire_token_match() throws Exception {
++        shouldEqual(PublicKeyAlgorithm.findByWireToken("EC_P256"), Optional.of(PublicKeyAlgorithm.EC_P256));
++        shouldEqual(PublicKeyAlgorithm.findByWireToken("ec_p256"), Optional.empty());
++
++        Method finder = PublicKeyAlgorithm.class.getDeclaredMethod("findByWireToken", String.class);
++        shouldEqual(finder.getReturnType(), Optional.class);
++        shouldEqual(finder.getModifiers(), Modifier.PUBLIC | Modifier.STATIC);
++    }
+ }

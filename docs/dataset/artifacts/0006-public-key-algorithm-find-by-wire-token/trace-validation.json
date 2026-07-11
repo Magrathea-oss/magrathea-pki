@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "trace-validation-v1",
+  "traceId": "b8408537-b9e1-4405-9a74-1e0443d50900",
+  "captureMode": "RAW_EVENT_STREAM",
+  "agent": "spec-driven",
+  "promptVersion": "bdd-java-spec-driven-v8",
+  "seal": {
+    "complete": true,
+    "eventCount": 286,
+    "eventsSha256": "13fe72b37e916e13a424513da0f5e4cda0245433d3f623bdaeec0c323972d11e",
+    "metadataSha256": "8032c35192a905f37549e37376222eb37367b33f495fe599fbb6ee46ccec2642",
+    "patchSha256": "0470a3fcdc895a577a5d3308c6761da0926c2d477be31f69d81e2aa0e67d74a1",
+    "finalEventHash": "b443521efe85419c5fd7d358027f3fc011a2b1efe706dfac023fcfaedff12518"
+  },
+  "checks": {
+    "eventCountMatches": true,
+    "hashChainValid": true,
+    "toolPairsComplete": true,
+    "toolPairCount": 45,
+    "initialCommit": "c30d45965e2caa2e86ce40c8b6ca901895fe93f2",
+    "initialTree": "c9b4ca7a258ed87e2268f418a10d3a30975a4139",
+    "implementationCommit": "f39c7c0edcd683aea32f9aa8fb7cb568d32b1b15",
+    "implementationTree": "2ae992bebd6a9dc012f2eace6c2823426713769c",
+    "implementationParentMatches": true,
+    "exactChangedTrackedPaths": [
+      "trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithm.java",
+      "trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithmSpec.java"
+    ],
+    "continuationSubjectPresentAtBase": true,
+    "describeToolCallExecuted": false,
+    "preBaselineFingerprintSequence": 26,
+    "baselineSequence": 134,
+    "specificationEditSequence": 140,
+    "meaningfulRedSequence": 152,
+    "productionEditSequence": 158,
+    "selectedGreenSequence": 170,
+    "subjectGreenSequence": 176,
+    "fullGreenSequence": 182,
+    "omittedClasspathDryRunSequence": 188,
+    "correctedDryRunSequence": 194,
+    "java21MavenSequence": 206,
+    "finalFingerprintSequence": 218
+  },
+  "privacy": {
+    "rawTraceRetainedExternally": true,
+    "trainingArtifactsSanitized": true,
+    "privatePathsNotCopied": true
+  },
+  "decision": "ACCEPTED"
+}

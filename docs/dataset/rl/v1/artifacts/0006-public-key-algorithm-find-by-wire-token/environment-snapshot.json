@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "rl-environment-snapshot-v1",
+  "phaseSnapshots": {
+    "preBaseline": {
+      "commit": "c30d45965e2caa2e86ce40c8b6ca901895fe93f2",
+      "tree": "c9b4ca7a258ed87e2268f418a10d3a30975a4139",
+      "sourceHashes": {
+        "production": "86984de780956efbc52eaeec47d4f241cfaf58958629f06fd3523af7ec0e6cd7",
+        "specification": "114b52157c9c09dadad99fc5aa18bd2be73762f2ee8f387977c256e7f9d27b88"
+      },
+      "java": "OpenJDK 21.0.11 selected for JavaSpec and Maven",
+      "maven": "Apache Maven 3.9.16",
+      "os": "Linux amd64",
+      "locale": "it_IT.UTF-8",
+      "timezone": "Europe/Rome",
+      "traceEvidenceTarget": "rl-evidence-public-key-algorithm-find-by-wire-token-pre.txt",
+      "traceEvidenceSha256": "051863c7c2129006b2404c2aa1605984a478cd4c2d12e4d7030d2d6fb739e757"
+    },
+    "final": {
+      "implementationCommit": "f39c7c0edcd683aea32f9aa8fb7cb568d32b1b15",
+      "implementationTree": "2ae992bebd6a9dc012f2eace6c2823426713769c",
+      "sourceHashes": {
+        "production": "f8a7a771415bfaef5d7ef56f030c8cc9831569a15d744086366f44f8108d90ce",
+        "specification": "cea97be9b63b598fd47a2b400cc6fbef9791529965c4a0ae0c2065cff421f776"
+      },
+      "verificationRuntime": "OpenJDK 21.0.11",
+      "maven": "Apache Maven 3.9.16",
+      "traceEvidenceTarget": "rl-evidence-public-key-algorithm-find-by-wire-token-final.txt",
+      "traceEvidenceSha256": "e7516f899efb9de3f1a2e8fe29110048bff969f553687f192df3aad264cf199d"
+    }
+  },
+  "javaspec": {
+    "version": "1.0.0-RC1",
+    "selectedJar": "<maven-repository>/io/github/jvmspec/javaspec/1.0.0-RC1/javaspec-1.0.0-RC1.jar",
+    "sha256": "293ac11e9fe3d1960ab8bfd0faf7e919c82aaa7a3240771ca695f90349a9573f"
+  },
+  "toolRegistryFingerprint": "58f9fb4ff63c4ac748fcf030b843b8687a38b4aab2362dd8974d2b5b32f7776b",
+  "redaction": "Machine-local executable, repository, home, and trace paths replaced by semantic labels or safe trajectory URI references."
+}
