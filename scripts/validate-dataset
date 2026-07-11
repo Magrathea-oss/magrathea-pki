@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import hashlib
 import json
+import os
 import pathlib
 import re
 import sys
@@ -13,7 +14,10 @@ except ImportError:  # pragma: no cover - validator remains useful without the o
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 DATASET = ROOT / 'docs/dataset'
 MANIFEST = DATASET / 'manifest.jsonl'
-SCHEMA = DATASET / 'schema/episode-v2.schema.json'
+SCHEMA = pathlib.Path(os.environ.get(
+    'BDD_JAVA_EPISODE_SCHEMA',
+    pathlib.Path.home() / '.pi/agent/skills/multi-agent/schemas/bdd-java-episode-v2.schema.json'
+))
 TERMINATIONS = {
     'VERIFIED_SUCCESS','TRAINING_CAPTURE_UNAVAILABLE','FRAMEWORK_INCOHERENCE','UNSUPPORTED_JAVA_CONSTRUCT','SPECIFICATION_AMBIGUITY',
     'DOMAIN_MODEL_INCONSISTENCY','MODEL_TOOL_ERROR','MODEL_REASONING_ERROR','BASELINE_FAILURE',

@@ -20,7 +20,6 @@ Reconstructed summaries, story-driven or Cucumber-only work, unsealed traces, an
 ## Layout
 
 - `manifest.jsonl` — replacement-corpus manifest; initially empty.
-- `schema/episode-v2.schema.json` — JSON Schema for structured episodes.
 - `raw/v2/` — authoritative sealed raw episodes.
 - `curated/sft-candidates/` — mechanically eligible candidate views pending independent approval.
 - `curated/sft/` — independently approved SFT views.
@@ -28,3 +27,19 @@ Reconstructed summaries, story-driven or Cucumber-only work, unsealed traces, an
 - `incidents/` — eligible incident records when admission policy permits retaining them.
 
 Empty dataset directories are retained with `.gitkeep` sentinels.
+
+## Episode schema and validation
+
+The authoritative episode schema is installed with the bdd-java agent pack at
+`~/.pi/agent/skills/multi-agent/schemas/bdd-java-episode-v2.schema.json`. The
+project does not own or maintain a divergent schema copy. Set
+`BDD_JAVA_EPISODE_SCHEMA` to an alternative authoritative schema path when the
+agent pack is installed elsewhere.
+
+Validate the retained dataset infrastructure and agent contracts from the
+repository root:
+
+```bash
+./scripts/validate-dataset
+./scripts/validate-agent-contracts
+```
