@@ -1,0 +1,49 @@
+{
+  "authorization": {
+    "decision": "ADR 0001 CertificateProfile v1 identity contract",
+    "requirementId": "REQ-X509-PROFILE-INTEGRITY-014",
+    "qualification": "ADR 0001 normatively requires every public CertificateProfileId construction path to enforce the whole-string grammar, so explicit null is outside the grammar. REQ-X509-PROFILE-INTEGRITY-014 is related but its malformed expected-ID examples do not explicitly enumerate null."
+  },
+  "baseline": {
+    "subjectJavaSpec": {"total": 2, "passed": 2, "pending": 0}
+  },
+  "red": {
+    "exitCode": 1,
+    "classification": "EXPECTATION_FAILURE",
+    "example": "it_rejects_a_null_profile_identifier",
+    "result": "Expected java.lang.IllegalArgumentException to be thrown, but nothing was thrown",
+    "productionEditHadOccurred": false
+  },
+  "green": {
+    "selected": {"total": 1, "passed": 1, "failed": 0, "broken": 0, "skipped": 0, "pending": 0},
+    "subject": {"total": 3, "passed": 3, "failed": 0, "broken": 0, "skipped": 0, "pending": 0},
+    "full": {"total": 3, "passed": 3, "failed": 0, "broken": 0, "skipped": 0, "pending": 0},
+    "preservedBehaviors": ["canonical value preservation", "leading-whitespace rejection"],
+    "stubCheck": {"pendingGenerationWork": 0, "pendingStubMarkers": 0},
+    "recordShape": "Single String constructor and value() accessor preserved; no new public API."
+  },
+  "mavenJava21": {
+    "command": "JAVA_HOME=<java-21-home> PATH=<java-21-bin>:$PATH mvn -pl trust-engine-domain test",
+    "tests": 3,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "build": "SUCCESS"
+  },
+  "independentReplay": {
+    "javaspec": "3/3 passed; zero failed, broken, skipped, or pending",
+    "classpathDryRun": "3/3 passed and no pending generation/update work",
+    "mavenJava21Test": "BUILD SUCCESS; 3 tests",
+    "commitScope": "Exactly the two authorized source files",
+    "executableQualification": "Replay used launcher JAR SHA-256 0a6affa008f5452f851b711755237075b1ce1172a1b056d459f7201d5a16128a because the selected JAR path changed after sealing; the trace itself executed and pre-baseline fingerprinted SHA-256 8522dc72ab0ca87a508436419c4ed430e0ad470375445c689fa871218a8ab501."
+  },
+  "implementationCommit": {
+    "commit": "66fc2ed40a909a5ade8354774abb5c83f6751530",
+    "tree": "d3942d098bcbfa0aebb62fd03f5b01fe21568beb",
+    "parent": "7136c4ccef53979c86b18eb0341a41ae9d7947be"
+  },
+  "sourceHashes": {
+    "production": {"sha256": "2885f3c13762278cd9c1d928624d14b73561453e5700cf2d60550bf8340f1647", "byteSize": 466},
+    "specification": {"sha256": "7085be9400a043d2da2a0166779ee70d2fa7e1f242f9f9aeeca8343aab9e9033", "byteSize": 1036}
+  }
+}

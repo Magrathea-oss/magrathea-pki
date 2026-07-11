@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "sft-view-v1",
+  "sourceEpisodeId": "0003-certificate-profile-id-rejects-null",
+  "sourceCaptureMode": "RAW_EVENT_STREAM",
+  "curationStatus": "CURATED_SFT_CANDIDATE",
+  "independentApprovalRequired": true,
+  "derivation": {
+    "sourceTraceId": "823d94fd-3e5d-4485-92d6-f993d160a902",
+    "selectedToolCalls": 14,
+    "sanitization": "Machine-local paths and host metadata removed or replaced with neutral placeholders; hidden reasoning excluded; observable decisions and exact behavioral results retained."
+  },
+  "knownIssues": [
+    "Sealed dry-run commands found no pending generation work but skipped executable examples because the specification classpath was absent; executable JavaSpec passed 3/3, generated support and pending-marker checks passed, and independent classpath-correct dry-run passed 3/3.",
+    "The selected launcher JAR path changed after sealing. Independent behavior replay passed with the later JAR, but was not a bit-identical executable replay of the pre-baseline SHA-256 captured in the raw trace.",
+    "Mechanically and behaviorally validated candidate still requires independent approval for final CURATED_SFT."
+  ],
+  "messages": [
+    {"role":"system","content":"You are a spec-driven Java domain development agent. Implement exactly one authorized continuation behavior with JavaSpec RED before the smallest coherent GREEN and complete verification. Do not repeat describe for an existing subject."},
+    {"role":"user","content":"Implement one continuation slice for CertificateProfileId: reject explicit null because ADR 0001 requires every public construction path to enforce the complete whole-string v1 grammar. Treat REQ-X509-PROFILE-INTEGRITY-014 as related without claiming its malformed-string examples explicitly enumerate null. Preserve canonical-value and leading-whitespace behaviors, use Java 21, do not repeat describe, and modify only the production record and its specification."},
+    {"role":"assistant","content":"Capture the exact JavaSpec executable fingerprint before baseline.","tool_calls":[{"id":"call_1","type":"function","function":{"name":"bash","arguments":"{\"command\":\"./bin/javaspec --launcher-fingerprint\"}"}}]},
+    {"role":"tool","tool_call_id":"call_1","content":"javaspec.launcher.version=1.0.0-RC1\njavaspec.launcher.jar=<maven-repository>/io/github/jvmspec/javaspec/1.0.0-RC1/javaspec-1.0.0-RC1.jar\njavaspec.launcher.sha256=8522dc72ab0ca87a508436419c4ed430e0ad470375445c689fa871218a8ab501"},
+    {"role":"assistant","content":"Establish the complete existing-subject baseline without repeating describe.","tool_calls":[{"id":"call_2","type":"function","function":{"name":"bash","arguments":"{\"command\":\"cd trust-engine-domain && ../bin/javaspec run --compile --profile java21 --formatter pretty --class com.magrathea.trustengine.x509.profile.CertificateProfileId\"}"}}]},
+    {"role":"tool","tool_call_id":"call_2","content":"Examples: 2 total, 2 passed, 0 failed, 0 broken, 0 skipped, 0 pending."},
+    {"role":"assistant","content":"Add one focused null-construction rejection example to the existing specification.","tool_calls":[{"id":"call_3","type":"function","function":{"name":"edit","arguments":"{\"path\":\"trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileIdSpec.java\",\"change\":\"append one example that constructs with explicit null and expects IllegalArgumentException during instantiation\"}"}}]},
+    {"role":"tool","tool_call_id":"call_3","content":"Successfully replaced one block; only the specification changed."},
+    {"role":"assistant","content":"Capture meaningful selected RED before any production edit.","tool_calls":[{"id":"call_4","type":"function","function":{"name":"bash","arguments":"{\"command\":\"cd trust-engine-domain && ../bin/javaspec run --compile --profile java21 --formatter pretty --stop-on-failure --class com.magrathea.trustengine.x509.profile.CertificateProfileId --example it_rejects_a_null_profile_identifier\"}"}}]},
+    {"role":"tool","tool_call_id":"call_4","content":"FAILED: Expected java.lang.IllegalArgumentException to be thrown, but nothing was thrown. Examples: 1 total, 0 passed, 1 failed, 0 broken, 0 skipped, 0 pending. exit 1"},
+    {"role":"assistant","content":"Apply the smallest coherent GREEN while preserving the existing error taxonomy and message.","tool_calls":[{"id":"call_5","type":"function","function":{"name":"edit","arguments":"{\"path\":\"trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileId.java\",\"change\":\"change the compact-constructor condition from non-null malformed rejection to null-or-malformed rejection\"}"}}]},
+    {"role":"tool","tool_call_id":"call_5","content":"Successfully replaced one conditional expression; no public API or error-message change."},
+    {"role":"assistant","content":"Verify the selected behavior.","tool_calls":[{"id":"call_6","type":"function","function":{"name":"bash","arguments":"{\"command\":\"cd trust-engine-domain && ../bin/javaspec run --compile --profile java21 --formatter pretty --class com.magrathea.trustengine.x509.profile.CertificateProfileId --example it_rejects_a_null_profile_identifier\"}"}}]},
+    {"role":"tool","tool_call_id":"call_6","content":"PASSED it_rejects_a_null_profile_identifier. Examples: 1 total, 1 passed, 0 failed, 0 broken, 0 skipped, 0 pending."},
+    {"role":"assistant","content":"Verify all subject behaviors, including both preserved behaviors.","tool_calls":[{"id":"call_7","type":"function","function":{"name":"bash","arguments":"{\"command\":\"cd trust-engine-domain && ../bin/javaspec run --compile --profile java21 --formatter pretty --class com.magrathea.trustengine.x509.profile.CertificateProfileId\"}"}}]},
+    {"role":"tool","tool_call_id":"call_7","content":"Canonical-value preservation, leading-whitespace rejection, and null rejection passed. Examples: 3 total, 3 passed, 0 failed, 0 broken, 0 skipped, 0 pending."},
+    {"role":"assistant","content":"Run the full domain JavaSpec suite.","tool_calls":[{"id":"call_8","type":"function","function":{"name":"bash","arguments":"{\"command\":\"cd trust-engine-domain && ../bin/javaspec run --compile --profile java21 --formatter progress\"}"}}]},
+    {"role":"tool","tool_call_id":"call_8","content":"Examples: 3 total, 3 passed, 0 failed, 0 broken, 0 skipped, 0 pending."},
+    {"role":"assistant","content":"Check generation state and inspect the generated support shape.","tool_calls":[{"id":"call_9","type":"function","function":{"name":"bash","arguments":"{\"command\":\"cd trust-engine-domain && ../bin/javaspec run --dry-run --profile java21 --formatter pretty --class com.magrathea.trustengine.x509.profile.CertificateProfileId\"}"}}]},
+    {"role":"tool","tool_call_id":"call_9","content":"Dry-run found no pending generation/update work. Executable examples were skipped because the compiled specification was not on the dry-run classpath."},
+    {"role":"assistant","content":"Confirm generated support has the bounded record shape.","tool_calls":[{"id":"call_10","type":"function","function":{"name":"read","arguments":"{\"path\":\"trust-engine-domain/target/generated-sources/javaspec/spec/com/magrathea/trustengine/x509/profile/CertificateProfileIdSpecSupport.java\"}"}}]},
+    {"role":"tool","tool_call_id":"call_10","content":"Generated support represents the single String constructor and value() accessor."},
+    {"role":"assistant","content":"Scan the bounded source/support set for pending stub markers.","tool_calls":[{"id":"call_11","type":"function","function":{"name":"bash","arguments":"{\"command\":\"scan production, specification, and generated support for TODO, UnsupportedOperationException, pending, PENDING, or return null\"}"}}]},
+    {"role":"tool","tool_call_id":"call_11","content":"pendingStubCount=0"},
+    {"role":"assistant","content":"Run the domain tests with Java 21 explicitly selected.","tool_calls":[{"id":"call_12","type":"function","function":{"name":"bash","arguments":"{\"command\":\"JAVA_HOME=<java-21-home> PATH=<java-21-bin>:$PATH mvn -pl trust-engine-domain test\"}"}}]},
+    {"role":"tool","tool_call_id":"call_12","content":"Tests run: 3, Failures: 0, Errors: 0, Skipped: 0. BUILD SUCCESS."},
+    {"role":"assistant","content":"Verify final diff hygiene and exact two-file scope.","tool_calls":[{"id":"call_13","type":"function","function":{"name":"bash","arguments":"{\"command\":\"git diff --check && git diff --name-only && git status --short\"}"}}]},
+    {"role":"tool","tool_call_id":"call_13","content":"Diff check passed. Exactly the production record and its specification are modified; pre-existing harness artifacts are untouched."},
+    {"role":"assistant","content":"Compute the resulting tree through a temporary external index without staging repository files.","tool_calls":[{"id":"call_14","type":"function","function":{"name":"bash","arguments":"{\"command\":\"compute final worktree tree with a temporary index\"}"}}]},
+    {"role":"tool","tool_call_id":"call_14","content":"finalWorkingTree=d3942d098bcbfa0aebb62fd03f5b01fe21568beb"},
+    {"role":"assistant","content":"BEHAVIOR_VERIFIED. One JavaSpec behavior proves explicit-null rejection. RED preceded the one-condition production edit, both prior behaviors remain green, full JavaSpec is 3/3 with zero pending, no stubs remain, and Java 21 Maven tests succeed."}
+  ]
+}

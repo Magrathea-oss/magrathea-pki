@@ -1,0 +1,175 @@
+{
+  "schemaVersion": "2.0",
+  "episodeId": "0003-certificate-profile-id-rejects-null",
+  "parentEpisodeId": "0002-certificate-profile-id-rejects-leading-whitespace",
+  "continuationId": "certificate-profile-id",
+  "provenance": {
+    "captureMode": "RAW_EVENT_STREAM",
+    "promptVersion": "bdd-java-spec-driven-v8",
+    "toolRegistryVersion": "sha256:58f9fb4ff63c4ac748fcf030b843b8687a38b4aab2362dd8974d2b5b32f7776b",
+    "initialCommit": "7136c4ccef53979c86b18eb0341a41ae9d7947be",
+    "initialTree": "c3d223e266941cfcfa1e30d7a066feb218033e8d",
+    "finalCommit": "66fc2ed40a909a5ade8354774abb5c83f6751530",
+    "finalTree": "d3942d098bcbfa0aebb62fd03f5b01fe21568beb",
+    "workflow": "bdd-java",
+    "agent": "spec-driven",
+    "effectiveModel": "openai-codex/gpt-5.6-sol",
+    "javaspec": {
+      "version": "1.0.0-RC1",
+      "commit": null,
+      "fingerprint": "launcher=1.0.0-RC1; selectedJar=<maven-repository>/io/github/jvmspec/javaspec/1.0.0-RC1/javaspec-1.0.0-RC1.jar; jarSha256=8522dc72ab0ca87a508436419c4ed430e0ad470375445c689fa871218a8ab501"
+    }
+  },
+  "environment": {
+    "os": "Linux amd64 container runtime",
+    "javaVersion": "OpenJDK 21",
+    "buildTool": "Apache Maven 3.9.16",
+    "repositoryStatus": "Tracked implementation state was clean at the base commit; pre-existing untracked harness artifacts under .ide were untouched. The implementation commit contains exactly two authorized source files.",
+    "variables": {}
+  },
+  "task": {
+    "userRequest": "Implement exactly one continuation behavior: CertificateProfileId rejects explicit null because every public construction path must enforce ADR 0001's whole-string v1 grammar and null is outside that grammar. Preserve canonical-value and leading-whitespace behaviors. Treat REQ-X509-PROFILE-INTEGRITY-014 as related without claiming its malformed-string examples explicitly enumerate null. Add one meaningful JavaSpec RED before production, do not repeat describe, keep Java 21, and modify only the existing production/specification files.",
+    "requirements": [
+      "ADR 0001 CertificateProfile v1 whole-string identifier grammar and every-public-construction-path invariant",
+      "features/x509/certificate-profile-integrity.feature @req-x509-profile-integrity-014 (related; null not explicitly enumerated)"
+    ],
+    "requirementIds": ["REQ-X509-PROFILE-INTEGRITY-014"],
+    "scenarioIds": ["req-x509-profile-integrity-014"],
+    "allowedFiles": [
+      "trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileId.java",
+      "trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileIdSpec.java",
+      "trust-engine-domain/target/** (ignored generated/build output)",
+      "docs/dataset/** (dataset-writer only)"
+    ]
+  },
+  "admission": {
+    "decision": "ACCEPTED",
+    "reason": "Complete sealed spec-driven RAW_EVENT_STREAM proves one ADR-authorized JavaSpec continuation behavior with qualified related-requirement traceability, successful pre-baseline executable fingerprint, no repeated describe, green 2/2 baseline, meaningful expectation RED before production, one-condition GREEN, selected/subject/full 3/3 verification, preserved prior behaviors, zero pending/stubs, Java 21 Maven success, exact two-file commit scope, matching hashes, schema/privacy checks, and independent behavior replay.",
+    "checks": [
+      {"name":"validTrainingTarget","status":"PASS","evidence":"Agent is spec-driven v8 and JavaSpec is the RED/GREEN source."},
+      {"name":"sealedRawEventStream","status":"PASS","evidence":"308 events, complete seal, valid event/file SHA-256 values, valid hash chain, and 50 complete chronological tool pairs."},
+      {"name":"promptToolProvenance","status":"PASS","evidence":"Canonical task, prompt version, model lock, agent definition, and tool-registry fingerprint are captured."},
+      {"name":"preBaselineLauncherFingerprint","status":"PASS","evidence":"Sequence 26 reports launcher 1.0.0-RC1, exact selected JAR path, and SHA-256 before corrected baseline sequence 101."},
+      {"name":"initialGitState","status":"PASS","evidence":"Base commit/tree match the trace; only pre-existing untracked .ide harness artifacts were present and remained outside changed scope."},
+      {"name":"adrAuthorization","status":"PASS","evidence":"ADR 0001 normatively requires every public CertificateProfileId construction path to enforce a whole-string grammar; explicit null cannot match that grammar."},
+      {"name":"qualifiedRequirementTraceability","status":"PASS","evidence":"REQ-X509-PROFILE-INTEGRITY-014 is recorded as related, while the episode explicitly avoids claiming its malformed-string examples enumerate null."},
+      {"name":"continuationDescribeBoundary","status":"PASS","evidence":"Subject and specification existed at the base commit, episode 0002 is the parent, and no describe tool action occurred."},
+      {"name":"greenBaseline","status":"PASS","evidence":"Corrected subject JavaSpec baseline passed both existing examples 2/2 with zero pending before editing."},
+      {"name":"singleBehaviorSpecificationEdit","status":"PASS","evidence":"One spec edit added only explicit-null construction rejection."},
+      {"name":"trueRedBeforeProduction","status":"PASS","evidence":"Sequence 131 failed because IllegalArgumentException was expected but nothing was thrown; production edit followed at sequence 137."},
+      {"name":"boundedGreen","status":"PASS","evidence":"One production edit changed only the compact-constructor condition from non-null malformed rejection to null-or-malformed rejection, preserving error type/message and public API."},
+      {"name":"verification","status":"PASS","evidence":"Selected null 1/1, subject/full 3/3, preserved prior examples, no pending generation/update work, generated-support shape, and zero stub markers all passed."},
+      {"name":"java21Maven","status":"PASS","evidence":"Captured and independently replayed Java 21 Maven test passed three tests with BUILD SUCCESS."},
+      {"name":"scopeAndCommit","status":"PASS","evidence":"Implementation commit/tree are exact, parent is the traced base commit, only two authorized files changed, sealed patch is byte-identical to commit diff, and diff check passes."},
+      {"name":"exactPostCommitHashes","status":"PASS","evidence":"Production SHA-256 2885f3c1... and specification SHA-256 7085be94... match handoff, sealed state, and implementation commit."},
+      {"name":"independentReplay","status":"PASS","evidence":"JavaSpec 3/3, classpath-correct dry-run 3/3 with no pending work, and Java 21 Maven success replayed at the implementation commit; replay JAR drift is disclosed and does not replace sealed executable provenance."},
+      {"name":"privacy","status":"PASS","evidence":"Episode and derived training view sanitize private paths and omit secrets and hidden reasoning."},
+      {"name":"schemaAndValidators","status":"PASS","evidence":"Authoritative workflow schema and repository validators pass after artifact generation."}
+    ]
+  },
+  "rawObservableEvents": [
+    {"sequence":26,"timestamp":"2026-07-11T12:38:40.087Z","eventType":"launcher_fingerprint","actor":"spec-driven","toolName":"bash","arguments":{"command":"./bin/javaspec --launcher-fingerprint"},"result":{"version":"1.0.0-RC1","selectedJar":"<maven-repository>/io/github/jvmspec/javaspec/1.0.0-RC1/javaspec-1.0.0-RC1.jar","sha256":"8522dc72ab0ca87a508436419c4ed430e0ad470375445c689fa871218a8ab501"},"exitCode":0,"summary":"Successful exact selected-JAR fingerprint captured before baseline."},
+    {"sequence":59,"timestamp":"2026-07-11T12:39:04.151Z","eventType":"initial_git","actor":"spec-driven","toolName":"bash","arguments":null,"result":{"commit":"7136c4ccef53979c86b18eb0341a41ae9d7947be","tree":"c3d223e266941cfcfa1e30d7a066feb218033e8d","trackedChanges":0},"exitCode":0,"summary":"Base commit/tree confirmed; only pre-existing harness trace artifacts were untracked."},
+    {"sequence":101,"timestamp":"2026-07-11T12:39:42.709Z","eventType":"subject_baseline","actor":"spec-driven","toolName":"bash","arguments":{"class":"com.magrathea.trustengine.x509.profile.CertificateProfileId","profile":"java21"},"result":{"total":2,"passed":2,"pending":0},"exitCode":0,"summary":"Both existing continuation behaviors passed before editing."},
+    {"sequence":107,"timestamp":"2026-07-11T12:39:51.708Z","eventType":"specification_edit","actor":"spec-driven","toolName":"edit","arguments":{"examplesAdded":1},"result":{"changedFile":"CertificateProfileIdSpec.java"},"exitCode":0,"summary":"One focused explicit-null rejection example was added; no describe action occurred."},
+    {"sequence":131,"timestamp":"2026-07-11T12:40:14.487Z","eventType":"behavioral_red","actor":"spec-driven","toolName":"bash","arguments":{"example":"it_rejects_a_null_profile_identifier"},"result":{"classification":"EXPECTATION_FAILURE","message":"Expected java.lang.IllegalArgumentException to be thrown, but nothing was thrown","total":1,"failed":1,"pending":0},"exitCode":1,"summary":"Meaningful JavaSpec RED occurred before any production edit."},
+    {"sequence":137,"timestamp":"2026-07-11T12:40:20.009Z","eventType":"bounded_green_edit","actor":"spec-driven","toolName":"edit","arguments":null,"result":{"productionChanges":"compact-constructor condition changed from value != null and malformed to value == null or malformed"},"exitCode":0,"summary":"One bounded production edit implemented null exclusion while preserving error taxonomy and public shape."},
+    {"sequence":161,"timestamp":"2026-07-11T12:40:39.657Z","eventType":"selected_green","actor":"spec-driven","toolName":"bash","arguments":{"example":"it_rejects_a_null_profile_identifier"},"result":{"total":1,"passed":1,"failed":0,"broken":0,"skipped":0,"pending":0},"exitCode":0,"summary":"Selected null behavior passed 1/1."},
+    {"sequence":167,"timestamp":"2026-07-11T12:40:46.669Z","eventType":"subject_green","actor":"spec-driven","toolName":"bash","arguments":null,"result":{"total":3,"passed":3,"failed":0,"broken":0,"skipped":0,"pending":0},"exitCode":0,"summary":"All subject behaviors passed, preserving canonical-value and leading-whitespace examples."},
+    {"sequence":173,"timestamp":"2026-07-11T12:40:52.532Z","eventType":"full_green","actor":"spec-driven","toolName":"bash","arguments":null,"result":{"total":3,"passed":3,"failed":0,"broken":0,"skipped":0,"pending":0},"exitCode":0,"summary":"Full domain JavaSpec passed 3/3 with zero pending."},
+    {"sequence":179,"timestamp":"2026-07-11T12:40:59.106Z","eventType":"generation_state_check","actor":"spec-driven","toolName":"bash","arguments":{"dryRun":true},"result":{"pendingGenerationWork":0,"skipped":3,"reason":"compiled specification classpath absent"},"exitCode":0,"summary":"Dry-run found no pending generation/update work but was not used as executable behavior evidence."},
+    {"sequence":209,"timestamp":"2026-07-11T12:41:34.183Z","eventType":"maven_java21_green","actor":"spec-driven","toolName":"bash","arguments":{"java":"21"},"result":{"tests":3,"failures":0,"errors":0,"skipped":0,"build":"SUCCESS"},"exitCode":0,"summary":"Java 21 domain Maven test passed."},
+    {"sequence":221,"timestamp":"2026-07-11T12:41:48.275Z","eventType":"generated_support_shape","actor":"spec-driven","toolName":"read","arguments":null,"result":{"constructor":"String","accessor":"value()","recordSupport":true},"exitCode":0,"summary":"Generated JavaSpec support represented the exact bounded record shape."},
+    {"sequence":227,"timestamp":"2026-07-11T12:41:54.545Z","eventType":"pending_stub_check","actor":"spec-driven","toolName":"bash","arguments":null,"result":{"pendingStubCount":0},"exitCode":0,"summary":"Production, specification, and generated support contained no pending stub markers."},
+    {"sequence":245,"timestamp":"2026-07-11T12:42:09.840Z","eventType":"exact_scope","actor":"spec-driven","toolName":"bash","arguments":null,"result":{"trackedChangedFiles":2,"unexpectedChanges":false},"exitCode":0,"summary":"Exactly the two authorized implementation files changed."},
+    {"sequence":263,"timestamp":"2026-07-11T12:42:26.013Z","eventType":"post_edit_hashes","actor":"spec-driven","toolName":"bash","arguments":null,"result":{"production":"2885f3c13762278cd9c1d928624d14b73561453e5700cf2d60550bf8340f1647","specification":"7085be9400a043d2da2a0166779ee70d2fa7e1f242f9f9aeeca8343aab9e9033"},"exitCode":0,"summary":"Exact post-edit source hashes captured."},
+    {"sequence":275,"timestamp":"2026-07-11T12:42:38.667Z","eventType":"final_worktree_tree","actor":"spec-driven","toolName":"bash","arguments":null,"result":{"tree":"d3942d098bcbfa0aebb62fd03f5b01fe21568beb"},"exitCode":0,"summary":"Temporary external index proved the final worktree tree without staging repository files."},
+    {"sequence":281,"timestamp":"2026-07-11T12:42:46.971Z","eventType":"report_artifact_check","actor":"spec-driven","toolName":"bash","arguments":null,"result":{"requestedReportsEmitted":false},"exitCode":1,"summary":"Requested JSON reports were absent; full runner outputs remained captured in the sealed raw stream and were used as evidence."},
+    {"sequence":303,"timestamp":"2026-07-11T12:44:12.604Z","eventType":"handoff","actor":"spec-driven","toolName":null,"arguments":null,"result":{"outcome":"BEHAVIOR_VERIFIED","typedStop":null,"examplesAdded":1,"pendingStubCount":0},"exitCode":null,"summary":"Structured verified implementation handoff emitted before harness sealing."}
+  ],
+  "patches": [
+    {"path":"docs/dataset/artifacts/0003-certificate-profile-id-rejects-null/worktree.patch","sha256":"6b2748fada4b3f8f0d76f36f8a040ebd4d52b639bf3dd33217075983f2c85afb","byteSize":1792,"description":"Exact sealed two-file patch; byte-identical to the base-to-implementation-commit diff."}
+  ],
+  "verification": {
+    "commands": [
+      {"command":"./bin/javaspec --launcher-fingerprint","exitCode":0,"summary":"Successful pre-baseline launcher version, exact selected JAR path, and SHA-256."},
+      {"command":"cd trust-engine-domain && ../bin/javaspec run --compile --profile java21 --formatter pretty --class com.magrathea.trustengine.x509.profile.CertificateProfileId","exitCode":0,"summary":"Baseline passed both existing behaviors 2/2."},
+      {"command":"cd trust-engine-domain && ../bin/javaspec run --compile --profile java21 --formatter pretty --stop-on-failure --class com.magrathea.trustengine.x509.profile.CertificateProfileId --example it_rejects_a_null_profile_identifier","exitCode":1,"summary":"Meaningful RED: expected IllegalArgumentException, but nothing was thrown."},
+      {"command":"cd trust-engine-domain && ../bin/javaspec run --compile --profile java21 --formatter pretty --class com.magrathea.trustengine.x509.profile.CertificateProfileId --example it_rejects_a_null_profile_identifier","exitCode":0,"summary":"Selected behavior passed 1/1 with zero pending after GREEN."},
+      {"command":"cd trust-engine-domain && ../bin/javaspec run --compile --profile java21 --formatter pretty --class com.magrathea.trustengine.x509.profile.CertificateProfileId","exitCode":0,"summary":"Subject passed 3/3 and preserved both prior behaviors."},
+      {"command":"cd trust-engine-domain && ../bin/javaspec run --compile --profile java21 --formatter progress","exitCode":0,"summary":"Full domain JavaSpec passed 3/3 with zero pending."},
+      {"command":"cd trust-engine-domain && ../bin/javaspec run --dry-run --profile java21 --formatter pretty --class com.magrathea.trustengine.x509.profile.CertificateProfileId","exitCode":0,"summary":"Found no pending generation/update work; examples skipped because compiled specification classpath was absent, so not used as executable evidence."},
+      {"command":"pending-stub scan over production, specification, and generated JavaSpec support","exitCode":0,"summary":"Zero pending stub markers."},
+      {"command":"JAVA_HOME=<java-21-home> PATH=<java-21-bin>:$PATH mvn -pl trust-engine-domain test","exitCode":0,"summary":"Captured Java 21 Maven test passed three tests with BUILD SUCCESS."},
+      {"command":"independent replay: full JavaSpec, classpath-correct dry-run, and Java 21 Maven test at implementation commit","exitCode":0,"summary":"Reproduced JavaSpec 3/3, no pending work, and Maven BUILD SUCCESS with disclosed post-seal launcher JAR drift."},
+      {"command":"./scripts/validate-dataset && ./scripts/validate-agent-contracts","exitCode":0,"summary":"Authoritative schema, dataset references, privacy scan, and agent contracts pass."}
+    ],
+    "outcome": "PASSED",
+    "evidence": [
+      {"path":"docs/dataset/artifacts/0003-certificate-profile-id-rejects-null/trace-validation.json","sha256":"dee1805eb9741fba810b827344461dbbfc80437e5c266405874f0dd11a0cc45d","mediaType":"application/json","byteSize":3081,"description":"Independent seal, hash-chain, provenance, chronology, scope, commit, and privacy validation."},
+      {"path":"docs/dataset/artifacts/0003-certificate-profile-id-rejects-null/verification-evidence.json","sha256":"26aea6343421947de104b2808ada0bd4a410e67f7eaf641b3acda37ffe37cdc3","mediaType":"application/json","byteSize":2655,"description":"Sanitized authorization, RED/GREEN, Java 21, replay, commit, and source-hash evidence."},
+      {"path":"docs/dataset/artifacts/0003-certificate-profile-id-rejects-null/worktree.patch","sha256":"6b2748fada4b3f8f0d76f36f8a040ebd4d52b639bf3dd33217075983f2c85afb","mediaType":"text/x-patch","byteSize":1792,"description":"Exact bounded patch."},
+      {"path":"docs/dataset/artifacts/0003-certificate-profile-id-rejects-null/evidence-summary.md","sha256":"ea7c4d38a1e396eb049d8f2843afa98589dc6e2a5d296739285caa91f3b78ff9","mediaType":"text/markdown","byteSize":2136,"description":"Human-readable evidence summary."},
+      {"path":"docs/dataset/artifacts/0003-certificate-profile-id-rejects-null/resume-capsule.md","sha256":"d1284ec3dae1b3e343ea24acc2317775d259883811d8b9fb1857e0e9c162f03e","mediaType":"text/markdown","byteSize":1591,"description":"Compact safe-resume state."}
+    ]
+  },
+  "termination": {
+    "type": "VERIFIED_SUCCESS",
+    "suspectedOwner": "SPEC_DRIVEN",
+    "summary": "CertificateProfileId rejects explicit null as outside ADR 0001's whole-string v1 grammar while preserving both prior behaviors; all captured and independent behavior-verification gates pass."
+  },
+  "contextMetrics": {
+    "metricCollectionStatus": "PARTIAL",
+    "maximumContextTokens": null,
+    "peakContextTokens": null,
+    "totalInputTokens": 94079,
+    "cachedInputTokens": 828928,
+    "outputTokens": 7662,
+    "uniqueSourceBytesRead": null,
+    "repeatedSourceBytesRead": null,
+    "toolOutputBytesPresentedToModel": null,
+    "compactionCount": 0,
+    "iterationCount": 50
+  },
+  "curation": {
+    "status": "CURATED_SFT_CANDIDATE",
+    "reviewers": ["dataset-writer"],
+    "knownIssues": [
+      "Sealed dry-runs found no pending generation work but skipped executable examples because the compiled specification classpath was absent; executable JavaSpec, generated support, pending-marker checks, and independent classpath-correct dry-run supplied complete final evidence.",
+      "The launcher JAR at the selected path changed after sealing. Independent behavior replay passed with the later JAR but was not a bit-identical executable replay; the sealed trace retains exact pre-baseline executable provenance.",
+      "Requested JavaSpec JSON report files were not emitted; complete runner output and exit codes are preserved in the sealed raw event stream.",
+      "Mechanically and behaviorally validated candidate still requires independent approval for final CURATED_SFT."
+    ],
+    "sftEligibility": {"status":"CANDIDATE","reason":"RAW_EVENT_STREAM contains exactly one ADR-authorized behavior with qualified requirement traceability, complete JavaSpec RED/GREEN chronology, exact sealed executable provenance, bounded scope, matching commit/hash evidence, privacy sanitization, authoritative schema validation, and independent behavior replay."},
+    "evaluationEligibility": {"status":"NOT_ELIGIBLE","reason":"No independent evaluation-case approval has been performed."}
+  },
+  "artifacts": [
+    {"path":"docs/dataset/artifacts/0003-certificate-profile-id-rejects-null/trace-validation.json","sha256":"dee1805eb9741fba810b827344461dbbfc80437e5c266405874f0dd11a0cc45d","mediaType":"application/json","byteSize":3081,"description":"Independent trace validation."},
+    {"path":"docs/dataset/artifacts/0003-certificate-profile-id-rejects-null/verification-evidence.json","sha256":"26aea6343421947de104b2808ada0bd4a410e67f7eaf641b3acda37ffe37cdc3","mediaType":"application/json","byteSize":2655,"description":"Sanitized verification evidence."},
+    {"path":"docs/dataset/artifacts/0003-certificate-profile-id-rejects-null/worktree.patch","sha256":"6b2748fada4b3f8f0d76f36f8a040ebd4d52b639bf3dd33217075983f2c85afb","mediaType":"text/x-patch","byteSize":1792,"description":"Exact bounded patch."},
+    {"path":"docs/dataset/artifacts/0003-certificate-profile-id-rejects-null/evidence-summary.md","sha256":"ea7c4d38a1e396eb049d8f2843afa98589dc6e2a5d296739285caa91f3b78ff9","mediaType":"text/markdown","byteSize":2136,"description":"Human-readable evidence summary."},
+    {"path":"docs/dataset/artifacts/0003-certificate-profile-id-rejects-null/resume-capsule.md","sha256":"d1284ec3dae1b3e343ea24acc2317775d259883811d8b9fb1857e0e9c162f03e","mediaType":"text/markdown","byteSize":1591,"description":"Compact safe-resume state."}
+  ],
+  "resumeCapsule": {
+    "currentCommit": "66fc2ed40a909a5ade8354774abb5c83f6751530",
+    "currentTree": "d3942d098bcbfa0aebb62fd03f5b01fe21568beb",
+    "requirementIds": ["REQ-X509-PROFILE-INTEGRITY-014"],
+    "scenarioIds": ["req-x509-profile-integrity-014"],
+    "currentBehavior": "CertificateProfileId rejects explicit null because it is outside ADR 0001's complete v1 profile-ID grammar; REQ-X509-PROFILE-INTEGRITY-014 is related but does not explicitly enumerate null.",
+    "owningAgent": "spec-driven",
+    "fileHashes": [
+      {"path":"trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileId.java","sha256":"2885f3c13762278cd9c1d928624d14b73561453e5700cf2d60550bf8340f1647","byteSize":466},
+      {"path":"trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileIdSpec.java","sha256":"7085be9400a043d2da2a0166779ee70d2fa7e1f242f9f9aeeca8343aab9e9033","byteSize":1036}
+    ],
+    "lastVerifiedResult": "Selected null behavior 1/1, subject/full JavaSpec 3/3 preserving both prior behaviors, zero pending/stubs, and Java 21 Maven success; independently replayed behavior at the implementation commit.",
+    "lastFailureOrStop": "Meaningful JavaSpec RED: expected IllegalArgumentException during explicit-null instantiation, but nothing was thrown.",
+    "unresolvedWork": ["Any additional grammar behavior requires a separately authorized continuation slice.","Independent approval is required before CURATED_SFT promotion.","Bit-identical replay would require recovery of the sealed SHA-256 8522dc72... launcher JAR; behavior replay used the later JAR."],
+    "allowedFiles": [
+      "trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileId.java",
+      "trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileIdSpec.java",
+      "docs/dataset/**"
+    ],
+    "javaspecFingerprint": "launcher=1.0.0-RC1; jarSha256=8522dc72ab0ca87a508436419c4ed430e0ad470375445c689fa871218a8ab501",
+    "nextPermittedAction": "Parent reviews and may commit dataset artifacts; any next domain change must be one separately authorized JavaSpec continuation slice, and javaspec describe must not be repeated for CertificateProfileId."
+  }
+}
