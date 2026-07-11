@@ -11,4 +11,12 @@ public class CertificateProfileIdSpec extends CertificateProfileIdSpecSupport {
 
         value().shouldReturn(canonicalValue);
     }
+
+    public void it_rejects_a_profile_identifier_with_leading_whitespace() {
+        String malformedValue = " x509-profile-v1-sha256-d40ed2a8c1f61164e3f540e7623608c9a8797a7ad1a657d4dffbb661cd1999ee";
+
+        beConstructedWith(malformedValue);
+
+        shouldThrow(IllegalArgumentException.class).duringInstantiation();
+    }
 }
