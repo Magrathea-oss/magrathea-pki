@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -41,5 +42,14 @@ public class PublicKeyAlgorithmSpec extends PublicKeyAlgorithmSpecSupport {
         Method accessor = PublicKeyAlgorithm.class.getDeclaredMethod("wireToken");
         shouldEqual(accessor.getReturnType(), String.class);
         shouldEqual(accessor.getModifiers(), Modifier.PUBLIC);
+    }
+
+    public void it_finds_only_an_exact_explicit_wire_token_match() throws Exception {
+        shouldEqual(PublicKeyAlgorithm.findByWireToken("EC_P256"), Optional.of(PublicKeyAlgorithm.EC_P256));
+        shouldEqual(PublicKeyAlgorithm.findByWireToken("ec_p256"), Optional.empty());
+
+        Method finder = PublicKeyAlgorithm.class.getDeclaredMethod("findByWireToken", String.class);
+        shouldEqual(finder.getReturnType(), Optional.class);
+        shouldEqual(finder.getModifiers(), Modifier.PUBLIC | Modifier.STATIC);
     }
 }
