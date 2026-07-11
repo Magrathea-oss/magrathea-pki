@@ -12,7 +12,7 @@
 set -euo pipefail
 
 readonly image="${MAGRATHEA_BUILD_IMAGE:-localhost/magrathea-build:fedora42}"
-readonly javaspec_version="${JAVASPEC_VERSION:-1.0.0-RC3}"
+readonly javaspec_version="${JAVASPEC_VERSION:-1.0.0-RC4}"
 readonly project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 readonly cache="${JAVASPEC_CACHE_DIR:-${project_root}/target/javaspec-remote-m2}"
 readonly artifact="io.github.jvmspec:javaspec:${javaspec_version}"
