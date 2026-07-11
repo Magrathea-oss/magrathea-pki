@@ -1,0 +1,685 @@
+{
+  "schemaVersion": "2.0",
+  "episodeId": "0036-certificate-profile-lifecycle-event-envelope-causation-id",
+  "parentEpisodeId": null,
+  "continuationId": null,
+  "provenance": {
+    "captureMode": "RAW_EVENT_STREAM",
+    "promptVersion": "bdd-java-spec-driven-v5",
+    "toolRegistryVersion": "sha256:58f9fb4ff63c4ac748fcf030b843b8687a38b4aab2362dd8974d2b5b32f7776b",
+    "initialCommit": "476a0caf517f45948c9658dc46f5b960b14bf48f",
+    "initialTree": "11855539144ba19b76f3f0a57f92e6993c08df4f",
+    "finalCommit": "476a0caf517f45948c9658dc46f5b960b14bf48f",
+    "finalTree": "e24477b4acc515a1021a34f7f623dcac27291761",
+    "workflow": "bdd-java",
+    "agent": "spec-driven",
+    "effectiveModel": "openai-codex/gpt-5.6-sol",
+    "javaspec": {
+      "version": "1.0.0-RC1",
+      "commit": "cd7ff8d1379aabdfcfadc964b3a6473f38383c66",
+      "fingerprint": "container JAR SHA-256 8522dc72ab0ca87a508436419c4ed430e0ad470375445c689fa871218a8ab501; host identical; fixes 5b65099 and 5662797 present"
+    }
+  },
+  "environment": {
+    "os": null,
+    "javaVersion": "Project target Java 21; official container OpenJDK 21.0.11",
+    "buildTool": "Maven with localhost/magrathea-build:fedora42",
+    "repositoryStatus": "Initially clean; finally exactly two authorized tracked files modified, tree e24477b4acc515a1021a34f7f623dcac27291761.",
+    "variables": {}
+  },
+  "task": {
+    "userRequest": "Replay candidate episode 0036 now that ignored generated support was cleanly regenerated from the committed baseline. Implement exactly one behavior: append `String causationId` after `occurredAt` in `CertificateProfileLifecycleEventEnvelope` and expose the supplied command identifier, authorized by `@req-x509-profile-lifecycle-001` and ADR 0002. Before edits capture exact executable provenance in the raw trace: launcher version; actual in-container JAR path `/root/.m2/repository/io/github/jvmspec/javaspec/1.0.0-RC1/javaspec-1.0.0-RC1.jar`; SHA-256 of that exact mounted JAR inside the official container; host-artifact correlation; source commit and required fix ancestry. Verify clean Git, validators, Java target 21, official container OpenJDK 21, full javaspec 35/35, and Java 21 Maven baseline PASS. Add one causationId example, capture no-write structural RED before production mutation, inspect/apply generation, then make only the coherent GREEN needed to name the component causationId and remove any redundant pending accessor. Verify selected 1/1, envelope 7/7, full 36/36, zero stubs, seven-argument shape, one String accessor, and Java 21 container Maven 36 tests with no unsupported-class warning. Exactly two tracked files may change. No dataset/later fields/unrelated edits; do not delegate dataset-writer. Return structured handoff for sealing or revert and typed-stop on any failed gate.",
+    "requirements": [
+      "features/x509/certificate-profile-lifecycle.feature @req-x509-profile-lifecycle-001",
+      "ADR 0002 causationId field"
+    ],
+    "requirementIds": [
+      "req-x509-profile-lifecycle-001"
+    ],
+    "scenarioIds": [],
+    "allowedFiles": [
+      "trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelope.java",
+      "trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelopeSpec.java",
+      "trust-engine-domain/target/generated-sources/javaspec/** (generated, ignored)",
+      "docs/dataset/** (dataset-writer only)"
+    ]
+  },
+  "admission": {
+    "decision": "ACCEPTED",
+    "reason": "Complete sealed spec-driven raw stream records one authorized JavaSpec behavior with structural RED, bounded GREEN, complete provenance, verification, privacy, and current validator PASS results.",
+    "checks": [
+      {
+        "name": "validTrainingTarget",
+        "status": "PASS",
+        "evidence": "spec-driven v5 and JavaSpec-only RED/GREEN."
+      },
+      {
+        "name": "sealedRawEventStream",
+        "status": "PASS",
+        "evidence": "Expected file hash, seal, hash chain, and 48 tool pairs pass."
+      },
+      {
+        "name": "canonicalEnglishTask",
+        "status": "PASS",
+        "evidence": "Metadata and delegated task match; language en."
+      },
+      {
+        "name": "promptToolJavaspecProvenance",
+        "status": "PASS",
+        "evidence": "Prompt, tool registry, source/fixes, exact JAR path/SHA, and host correlation complete."
+      },
+      {
+        "name": "cleanInitialAndBoundedFinalGit",
+        "status": "PASS",
+        "evidence": "Initial clean; exact two-file patch; final tree/hashes match."
+      },
+      {
+        "name": "singleSemanticSlice",
+        "status": "PASS",
+        "evidence": "One causationId behavior."
+      },
+      {
+        "name": "chronologicalStructuralRed",
+        "status": "PASS",
+        "evidence": "No-write RED preceded production mutation."
+      },
+      {
+        "name": "boundedGreen",
+        "status": "PASS",
+        "evidence": "Generated arg6/pending stub became named record component with redundant stub removed."
+      },
+      {
+        "name": "greenVerification",
+        "status": "PASS",
+        "evidence": "Selected 1/1, envelope 7/7, full 36/36, zero stubs, exact shape, Java 21 Maven 36 tests."
+      },
+      {
+        "name": "privacyExclusions",
+        "status": "PASS",
+        "evidence": "Derived views omit private machine-local paths and secrets."
+      },
+      {
+        "name": "repositoryValidators",
+        "status": "PASS",
+        "evidence": "Both validators pass now."
+      }
+    ]
+  },
+  "rawObservableEvents": [
+    {
+      "sequence": 3,
+      "timestamp": "2026-07-10T22:29:57.781Z",
+      "eventType": "canonical_task",
+      "actor": "spec-driven",
+      "toolName": null,
+      "arguments": null,
+      "result": null,
+      "exitCode": null,
+      "summary": "Canonical English task received."
+    },
+    {
+      "sequence": 8,
+      "timestamp": "2026-07-10T22:30:01.850Z",
+      "eventType": "raw_capture_verified",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": null,
+      "result": {
+        "traceId": "442a5120-df31-48fc-940c-74e71cabe8a0"
+      },
+      "exitCode": 0,
+      "summary": "Raw trace exposed by harness."
+    },
+    {
+      "sequence": 26,
+      "timestamp": "2026-07-10T22:30:09.623Z",
+      "eventType": "initial_git_verified",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": null,
+      "result": {
+        "head": "476a0caf517f45948c9658dc46f5b960b14bf48f",
+        "tree": "11855539144ba19b76f3f0a57f92e6993c08df4f",
+        "statusPorcelainV2": ""
+      },
+      "exitCode": 0,
+      "summary": "Clean initial Git verified."
+    },
+    {
+      "sequence": 89,
+      "timestamp": "2026-07-10T22:30:53.495Z",
+      "eventType": "javaspec_source_verified",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": null,
+      "result": {
+        "version": "1.0.0-RC1",
+        "commit": "cd7ff8d1379aabdfcfadc964b3a6473f38383c66",
+        "fixes": [
+          "5b65099",
+          "5662797"
+        ]
+      },
+      "exitCode": 0,
+      "summary": "Version, source commit, and required fixes verified."
+    },
+    {
+      "sequence": 107,
+      "timestamp": "2026-07-10T22:31:05.722Z",
+      "eventType": "javaspec_binary_verified",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": null,
+      "result": {
+        "containerPath": "/root/.m2/repository/io/github/jvmspec/javaspec/1.0.0-RC1/javaspec-1.0.0-RC1.jar",
+        "sha256": "8522dc72ab0ca87a508436419c4ed430e0ad470375445c689fa871218a8ab501"
+      },
+      "exitCode": 0,
+      "summary": "Exact in-container selected JAR and host correlation verified."
+    },
+    {
+      "sequence": 125,
+      "timestamp": "2026-07-10T22:31:15.090Z",
+      "eventType": "validators_baseline",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": null,
+      "result": {
+        "dataset": "PASS",
+        "contracts": "PASS"
+      },
+      "exitCode": 0,
+      "summary": "Both validators passed."
+    },
+    {
+      "sequence": 137,
+      "timestamp": "2026-07-10T22:31:24.633Z",
+      "eventType": "baseline_green",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": null,
+      "result": {
+        "total": 35,
+        "passed": 35
+      },
+      "exitCode": 0,
+      "summary": "JavaSpec baseline passed 35/35."
+    },
+    {
+      "sequence": 143,
+      "timestamp": "2026-07-10T22:31:35.381Z",
+      "eventType": "maven_baseline_green",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": null,
+      "result": {
+        "tests": 35
+      },
+      "exitCode": 0,
+      "summary": "Java 21 Maven baseline passed 35 tests."
+    },
+    {
+      "sequence": 166,
+      "timestamp": "2026-07-11T01:27:24.951Z",
+      "eventType": "red_example_added",
+      "actor": "spec-driven",
+      "toolName": "edit",
+      "arguments": null,
+      "result": null,
+      "exitCode": null,
+      "summary": "One causationId example added."
+    },
+    {
+      "sequence": 178,
+      "timestamp": "2026-07-11T01:27:34.765Z",
+      "eventType": "structural_red",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": null,
+      "result": {
+        "filesWritten": false,
+        "pendingSupport": true,
+        "pendingMethods": true,
+        "pendingConstructor": true
+      },
+      "exitCode": 1,
+      "summary": "No-write structural RED before production mutation."
+    },
+    {
+      "sequence": 184,
+      "timestamp": "2026-07-11T01:27:44.998Z",
+      "eventType": "generated_candidate",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": null,
+      "result": {
+        "component": "String arg6",
+        "pendingStubs": 1
+      },
+      "exitCode": 1,
+      "summary": "Generation yielded String arg6 and one pending causationId stub."
+    },
+    {
+      "sequence": 199,
+      "timestamp": "2026-07-11T01:27:55.072Z",
+      "eventType": "bounded_green",
+      "actor": "spec-driven",
+      "toolName": "edit",
+      "arguments": null,
+      "result": null,
+      "exitCode": null,
+      "summary": "arg6 named causationId and redundant stub removed."
+    },
+    {
+      "sequence": 211,
+      "timestamp": "2026-07-11T01:28:02.426Z",
+      "eventType": "selected_green",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": null,
+      "result": {
+        "total": 1,
+        "passed": 1
+      },
+      "exitCode": 0,
+      "summary": "Selected passed 1/1."
+    },
+    {
+      "sequence": 217,
+      "timestamp": "2026-07-11T01:28:06.746Z",
+      "eventType": "envelope_green",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": null,
+      "result": {
+        "total": 7,
+        "passed": 7
+      },
+      "exitCode": 0,
+      "summary": "Envelope passed 7/7."
+    },
+    {
+      "sequence": 223,
+      "timestamp": "2026-07-11T01:28:12.168Z",
+      "eventType": "full_green",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": null,
+      "result": {
+        "total": 36,
+        "passed": 36
+      },
+      "exitCode": 0,
+      "summary": "Full JavaSpec passed 36/36."
+    },
+    {
+      "sequence": 229,
+      "timestamp": "2026-07-11T01:28:24.667Z",
+      "eventType": "shape_verified",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": null,
+      "result": {
+        "stubs": 0,
+        "constructors": 1,
+        "accessors": 1
+      },
+      "exitCode": 0,
+      "summary": "Zero stubs, one seven-argument constructor, one String accessor."
+    },
+    {
+      "sequence": 235,
+      "timestamp": "2026-07-11T01:28:35.557Z",
+      "eventType": "maven_green",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": null,
+      "result": {
+        "tests": 36,
+        "unsupportedWarnings": 0
+      },
+      "exitCode": 0,
+      "summary": "Java 21 Maven passed 36 tests with zero unsupported warnings."
+    },
+    {
+      "sequence": 247,
+      "timestamp": "2026-07-11T01:28:46.234Z",
+      "eventType": "validators_final",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": null,
+      "result": {
+        "dataset": "PASS",
+        "contracts": "PASS"
+      },
+      "exitCode": 0,
+      "summary": "Both validators passed after implementation verification."
+    },
+    {
+      "sequence": 253,
+      "timestamp": "2026-07-11T01:28:50.891Z",
+      "eventType": "scope_verified",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": null,
+      "result": {
+        "changedFiles": 2
+      },
+      "exitCode": 0,
+      "summary": "Exact two-file patch and final hashes verified."
+    },
+    {
+      "sequence": 259,
+      "timestamp": "2026-07-11T01:28:55.884Z",
+      "eventType": "final_tree",
+      "actor": "spec-driven",
+      "toolName": "bash",
+      "arguments": null,
+      "result": {
+        "tree": "e24477b4acc515a1021a34f7f623dcac27291761"
+      },
+      "exitCode": 0,
+      "summary": "Final tracked worktree tree captured."
+    },
+    {
+      "sequence": 275,
+      "timestamp": "2026-07-11T01:29:42.992Z",
+      "eventType": "handoff",
+      "actor": "spec-driven",
+      "toolName": null,
+      "arguments": null,
+      "result": {
+        "outcome": "VERIFIED_SUCCESS"
+      },
+      "exitCode": null,
+      "summary": "VERIFIED_SUCCESS handoff requested dataset recording."
+    }
+  ],
+  "patches": [
+    {
+      "path": "docs/dataset/artifacts/0036-certificate-profile-lifecycle-event-envelope-causation-id/worktree.patch",
+      "sha256": "2c09c3c68cd811771fe39d30619205032e1ca2270a60c0b4adb725527f2949cf",
+      "byteSize": 2134,
+      "description": "Exact sealed two-file patch."
+    }
+  ],
+  "verification": {
+    "commands": [
+      {
+        "command": "scripts/validate-agent-contracts",
+        "exitCode": 0,
+        "summary": "PASS"
+      },
+      {
+        "command": "scripts/validate-dataset",
+        "exitCode": 0,
+        "summary": "PASS"
+      },
+      {
+        "command": "JavaSpec baseline / structural RED / selected / envelope / full commands",
+        "exitCode": 0,
+        "summary": "35/35 baseline; RED exit 1; GREEN 1/1, 7/7, 36/36."
+      },
+      {
+        "command": "official Java 21 container Maven test",
+        "exitCode": 0,
+        "summary": "36 tests; zero unsupported warnings."
+      },
+      {
+        "command": "shape, stub, scope, and diff checks",
+        "exitCode": 0,
+        "summary": "All pass."
+      }
+    ],
+    "outcome": "PASSED",
+    "evidence": [
+      {
+        "path": "docs/dataset/artifacts/0036-certificate-profile-lifecycle-event-envelope-causation-id/trace-validation.json",
+        "sha256": "ea45f43a4fbe9ae8d17deb591cfbb1dd9894c7cef6766b58f670050a77b9bfc3",
+        "mediaType": "application/json",
+        "byteSize": 3371,
+        "description": "Independent trajectory validation."
+      },
+      {
+        "path": "docs/dataset/artifacts/0036-certificate-profile-lifecycle-event-envelope-causation-id/javaspec-baseline-summary.json",
+        "sha256": "3f5fef123466dc149f56269c21dac4e49f00521708f2c94e8c7a3caf2ebfb579",
+        "mediaType": "application/json",
+        "byteSize": 125,
+        "description": "JavaSpec baseline 35/35."
+      },
+      {
+        "path": "docs/dataset/artifacts/0036-certificate-profile-lifecycle-event-envelope-causation-id/javaspec-red-structural-summary.json",
+        "sha256": "e7ff71785784cb27afee865e37e9e18f216c0a1cb04bc49f89b9894d6d2981a1",
+        "mediaType": "application/json",
+        "byteSize": 314,
+        "description": "No-write structural RED."
+      },
+      {
+        "path": "docs/dataset/artifacts/0036-certificate-profile-lifecycle-event-envelope-causation-id/javaspec-generated-candidate-summary.json",
+        "sha256": "a146263aefeb3f0d347bd87ed8f4172cddad8056be9f666d98072ac3d96d8c72",
+        "mediaType": "application/json",
+        "byteSize": 296,
+        "description": "Generated arg6 and pending-stub candidate."
+      },
+      {
+        "path": "docs/dataset/artifacts/0036-certificate-profile-lifecycle-event-envelope-causation-id/javaspec-green-selected.json",
+        "sha256": "c7bfda9e878f7a22cc76308c739fc3e65eafe366a41146870ab39105fd04bc88",
+        "mediaType": "application/json",
+        "byteSize": 168,
+        "description": "Selected GREEN 1/1."
+      },
+      {
+        "path": "docs/dataset/artifacts/0036-certificate-profile-lifecycle-event-envelope-causation-id/javaspec-green-envelope-summary.json",
+        "sha256": "75c1783bb7567039a3c728d600b7b36c47c33576fcfccc11d91954a30684f7c4",
+        "mediaType": "application/json",
+        "byteSize": 110,
+        "description": "Envelope GREEN 7/7."
+      },
+      {
+        "path": "docs/dataset/artifacts/0036-certificate-profile-lifecycle-event-envelope-causation-id/javaspec-green-full-summary.json",
+        "sha256": "43d6fc85e053d837439184cce63c1cb4fa0f35d22513c874c3017b859a291189",
+        "mediaType": "application/json",
+        "byteSize": 108,
+        "description": "Full GREEN 36/36."
+      },
+      {
+        "path": "docs/dataset/artifacts/0036-certificate-profile-lifecycle-event-envelope-causation-id/maven-domain-test-summary.json",
+        "sha256": "8b06529dffe4f2aedd5836768103be255e5ff4c4987b016d3aeb0d1fcde96a07",
+        "mediaType": "application/json",
+        "byteSize": 492,
+        "description": "Java 21 Maven 36-test evidence."
+      },
+      {
+        "path": "docs/dataset/artifacts/0036-certificate-profile-lifecycle-event-envelope-causation-id/worktree.patch",
+        "sha256": "2c09c3c68cd811771fe39d30619205032e1ca2270a60c0b4adb725527f2949cf",
+        "mediaType": "text/x-patch",
+        "byteSize": 2134,
+        "description": "Exact sealed two-file patch."
+      },
+      {
+        "path": "docs/dataset/artifacts/0036-certificate-profile-lifecycle-event-envelope-causation-id/evidence-summary.md",
+        "sha256": "34cab874d7e9d706a18e389ae98ee2460c4dd03549ab6a6a2fb45eb0afef380a",
+        "mediaType": "text/markdown",
+        "byteSize": 1360,
+        "description": "Independent evidence summary."
+      },
+      {
+        "path": "docs/dataset/artifacts/0036-certificate-profile-lifecycle-event-envelope-causation-id/resume-capsule.md",
+        "sha256": "0cb4178be46a446cd2022d67d0f880f894f7ac12f3cc9734b0debe6f9d551eec",
+        "mediaType": "text/markdown",
+        "byteSize": 1368,
+        "description": "Safe resume capsule."
+      },
+      {
+        "path": "docs/dataset/artifacts/0036-certificate-profile-lifecycle-event-envelope-causation-id/validator-results.json",
+        "sha256": "e3f7bca86247bfec11661d19907812fb704430bd96fd5cf9e2f9a692e8f5868c",
+        "mediaType": "application/json",
+        "byteSize": 818,
+        "description": "Current validator PASS results."
+      }
+    ]
+  },
+  "termination": {
+    "type": "VERIFIED_SUCCESS",
+    "suspectedOwner": "SPEC_DRIVEN",
+    "summary": "Envelope exposes supplied command identifier through seventh String causationId component and implicit accessor."
+  },
+  "contextMetrics": {
+    "metricCollectionStatus": "PARTIAL",
+    "maximumContextTokens": null,
+    "peakContextTokens": 42394,
+    "totalInputTokens": 92177,
+    "cachedInputTokens": 1041920,
+    "outputTokens": 8943,
+    "uniqueSourceBytesRead": null,
+    "repeatedSourceBytesRead": null,
+    "toolOutputBytesPresentedToModel": 102708,
+    "compactionCount": 0,
+    "iterationCount": 42
+  },
+  "curation": {
+    "status": "CURATED_SFT_CANDIDATE",
+    "reviewers": [
+      "dataset-writer"
+    ],
+    "knownIssues": [
+      "Two exploratory read commands were blocked before behavior edits; neither changed files.",
+      "A WebSocket failure interrupted an unexecuted edit request; only the complete retry executed.",
+      "Final CURATED_SFT requires independent approval."
+    ],
+    "sftEligibility": {
+      "status": "CANDIDATE",
+      "reason": "Raw single-behavior JavaSpec trajectory with complete provenance, RED/GREEN, bounded patch, privacy, and validation."
+    },
+    "evaluationEligibility": {
+      "status": "NOT_ELIGIBLE",
+      "reason": "No evaluation approval."
+    }
+  },
+  "artifacts": [
+    {
+      "path": "docs/dataset/artifacts/0036-certificate-profile-lifecycle-event-envelope-causation-id/trace-validation.json",
+      "sha256": "ea45f43a4fbe9ae8d17deb591cfbb1dd9894c7cef6766b58f670050a77b9bfc3",
+      "mediaType": "application/json",
+      "byteSize": 3371,
+      "description": "Independent trajectory validation."
+    },
+    {
+      "path": "docs/dataset/artifacts/0036-certificate-profile-lifecycle-event-envelope-causation-id/javaspec-baseline-summary.json",
+      "sha256": "3f5fef123466dc149f56269c21dac4e49f00521708f2c94e8c7a3caf2ebfb579",
+      "mediaType": "application/json",
+      "byteSize": 125,
+      "description": "JavaSpec baseline 35/35."
+    },
+    {
+      "path": "docs/dataset/artifacts/0036-certificate-profile-lifecycle-event-envelope-causation-id/javaspec-red-structural-summary.json",
+      "sha256": "e7ff71785784cb27afee865e37e9e18f216c0a1cb04bc49f89b9894d6d2981a1",
+      "mediaType": "application/json",
+      "byteSize": 314,
+      "description": "No-write structural RED."
+    },
+    {
+      "path": "docs/dataset/artifacts/0036-certificate-profile-lifecycle-event-envelope-causation-id/javaspec-generated-candidate-summary.json",
+      "sha256": "a146263aefeb3f0d347bd87ed8f4172cddad8056be9f666d98072ac3d96d8c72",
+      "mediaType": "application/json",
+      "byteSize": 296,
+      "description": "Generated arg6 and pending-stub candidate."
+    },
+    {
+      "path": "docs/dataset/artifacts/0036-certificate-profile-lifecycle-event-envelope-causation-id/javaspec-green-selected.json",
+      "sha256": "c7bfda9e878f7a22cc76308c739fc3e65eafe366a41146870ab39105fd04bc88",
+      "mediaType": "application/json",
+      "byteSize": 168,
+      "description": "Selected GREEN 1/1."
+    },
+    {
+      "path": "docs/dataset/artifacts/0036-certificate-profile-lifecycle-event-envelope-causation-id/javaspec-green-envelope-summary.json",
+      "sha256": "75c1783bb7567039a3c728d600b7b36c47c33576fcfccc11d91954a30684f7c4",
+      "mediaType": "application/json",
+      "byteSize": 110,
+      "description": "Envelope GREEN 7/7."
+    },
+    {
+      "path": "docs/dataset/artifacts/0036-certificate-profile-lifecycle-event-envelope-causation-id/javaspec-green-full-summary.json",
+      "sha256": "43d6fc85e053d837439184cce63c1cb4fa0f35d22513c874c3017b859a291189",
+      "mediaType": "application/json",
+      "byteSize": 108,
+      "description": "Full GREEN 36/36."
+    },
+    {
+      "path": "docs/dataset/artifacts/0036-certificate-profile-lifecycle-event-envelope-causation-id/maven-domain-test-summary.json",
+      "sha256": "8b06529dffe4f2aedd5836768103be255e5ff4c4987b016d3aeb0d1fcde96a07",
+      "mediaType": "application/json",
+      "byteSize": 492,
+      "description": "Java 21 Maven 36-test evidence."
+    },
+    {
+      "path": "docs/dataset/artifacts/0036-certificate-profile-lifecycle-event-envelope-causation-id/worktree.patch",
+      "sha256": "2c09c3c68cd811771fe39d30619205032e1ca2270a60c0b4adb725527f2949cf",
+      "mediaType": "text/x-patch",
+      "byteSize": 2134,
+      "description": "Exact sealed two-file patch."
+    },
+    {
+      "path": "docs/dataset/artifacts/0036-certificate-profile-lifecycle-event-envelope-causation-id/evidence-summary.md",
+      "sha256": "34cab874d7e9d706a18e389ae98ee2460c4dd03549ab6a6a2fb45eb0afef380a",
+      "mediaType": "text/markdown",
+      "byteSize": 1360,
+      "description": "Independent evidence summary."
+    },
+    {
+      "path": "docs/dataset/artifacts/0036-certificate-profile-lifecycle-event-envelope-causation-id/resume-capsule.md",
+      "sha256": "0cb4178be46a446cd2022d67d0f880f894f7ac12f3cc9734b0debe6f9d551eec",
+      "mediaType": "text/markdown",
+      "byteSize": 1368,
+      "description": "Safe resume capsule."
+    },
+    {
+      "path": "docs/dataset/artifacts/0036-certificate-profile-lifecycle-event-envelope-causation-id/validator-results.json",
+      "sha256": "e3f7bca86247bfec11661d19907812fb704430bd96fd5cf9e2f9a692e8f5868c",
+      "mediaType": "application/json",
+      "byteSize": 818,
+      "description": "Current validator PASS results."
+    }
+  ],
+  "resumeCapsule": {
+    "currentCommit": "476a0caf517f45948c9658dc46f5b960b14bf48f",
+    "currentTree": "e24477b4acc515a1021a34f7f623dcac27291761",
+    "requirementIds": [
+      "req-x509-profile-lifecycle-001"
+    ],
+    "scenarioIds": [],
+    "currentBehavior": "Expose supplied command identifier through seventh String causationId component.",
+    "owningAgent": "spec-driven",
+    "fileHashes": [
+      {
+        "path": "trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelope.java",
+        "sha256": "d9d0dbb7bca246bb7bbf76bc3713804c62681e8d4a6df56ddd116422f204b6cd",
+        "byteSize": 249
+      },
+      {
+        "path": "trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelopeSpec.java",
+        "sha256": "fe5df244ff07265fd62bbf4b418fc8296381647e1a83ec284c21e53c3f04c1d8",
+        "byteSize": 2271
+      },
+      {
+        "path": "docs/dataset/artifacts/0036-certificate-profile-lifecycle-event-envelope-causation-id/worktree.patch",
+        "sha256": "2c09c3c68cd811771fe39d30619205032e1ca2270a60c0b4adb725527f2949cf",
+        "byteSize": 2134
+      }
+    ],
+    "lastVerifiedResult": "Selected 1/1; envelope 7/7; full 36/36; zero stubs; exact shape; Java 21 Maven 36 tests; both validators pass.",
+    "lastFailureOrStop": "Structural RED: no-write dry run reported pending support/method/constructor generation.",
+    "unresolvedWork": [
+      "Independent approval before CURATED_SFT.",
+      "Files remain uncommitted."
+    ],
+    "allowedFiles": [
+      "trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelope.java",
+      "trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelopeSpec.java",
+      "docs/dataset/**"
+    ],
+    "javaspecFingerprint": "RC1; source cd7ff8d; selected JAR SHA-256 8522dc72ab0ca87a508436419c4ed430e0ad470375445c689fa871218a8ab501; fixes present",
+    "nextPermittedAction": "Parent/human reviews and may commit; do not rewrite trace or add unrelated behavior."
+  }
+}

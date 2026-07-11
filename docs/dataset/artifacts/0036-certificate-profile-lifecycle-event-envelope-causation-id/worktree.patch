@@ -1,0 +1,26 @@
+diff --git a/trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelope.java b/trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelope.java
+index 648f603..eb217e5 100644
+--- a/trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelope.java
++++ b/trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelope.java
+@@ -1,4 +1,4 @@
+ package com.magrathea.trustengine.x509.profile;
+ 
+-public record CertificateProfileLifecycleEventEnvelope(String eventType, String aggregateId, long aggregateVersion, String actor, String eventId, java.time.Instant occurredAt) {
++public record CertificateProfileLifecycleEventEnvelope(String eventType, String aggregateId, long aggregateVersion, String actor, String eventId, java.time.Instant occurredAt, String causationId) {
+ }
+diff --git a/trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelopeSpec.java b/trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelopeSpec.java
+index dc68aad..88168f3 100644
+--- a/trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelopeSpec.java
++++ b/trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileLifecycleEventEnvelopeSpec.java
+@@ -39,4 +39,11 @@ public class CertificateProfileLifecycleEventEnvelopeSpec extends CertificatePro
+ 
+         occurredAt().shouldReturn(occurredAt);
+     }
++
++    public void it_exposes_the_lifecycle_causation_identifier() {
++        Instant occurredAt = Instant.parse("2026-07-10T12:34:56Z");
++        beConstructedWith("CERTIFICATE_PROFILE_REGISTERED", "x509-profile/tls-server-baseline", 1L, "ra-operator@example.test", "evt-x509-profile-2026-0001", occurredAt, "cmd-register-profile-2026-0001");
++
++        causationId().shouldReturn("cmd-register-profile-2026-0001");
++    }
+ }

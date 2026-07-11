@@ -1,0 +1,8 @@
+{
+  "schemaVersion":"validator-results-v1",
+  "validatedAt":"2026-07-11T02:00:00Z",
+  "datasetValidator":{"command":"scripts/validate-dataset","exitCode":0,"status":"PASS","output":"validate-dataset: PASS\nlegacy_files=33 v2_episodes=3 incidents=6 manifest_entries=42"},
+  "agentContractValidator":{"command":"scripts/validate-agent-contracts","exitCode":0,"status":"PASS","output":"validate-agent-contracts: PASS"},
+  "projectRuntimeMaven":{"containerImage":"localhost/magrathea-build:fedora42","javaRuntime":"OpenJDK 21.0.11","projectJavaTarget":21,"command":"mvn test -pl trust-engine-domain -am","exitCode":0,"tests":36,"status":"PASS","unsupportedClassFileMajorVersionWarningCount":0},
+  "assessment":"Both repository validators and the authoritative Java 21 runtime verification pass in the current worktree."
+}

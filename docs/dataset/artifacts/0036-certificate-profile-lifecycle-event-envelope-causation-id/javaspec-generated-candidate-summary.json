@@ -1,0 +1,1 @@
+{"phase":"generated-candidate","exitCode":1,"generatedRecordComponent":"String arg6","generatedAccessorStub":"String causationId() returning null","pendingStubCount":1,"selected":{"passed":0,"failed":1,"broken":1},"assessment":"Expected intermediate candidate requiring coherent bounded GREEN."}

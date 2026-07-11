@@ -1,0 +1,1 @@
+{"phase":"RED","classification":"MISSING_PRODUCTION_MEMBER","selectedExample":"it_exposes_the_lifecycle_causation_identifier","exitCode":1,"filesWritten":false,"productionMutationBeforeRed":false,"pending":{"support":true,"methods":true,"constructor":true},"exampleExecutionStatus":"NOT_EXECUTED","status":"PASS"}

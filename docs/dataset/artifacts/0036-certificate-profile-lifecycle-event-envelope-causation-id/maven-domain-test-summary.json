@@ -1,0 +1,15 @@
+{
+  "containerImage":"localhost/magrathea-build:fedora42",
+  "javaRuntime":"OpenJDK 21.0.11",
+  "projectJavaTarget":21,
+  "command":"mvn test -pl trust-engine-domain -am",
+  "tests":36,
+  "failures":0,
+  "errors":0,
+  "skipped":0,
+  "build":"SUCCESS",
+  "unsupportedClassFileMajorVersionWarningCount":0,
+  "traceLogSha256":"4b5e0b676c14417676b7653b2fcbc43992e7d3592f125da7eafefddea7b2c41b",
+  "independentRerun":{"exitCode":0,"tests":36,"unsupportedClassWarningCount":0},
+  "status":"PASS"
+}
