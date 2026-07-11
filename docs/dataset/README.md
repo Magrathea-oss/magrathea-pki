@@ -1,22 +1,30 @@
 # Magrathea PKI Dataset
 
-This directory stores dataset material for Magrathea PKI agent-workflow maintenance and replay/curation work.
+This directory contains the infrastructure for the replacement Magrathea PKI javaspec training corpus.
+
+## Corpus reset
+
+The previous corpus was intentionally discarded after domain quality regressions. Dataset episode numbering restarts at `0001`. No discarded episode, derived training view, incident, or preservation artifact remains part of the replacement corpus.
+
+## Admission policy
+
+Only episodes meeting all of the following conditions may be admitted:
+
+- the trajectory is a sealed `RAW_EVENT_STREAM` captured directly from the `spec-driven` agent;
+- chronological javaspec RED/GREEN evidence and required provenance are complete;
+- for a new subject, the trace captures `javaspec describe <fully.qualified.Subject>` before the first specification or production-type edit;
+- for a continuation slice of an already described subject, `javaspec describe` is not repeated.
+
+Reconstructed summaries, story-driven or Cucumber-only work, unsealed traces, and traces without executable javaspec provenance are not dataset episodes.
 
 ## Layout
 
-- `0001-0033-*.jsonl` — preserved legacy raw V1 episodes. These files remain in their original repository paths and must not be rewritten during V2 maintenance.
-- `manifest.jsonl` — one JSON object per dataset item. Legacy entries are marked `LEGACY_RAW_V1` and include preservation hashes, replayability, behavior-verification, quality, SFT, and evaluation eligibility fields.
-- `schema/episode-v2.schema.json` — JSON Schema for future structured V2 episodes.
-- `raw/v2/` — future raw V2 episode records only. Do not create episode `0034` without a future implementation handoff explicitly requesting it.
-- `curated/sft/` — independently approved SFT training views derived from authoritative episodes.
-- `evaluation/` — evaluation cases derived from approved episodes.
-- `incidents/` — framework/model/specification failure records and incident analyses.
-- `artifacts/` — external validation evidence and large supporting artifacts.
+- `manifest.jsonl` — replacement-corpus manifest; initially empty.
+- `schema/episode-v2.schema.json` — JSON Schema for structured episodes.
+- `raw/v2/` — authoritative sealed raw episodes.
+- `curated/sft-candidates/` — mechanically eligible candidate views pending independent approval.
+- `curated/sft/` — independently approved SFT views.
+- `evaluation/` — approved evaluation cases.
+- `incidents/` — eligible incident records when admission policy permits retaining them.
 
-## Preservation rule
-
-Legacy raw V1 episodes `0001` through `0033` are immutable source evidence. Maintenance tasks may add manifests, schemas, validation artifacts, and empty layout sentinels, but must not edit, move, or rewrite those legacy JSONL files.
-
-## V2 admission rule
-
-A future V2 episode must validate against `schema/episode-v2.schema.json` and must include provenance, environment, task, admission decision, raw observable events, patches, verification, termination, context metrics, curation, artifact references, and a resume capsule.
+Empty dataset directories are retained with `.gitkeep` sentinels.

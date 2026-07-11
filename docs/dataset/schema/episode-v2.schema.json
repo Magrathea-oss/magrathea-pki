@@ -405,7 +405,6 @@
       "properties": {
         "status": {
           "enum": [
-            "LEGACY_RAW_V1",
             "RAW_UNREVIEWED",
             "REPLAY_VERIFIED",
             "BEHAVIOR_VERIFIED",

@@ -21,7 +21,7 @@ TERMINATIONS = {
     'UNAUTHORIZED_FILE_CHANGE','CONTEXT_LIMIT_REACHED','HUMAN_DECISION_REQUIRED','CHECKPOINT'
 }
 OWNERS = {'JAVASPEC','SPEC_DRIVEN','STORY_DRIVEN','DATASET_WRITER','SPECIFICATION','DOMAIN_DESIGN','PROJECT','BUILD_ENVIRONMENT','TOOLING','UNKNOWN'}
-CURATION = {'LEGACY_RAW_V1','RAW_UNREVIEWED','REPLAY_VERIFIED','BEHAVIOR_VERIFIED','CURATED_SFT_CANDIDATE','CURATED_SFT','CURATED_PREFERENCE','EVALUATION_CASE','FRAMEWORK_FAILURE','MODEL_FAILURE','SPECIFICATION_FAILURE','QUALITY_REJECTED','SECURITY_REJECTED','REPLAY_FAILED'}
+CURATION = {'RAW_UNREVIEWED','REPLAY_VERIFIED','BEHAVIOR_VERIFIED','CURATED_SFT_CANDIDATE','CURATED_SFT','CURATED_PREFERENCE','EVALUATION_CASE','FRAMEWORK_FAILURE','MODEL_FAILURE','SPECIFICATION_FAILURE','QUALITY_REJECTED','SECURITY_REJECTED','REPLAY_FAILED'}
 failures = []
 
 def require(cond, msg):
@@ -45,11 +45,10 @@ if SCHEMA.is_file():
     require('artifactReferences' in required or 'artifacts' in required, 'episode schema missing artifact references/artifacts')
 require(MANIFEST.is_file(), 'missing dataset manifest')
 
-legacy_files = sorted(DATASET.glob('00[0-3][0-9]-*.jsonl'))
-legacy_files = [p for p in legacy_files if re.match(r'00[0-3][0-9]-', p.name) and int(p.name[:4]) <= 33]
+root_episode_files = sorted(DATASET.glob('[0-9][0-9][0-9][0-9]-*'))
+require(not root_episode_files, f'root-level legacy episodes are forbidden after corpus reset: {[p.name for p in root_episode_files]}')
 v2_files = sorted((DATASET / 'raw/v2').glob('*.json'))
 incident_files = sorted((DATASET / 'incidents').glob('*.json'))
-require(len(legacy_files) == 33, f'expected 33 legacy files, found {len(legacy_files)}')
 
 entries = []
 if MANIFEST.is_file():
@@ -60,7 +59,7 @@ if MANIFEST.is_file():
             entries.append(json.loads(line))
         except json.JSONDecodeError as exc:
             failures.append(f'manifest line {line_no} invalid JSON: {exc}')
-expected_entry_count = len(legacy_files) + len(v2_files) + len(incident_files)
+expected_entry_count = len(v2_files) + len(incident_files)
 require(len(entries) == expected_entry_count, f'expected {expected_entry_count} manifest entries, found {len(entries)}')
 
 def rel(path):
@@ -77,9 +76,8 @@ def validate_file_reference(ref, owner):
         require(sha256(p) == ref.get('sha256'), f'{owner} artifact sha mismatch {path}')
         require(p.stat().st_size == ref.get('byteSize'), f'{owner} artifact byte size mismatch {path}')
 
-expected_paths = {rel(p) for p in legacy_files + v2_files + incident_files}
+expected_paths = {rel(p) for p in v2_files + incident_files}
 seen = set()
-legacy_entries = 0
 v2_entries = 0
 incident_entries = 0
 for entry in entries:
@@ -89,7 +87,7 @@ for entry in entries:
     require(entry.get('curationStatus') in CURATION, f'invalid curation status for {path}')
     for field in ['knownIssues','replayability','behaviorVerification','sftEligibility','evaluationEligibility','sha256','byteSize']:
         require(field in entry, f'manifest entry {path} missing {field}')
-    if entry.get('entryType') in {'legacyRawV1', 'rawV2'}:
+    if entry.get('entryType') == 'rawV2':
         require('codeQualityStatus' in entry, f'manifest entry {path} missing codeQualityStatus')
     if path:
         p = ROOT / path
@@ -98,11 +96,7 @@ for entry in entries:
             require(sha256(p) == entry.get('sha256'), f'sha mismatch {path}')
             require(p.stat().st_size == entry.get('byteSize'), f'byte size mismatch {path}')
     entry_type = entry.get('entryType')
-    if entry_type == 'legacyRawV1':
-        legacy_entries += 1
-        require(path in {rel(p) for p in legacy_files}, f'legacy manifest path is not a preserved legacy file: {path}')
-        require(entry.get('curationStatus') == 'LEGACY_RAW_V1', f'legacy entry not LEGACY_RAW_V1: {path}')
-    elif entry_type == 'rawV2':
+    if entry_type == 'rawV2':
         v2_entries += 1
         require(path in {rel(p) for p in v2_files}, f'rawV2 manifest path is not under docs/dataset/raw/v2: {path}')
         if path and (ROOT / path).is_file():
@@ -144,7 +138,6 @@ for entry in entries:
     else:
         require(False, f'unsupported manifest entryType {entry_type} for {path}')
 require(seen == expected_paths, f'manifest paths do not match dataset files; missing={sorted(expected_paths - seen)} extra={sorted(seen - expected_paths)}')
-require(legacy_entries == len(legacy_files), f'expected {len(legacy_files)} legacy manifest entries, found {legacy_entries}')
 require(v2_entries == len(v2_files), f'expected {len(v2_files)} rawV2 manifest entries, found {v2_entries}')
 require(incident_entries == len(incident_files), f'expected {len(incident_files)} incident manifest entries, found {incident_entries}')
 
@@ -160,4 +153,4 @@ if failures:
         print('-', failure)
     sys.exit(1)
 print('validate-dataset: PASS')
-print(f'legacy_files={len(legacy_files)} v2_episodes={len(v2_files)} incidents={len(incident_files)} manifest_entries={len(entries)}')
+print(f'v2_episodes={len(v2_files)} incidents={len(incident_files)} manifest_entries={len(entries)}')

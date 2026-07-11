@@ -134,7 +134,7 @@ trust-engine-tpm
 - `dataset-writer` independently records, validates, classifies, and externalizes trajectories from `spec-driven` and `story-driven`.
 - Implementation agents do not author, approve, or repair their own raw dataset records.
 - Dataset episodes are not automatically positive training data because tests passed. `BEHAVIOR_VERIFIED`, `CURATED_SFT_CANDIDATE`, and `CURATED_SFT` are separate curation states.
-- Episodes `0001` through `0033` are legacy raw V1 records and must remain byte-for-byte immutable; V2 metadata is added through manifest/schema files only.
+- The previous domain-training corpus was explicitly discarded after quality regressions. Dataset numbering restarts at `0001`; only newly captured, sealed, javaspec-guided episodes may enter the replacement corpus.
 
 ## Typed Stops and Handoffs
 
