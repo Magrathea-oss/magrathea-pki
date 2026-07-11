@@ -1,0 +1,57 @@
+{
+  "authorization": {
+    "decision": "ADR 0001 CertificateProfile v1 identity contract",
+    "decisionSha256": "59b712e531e59ca8b4185e38e4f51a22a5d4685f2cba6783e7f2461249a07c5c",
+    "requirementId": "REQ-X509-PROFILE-INTEGRITY-014",
+    "featureSha256": "68bfaa4d566c00314af68598e2a9c00498bedcfb254866cb4dce7371e291f809",
+    "rule": "A v1 profile ID matches ^x509-profile-v1-sha256-[0-9a-f]{64}$ as a whole string without trimming."
+  },
+  "baseline": {
+    "selectedJavaSpec": {"total": 1, "passed": 1, "pending": 0},
+    "fullJavaSpec": {"total": 1, "passed": 1, "pending": 0},
+    "mavenJava21": {"tests": 1, "failures": 0, "errors": 0, "skipped": 0, "build": "SUCCESS"}
+  },
+  "red": {
+    "exitCode": 1,
+    "classification": "EXPECTATION_FAILURE",
+    "example": "it_rejects_a_profile_identifier_with_leading_whitespace",
+    "result": "Expected java.lang.IllegalArgumentException to be thrown, but nothing was thrown",
+    "productionEditHadOccurred": false,
+    "reportSha256": "9f403336c1540e0e5881dbcdd1b956692987beed1a47f4f8f6a047abd0082b38"
+  },
+  "green": {
+    "selected": {"total": 1, "passed": 1, "failed": 0, "broken": 0, "skipped": 0, "pending": 0},
+    "preservedValidBehavior": {"total": 1, "passed": 1},
+    "full": {"total": 2, "passed": 2, "failed": 0, "broken": 0, "skipped": 0, "pending": 0},
+    "stubCheck": {"pendingGenerationWork": 0, "total": 2, "passed": 2, "pending": 0},
+    "selectedReportSha256": "f334330216cf1240ff56754b32d768f11a1a929a317a6b58a400439ae57ea4f2",
+    "fullReportSha256": "8f859ec2941d6895009b6377d4ee5d29bacbe05c9e5fc502e709451bd2905359",
+    "stubCheckReportSha256": "ff68f902f4b8870f2b52b7cc6427a857d6691bebdd76ca70b75e90c6a5a16713"
+  },
+  "mavenJava21": {
+    "command": "JAVA_HOME=<java-21-home> PATH=<java-21-bin>:$PATH mvn -pl trust-engine-domain -am verify -DskipTests=false",
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "javaspecTotal": 2,
+    "javaspecPassed": 2,
+    "javaspecPending": 0,
+    "build": "SUCCESS",
+    "traceLogSha256": "4359b7424a9d1019d80587a62effdeb273094bccb38b45ab7fc547acd06e7d5e"
+  },
+  "independentReplay": {
+    "javaspec": "2/2 passed; zero failed, broken, skipped, or pending",
+    "mavenJava21Verify": "BUILD SUCCESS; 2 tests and JavaSpec plugin 2/2",
+    "commitScope": "Exactly the two authorized source files"
+  },
+  "implementationCommit": {
+    "commit": "8cbd11e207765263c626bb4fbbea3e5f63e8defc",
+    "tree": "4585c3550145f62d61c559088abcbe157bf5fb5b",
+    "parent": "75b8c5fc10f935a27bf5710caaa2f25df0ff07ae"
+  },
+  "sourceHashes": {
+    "production": {"sha256": "f2d13fa865dc04409f48ba47f488fe775518a3604a88c020907700c4f1607e12", "byteSize": 466},
+    "specification": {"sha256": "c9fd8f2f0e1c145c2fd180dfea1f2507ed09efd2ad93d7b3dcb14b597f6908e5", "byteSize": 854}
+  }
+}

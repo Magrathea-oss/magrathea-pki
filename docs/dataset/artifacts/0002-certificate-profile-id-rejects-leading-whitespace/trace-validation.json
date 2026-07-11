@@ -1,0 +1,52 @@
+{
+  "traceId": "cb75a6aa-b745-4420-80ba-83ee25c2c2fa",
+  "captureMode": "RAW_EVENT_STREAM",
+  "eventCount": 284,
+  "eventsSha256": "83df90b72bcac2f7237b0412a1c0fba2ad44b9e7fe2b8a3f21d67cdd9b2f435c",
+  "metadataSha256": "24516b7528b76c3969b3e3033ed8c2fd4cbac490a7bf7e15a3c08b2ca9d27c84",
+  "sealSha256": "a0cfc8101debcaed4e88ac975a9daaec3c1687f6beb71907c00e65e64eb6de1e",
+  "patchSha256": "5ce692a1ee52366cd913f9b49bc92da016f1b17e4f549abec26c9e2fe4c5c809",
+  "finalEventHash": "a456ba23c27329052ecd4be2c6887ca09efe0338e3f373e36e65436957db25b4",
+  "toolPairs": {"starts": 54, "ends": 54, "complete": true},
+  "checks": {
+    "sealComplete": true,
+    "sequenceAndHashChainValid": true,
+    "canonicalTaskMatches": true,
+    "agentPromptToolProvenanceValid": true,
+    "successfulLauncherFingerprintBeforeBaseline": true,
+    "initialCommitAndTreeValid": true,
+    "continuationSubjectAlreadyExists": true,
+    "describeNotRepeated": true,
+    "requirementAuthorized": true,
+    "baselineGreen": true,
+    "oneSpecificationEditBeforeRed": true,
+    "meaningfulRedBeforeProductionEdit": true,
+    "oneBoundedProductionEdit": true,
+    "selectedAndFullGreen": true,
+    "zeroStubsAndPublicShapePreserved": true,
+    "java21MavenVerify": true,
+    "exactTwoFileScope": true,
+    "sealedPatchMatchesImplementationCommit": true,
+    "postCommitHashesMatchHandoff": true,
+    "privacySanitized": true
+  },
+  "chronology": {
+    "launcherFingerprintResultSequence": 26,
+    "selectedBaselineResultSequence": 83,
+    "fullBaselineResultSequence": 89,
+    "mavenBaselineResultSequence": 95,
+    "specificationEditResultSequence": 137,
+    "redResultSequence": 161,
+    "productionEditResultSequence": 167,
+    "selectedGreenResultSequence": 197,
+    "validRegressionGreenResultSequence": 203,
+    "fullGreenResultSequence": 209,
+    "stubCheckResultSequence": 257,
+    "mavenVerifyResultSequence": 227
+  },
+  "notes": [
+    "The first fingerprint attempt used an incorrect relative path and failed before the successful repository-root launcher fingerprint; the successful fingerprint still precedes every baseline command.",
+    "The first dry-run stub check omitted the compiled classpath and skipped examples, but explicitly found no pending generation work. A corrected dry-run with the compiled classpath then passed 2/2 with zero pending.",
+    "The implementation was committed by the parent after the sealed implementation trace. The sealed patch is byte-identical to the base-to-implementation-commit patch after the harness trailing newline convention."
+  ]
+}

@@ -1,0 +1,35 @@
+diff --git a/trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileId.java b/trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileId.java
+index 5e74876..91f53e7 100644
+--- a/trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileId.java
++++ b/trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/CertificateProfileId.java
+@@ -1,4 +1,13 @@
+ package com.magrathea.trustengine.x509.profile;
+ 
++import java.util.regex.Pattern;
++
+ public record CertificateProfileId(String value) {
++    private static final Pattern V1_GRAMMAR = Pattern.compile("x509-profile-v1-sha256-[0-9a-f]{64}");
++
++    public CertificateProfileId {
++        if (value != null && !V1_GRAMMAR.matcher(value).matches()) {
++            throw new IllegalArgumentException("Certificate profile ID must match the complete v1 grammar");
++        }
++    }
+ }
+diff --git a/trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileIdSpec.java b/trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileIdSpec.java
+index 3397a9f..1926015 100644
+--- a/trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileIdSpec.java
++++ b/trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/CertificateProfileIdSpec.java
+@@ -11,4 +11,12 @@ public class CertificateProfileIdSpec extends CertificateProfileIdSpecSupport {
+ 
+         value().shouldReturn(canonicalValue);
+     }
++
++    public void it_rejects_a_profile_identifier_with_leading_whitespace() {
++        String malformedValue = " x509-profile-v1-sha256-d40ed2a8c1f61164e3f540e7623608c9a8797a7ad1a657d4dffbb661cd1999ee";
++
++        beConstructedWith(malformedValue);
++
++        shouldThrow(IllegalArgumentException.class).duringInstantiation();
++    }
+ }
