@@ -31,7 +31,7 @@
 
         <!-- Testing -->
         <cucumber.version>7.34.4</cucumber.version>
-        <javaspec.version>1.0.0-RC2</javaspec.version>
+        <javaspec.version>1.0.0-RC3</javaspec.version>
         <jacoco.version>0.8.12</jacoco.version>
 
         <!-- CLI -->
