@@ -1,0 +1,61 @@
+{
+  "traceId": "7343d639-2697-4d9b-bf7d-fc7cd2d82866",
+  "captureMode": "RAW_EVENT_STREAM",
+  "eventCount": 302,
+  "eventsSha256": "928f8984bafef0b2e14da7e985974230c5e845c2756ed1223cf0c504ca1c5ba3",
+  "metadataSha256": "f2452bd7028218cc891f1d305f870145e98b3d3cbec8129610148c741fcb8517",
+  "sealSha256": "80259f9979e344f0ca0bed343e7e2e63b3a853f34d65255e310ededc108fc350",
+  "finalEventHash": "0ac7ed45791ead0007fa96fd3c12b265f9478ea40a442b33d540baae7e01c84b",
+  "toolPairs": {"starts": 59, "ends": 59, "complete": true},
+  "checks": {
+    "sealComplete": true,
+    "sequenceAndHashChainValid": true,
+    "canonicalTaskMatches": true,
+    "agentPromptToolProvenanceValid": true,
+    "successfulLauncherFingerprintBeforeBaseline": true,
+    "initialCommitAndTreeValid": true,
+    "newSubjectAbsentInitially": true,
+    "describeBeforeAllSubjectEdits": true,
+    "describeCreatedSpecificationOnly": true,
+    "structuralRedBeforeProduction": true,
+    "productionFirstCreatedByGenerate": true,
+    "executableExpectationRedBeforeGreen": true,
+    "oneBehaviorOrderInsensitiveSpecification": true,
+    "oneBoundedProductionEdit": true,
+    "selectedAndFullGreen": true,
+    "zeroPendingAndStubs": true,
+    "exactEnumShapeJava21": true,
+    "java21MavenAndDependencyEvidence": true,
+    "exactTwoFileScope": true,
+    "sealedStateMatchesImplementationCommit": true,
+    "postCommitHashesMatchHandoff": true,
+    "schemaCompatible": true,
+    "privacySanitized": true
+  },
+  "chronology": {
+    "launcherFingerprintResultSequence": 26,
+    "baselineResultSequence": 80,
+    "describeResultSequence": 92,
+    "specificationEditResultSequence": 134,
+    "structuralRedResultSequence": 146,
+    "generationAndExecutableRedResultSequence": 152,
+    "productionGreenEditResultSequence": 170,
+    "selectedGreenResultSequence": 182,
+    "fullGreenResultSequence": 188,
+    "java21MavenResultSequence": 236,
+    "classpathPendingCheckResultSequence": 266,
+    "finalHashesAndScopeResultSequence": 278
+  },
+  "generation": {
+    "toolCallId": "call_BHfOEWDk6U7NVGs4c8IDNv5E|fc_0e68d3cad329a7bd016a523e88460c81918cabfafeb2b9925a",
+    "command": "cd trust-engine-domain && ../bin/javaspec run --generate --compile --formatter pretty --profile java21 --class com.magrathea.trustengine.x509.profile.PublicKeyAlgorithm --example it_defines_the_complete_v1_public_key_algorithm_vocabulary",
+    "output": "Generated enum skeleton: src/main/java/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithm.java"
+  },
+  "notes": [
+    "The first repository-relative launcher and baseline commands used an incorrect path and failed; corrected successful fingerprint and baseline commands still preceded describe and every subject edit.",
+    "The first Maven baseline attempt ran under Java 25 despite a property override and failed on pre-existing JaCoCo compatibility. It was not used as baseline evidence; JavaSpec baseline 3/3 was already green, and explicit JAVA_HOME Java 21 test and verify later passed 4/4.",
+    "The first final dry-run omitted the compiled specification classpath and skipped one example. It still found no pending generation work but was not used as executable evidence; the corrected classpath dry-run passed 1/1 with no pending work.",
+    "The seal records both new source files as untracked and therefore has patchSha256 null. Complete describe/generate/edit/file-read/hash events seal their provenance and final bytes; the independently materialized base-to-implementation patch matches those bytes and the implementation commit exactly.",
+    "The selected launcher JAR path changed after sealing from SHA-256 0a6affa0... to 293ac11e.... Independent replay passed with the later binary but is not a bit-identical executable replay."
+  ]
+}

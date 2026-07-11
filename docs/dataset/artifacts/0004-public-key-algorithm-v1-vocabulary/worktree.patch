@@ -1,0 +1,37 @@
+diff --git a/trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithm.java b/trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithm.java
+new file mode 100644
+index 0000000..47d2914
+--- /dev/null
++++ b/trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithm.java
+@@ -0,0 +1,6 @@
++package com.magrathea.trustengine.x509.profile;
++
++public enum PublicKeyAlgorithm {
++    EC_P256,
++    RSA_3072
++}
+diff --git a/trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithmSpec.java b/trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithmSpec.java
+new file mode 100644
+index 0000000..8eda669
+--- /dev/null
++++ b/trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithmSpec.java
+@@ -0,0 +1,19 @@
++package spec.com.magrathea.trustengine.x509.profile;
++
++import com.magrathea.trustengine.x509.profile.PublicKeyAlgorithm;
++
++import java.util.Arrays;
++import java.util.Set;
++import java.util.stream.Collectors;
++
++public class PublicKeyAlgorithmSpec extends PublicKeyAlgorithmSpecSupport {
++    public void it_defines_the_complete_v1_public_key_algorithm_vocabulary() {
++        shouldBeAnEnum();
++
++        Set<String> vocabulary = Arrays.stream(PublicKeyAlgorithm.values())
++                .map(PublicKeyAlgorithm::name)
++                .collect(Collectors.toUnmodifiableSet());
++
++        shouldEqual(vocabulary, Set.of("EC_P256", "RSA_3072"));
++    }
++}

@@ -1,0 +1,62 @@
+{
+  "authorization": {
+    "decision": "ADR 0001 CertificateProfile v1 closed enum vocabularies and unordered-set semantics",
+    "requirementIds": ["REQ-X509-PROFILE-INTEGRITY-001", "REQ-X509-PROFILE-INTEGRITY-011"],
+    "qualification": "The slice defines only the PublicKeyAlgorithm domain vocabulary. It does not claim YAML parsing, schema admission, token rejection, canonical sorting, or either complete Gherkin scenario is implemented."
+  },
+  "newSubjectBoundary": {
+    "baseState": "Production and specification paths absent at base commit.",
+    "describe": "Generated the specification and generated support, explicitly reporting that no production class was generated.",
+    "structuralRed": "Dry-run proposed exactly one enum skeleton and wrote no production file.",
+    "productionCreationMode": "JAVASPEC_RUN_GENERATE",
+    "generationResult": "Generated enum skeleton: src/main/java/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithm.java"
+  },
+  "red": {
+    "exitCode": 1,
+    "classification": "EXPECTATION_FAILURE",
+    "example": "it_defines_the_complete_v1_public_key_algorithm_vocabulary",
+    "result": "Expected equality([RSA_3072, EC_P256]) but got []",
+    "generatedSkeletonSha256": "929dbb720f787e2faef65f493c062ef90144dd96f24a624eb743f7ea6179916f",
+    "productionGreenEditHadOccurred": false
+  },
+  "green": {
+    "selected": {"total": 1, "passed": 1, "failed": 0, "broken": 0, "skipped": 0, "pending": 0},
+    "full": {"total": 4, "passed": 4, "failed": 0, "broken": 0, "skipped": 0, "pending": 0},
+    "pendingCheck": {"total": 1, "passed": 1, "skipped": 0, "pendingGenerationWork": 0, "pendingStubMarkers": 0},
+    "specificationSemantics": "Maps Enum.values() to exact names and compares immutable sets, proving complete case-sensitive membership without declaration-order semantics.",
+    "publicShape": "Java 21 class version 65 enum with exactly EC_P256 and RSA_3072 plus compiler-generated values() and valueOf(String)."
+  },
+  "mavenJava21": {
+    "command": "JAVA_HOME=<java-21-home> PATH=<java-21-bin>:$PATH mvn -P!dev -pl trust-engine-domain -am verify",
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "javaspecPending": 0,
+    "build": "SUCCESS"
+  },
+  "moduleDependencies": {
+    "command": "JAVA_HOME=<java-21-home> PATH=<java-21-bin>:$PATH mvn -P!dev -pl trust-engine-domain dependency:tree -Dscope=runtime",
+    "intrinsicRuntimeDependencies": 0,
+    "build": "SUCCESS",
+    "qualification": "The repository's active dev profile injects r2dbc-h2; disabling dev proves the domain module declares no intrinsic runtime dependency."
+  },
+  "independentReplay": {
+    "subjectJavaSpec": "1/1 passed; zero failed, broken, skipped, or pending",
+    "fullJavaSpec": "4/4 passed; zero failed, broken, skipped, or pending",
+    "mavenJava21Verify": "BUILD SUCCESS; 4 tests; JavaSpec 4/4 and zero pending",
+    "dependencyTree": "BUILD SUCCESS; zero intrinsic runtime dependencies",
+    "publicShape": "Java 21 class version 65 and exact two-constant enum shape reproduced",
+    "executableQualification": "Replay used launcher JAR SHA-256 293ac11e9fe3d1960ab8bfd0faf7e919c82aaa7a3240771ca695f90349a9573f because the selected path changed after sealing; sealed execution fingerprinted SHA-256 0a6affa008f5452f851b711755237075b1ce1172a1b056d459f7201d5a16128a."
+  },
+  "implementationCommit": {
+    "commit": "e033166222a324620e6ecfb2026db0e0b6bb0d67",
+    "tree": "2dd4ee31ec87695e9eb96e4619f39d06a46f29a6",
+    "parent": "87af2115bedd05dd79faa3a6bbfe372c4b84de6e",
+    "changedFiles": 2
+  },
+  "sourceHashes": {
+    "production": {"sha256": "0fc94ff23a3d298ff2ecb187c89935650d0fd7e30d39d46aa8d14a3e31dc3dfb", "byteSize": 110},
+    "specification": {"sha256": "f1a7aa1afe6a2d66883c36641ad2e6d8d76e42e6a3c648da350b5bc0c2896138", "byteSize": 641}
+  }
+}

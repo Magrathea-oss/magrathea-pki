@@ -1,0 +1,177 @@
+{
+  "schemaVersion": "2.0",
+  "episodeId": "0004-public-key-algorithm-v1-vocabulary",
+  "parentEpisodeId": null,
+  "continuationId": "public-key-algorithm",
+  "provenance": {
+    "captureMode": "RAW_EVENT_STREAM",
+    "promptVersion": "bdd-java-spec-driven-v8",
+    "toolRegistryVersion": "sha256:58f9fb4ff63c4ac748fcf030b843b8687a38b4aab2362dd8974d2b5b32f7776b",
+    "initialCommit": "87af2115bedd05dd79faa3a6bbfe372c4b84de6e",
+    "initialTree": "af77eaeeb46966380aed06687689c88d3e92901f",
+    "finalCommit": "e033166222a324620e6ecfb2026db0e0b6bb0d67",
+    "finalTree": "2dd4ee31ec87695e9eb96e4619f39d06a46f29a6",
+    "workflow": "bdd-java",
+    "agent": "spec-driven",
+    "effectiveModel": "openai-codex/gpt-5.6-sol",
+    "javaspec": {
+      "version": "1.0.0-RC1",
+      "commit": null,
+      "fingerprint": "launcher=1.0.0-RC1; selectedJar=<maven-repository>/io/github/jvmspec/javaspec/1.0.0-RC1/javaspec-1.0.0-RC1.jar; jarSha256=0a6affa008f5452f851b711755237075b1ce1172a1b056d459f7201d5a16128a"
+    }
+  },
+  "environment": {
+    "os": "Linux amd64 container runtime",
+    "javaVersion": "OpenJDK 21",
+    "buildTool": "Apache Maven 3.9.16",
+    "repositoryStatus": "Tracked implementation state was clean at the base commit; pre-existing untracked harness artifacts under .ide were untouched. The implementation commit contains exactly two authorized source additions.",
+    "variables": {}
+  },
+  "task": {
+    "userRequest": "Implement exactly one new-subject pure-domain behavior: PublicKeyAlgorithm defines the complete case-sensitive CertificateProfile v1 vocabulary EC_P256 and RSA_3072 without declaration-order semantics. Trace to ADR 0001 and REQ-X509-PROFILE-INTEGRITY-001/011 without claiming YAML admission. Capture describe before the first subject edit, require JavaSpec-generated production creation, one meaningful RED, the smallest enum GREEN, and complete Java 21 verification.",
+    "requirements": [
+      "ADR 0001 CertificateProfile v1 closed case-sensitive publicKeyAlgorithms vocabulary and unordered-set semantics",
+      "features/x509/certificate-profile-integrity.feature REQ-X509-PROFILE-INTEGRITY-001 (traceability only; complete scenario remains unimplemented)",
+      "features/x509/certificate-profile-integrity.feature REQ-X509-PROFILE-INTEGRITY-011 (traceability only; YAML admission and rejection remain unimplemented)"
+    ],
+    "requirementIds": ["REQ-X509-PROFILE-INTEGRITY-001", "REQ-X509-PROFILE-INTEGRITY-011"],
+    "scenarioIds": ["req-x509-profile-integrity-001", "req-x509-profile-integrity-011"],
+    "allowedFiles": [
+      "trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithm.java",
+      "trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithmSpec.java",
+      "trust-engine-domain/target/** (ignored generated/build output)",
+      "docs/dataset/** (dataset-writer only)"
+    ]
+  },
+  "admission": {
+    "decision": "ACCEPTED",
+    "reason": "Complete sealed spec-driven RAW_EVENT_STREAM proves one ADR-authorized new-subject JavaSpec behavior with qualified requirement traceability, exact pre-baseline executable fingerprint, absent initial subject paths, describe before all subject edits, structural RED, first production creation by successful run --generate with exact generated-skeleton output, executable expectation RED, one bounded enum GREEN, order-insensitive exact vocabulary proof, selected/full 4/4 verification, zero pending/stubs, exact Java 21 public shape, Java 21 Maven and dependency success, exact two-file commit scope, matching hashes, schema/privacy checks, and independent behavior replay.",
+    "checks": [
+      {"name":"validTrainingTarget","status":"PASS","evidence":"Agent is spec-driven v8 and JavaSpec is the only RED/GREEN source."},
+      {"name":"sealedRawEventStream","status":"PASS","evidence":"302 events, complete seal, valid event/file SHA-256 values, valid hash chain, and 59 complete chronological tool pairs."},
+      {"name":"promptToolProvenance","status":"PASS","evidence":"Canonical task, prompt version, model lock, agent definition, and tool-registry fingerprint are captured."},
+      {"name":"preBaselineLauncherFingerprint","status":"PASS","evidence":"Sequence 26 reports launcher 1.0.0-RC1, exact selected JAR path, and SHA-256 before successful baseline sequence 80."},
+      {"name":"initialGitState","status":"PASS","evidence":"Base commit/tree match metadata; both subject source paths were absent and only pre-existing .ide harness files were untracked."},
+      {"name":"authorizationAndQualifiedTraceability","status":"PASS","evidence":"ADR 0001 normatively defines the exact closed vocabulary and unordered semantics; REQ-001/011 are traceability anchors without claims of complete scenario or YAML-admission implementation."},
+      {"name":"newSubjectDescribeBoundary","status":"PASS","evidence":"Sequence 92 describe generated the initial specification/support and explicitly no production class before the first specification edit at sequence 134."},
+      {"name":"structuralRed","status":"PASS","evidence":"Sequence 146 reported missing enum, proposed exactly the matching skeleton path, wrote no production, and exited 1."},
+      {"name":"productionFirstCreatedByGenerate","status":"PASS","evidence":"Sequence 152 successful tool result first created production and exactly reported Generated enum skeleton: src/main/java/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithm.java."},
+      {"name":"meaningfulExecutableRed","status":"PASS","evidence":"The generated empty enum executed the one example and failed expected exact two-token set versus actual empty set before GREEN."},
+      {"name":"singleBehaviorSpecification","status":"PASS","evidence":"One example asserts enum shape and exact case-sensitive token membership through Set<String>, intentionally avoiding declaration-order semantics."},
+      {"name":"boundedGreen","status":"PASS","evidence":"One production edit replaced the generated empty body with only EC_P256 and RSA_3072."},
+      {"name":"verification","status":"PASS","evidence":"Selected 1/1, full domain 4/4, classpath-correct dry-run 1/1, zero pending generation work and stub markers, and exact generated support all passed."},
+      {"name":"java21ShapeMavenDependencies","status":"PASS","evidence":"Class version 65 exact enum shape, Java 21 Maven verify 4 tests/JavaSpec 4/4, and no intrinsic runtime dependencies with dev disabled."},
+      {"name":"scopeCommitAndHashes","status":"PASS","evidence":"Implementation commit/tree and parent are exact; only two authorized files were added; independently materialized patch and both source hashes match sealed final bytes and commit."},
+      {"name":"independentReplay","status":"PASS","evidence":"Subject 1/1, full JavaSpec 4/4, Java 21 Maven verify, dependency tree, and public shape replayed at the implementation commit; replay JAR drift is disclosed."},
+      {"name":"privacy","status":"PASS","evidence":"Episode and derived training view replace machine-local paths, omit host metadata/secrets, and contain no hidden reasoning."},
+      {"name":"schemaAndValidators","status":"PASS","evidence":"Authoritative workflow schema and repository validators pass after artifact generation."}
+    ]
+  },
+  "rawObservableEvents": [
+    {"sequence":26,"timestamp":null,"eventType":"launcher_fingerprint","actor":"spec-driven","toolName":"bash","arguments":{"command":"./bin/javaspec --launcher-fingerprint"},"result":{"version":"1.0.0-RC1","selectedJar":"<maven-repository>/io/github/jvmspec/javaspec/1.0.0-RC1/javaspec-1.0.0-RC1.jar","sha256":"0a6affa008f5452f851b711755237075b1ce1172a1b056d459f7201d5a16128a"},"exitCode":0,"summary":"Successful exact selected-JAR fingerprint captured before baseline."},
+    {"sequence":35,"timestamp":null,"eventType":"initial_git_and_absence","actor":"spec-driven","toolName":"bash","arguments":null,"result":{"commit":"87af2115bedd05dd79faa3a6bbfe372c4b84de6e","tree":"af77eaeeb46966380aed06687689c88d3e92901f","subjectProduction":"ABSENT","subjectSpecification":"ABSENT"},"exitCode":0,"summary":"Base commit/tree confirmed and both new-subject paths were absent."},
+    {"sequence":80,"timestamp":null,"eventType":"domain_baseline","actor":"spec-driven","toolName":"bash","arguments":{"profile":"java21"},"result":{"total":3,"passed":3,"failed":0,"broken":0,"skipped":0,"pending":0},"exitCode":0,"summary":"Existing full domain JavaSpec baseline passed before describe or edits."},
+    {"sequence":92,"timestamp":null,"eventType":"new_subject_describe","actor":"spec-driven","toolName":"bash","arguments":{"command":"cd trust-engine-domain && ../bin/javaspec describe com.magrathea.trustengine.x509.profile.PublicKeyAlgorithm"},"result":{"specificationGenerated":true,"supportGenerated":true,"productionGenerated":false},"exitCode":0,"summary":"Describe created the initial specification and support and explicitly did not create production."},
+    {"sequence":134,"timestamp":null,"eventType":"specification_edit","actor":"spec-driven","toolName":"edit","arguments":{"examplesAdded":1,"generatedInitializationExampleReplaced":true},"result":{"changedFile":"PublicKeyAlgorithmSpec.java"},"exitCode":0,"summary":"One exact set-vocabulary example replaced the generated initialization example."},
+    {"sequence":146,"timestamp":null,"eventType":"structural_red","actor":"spec-driven","toolName":"bash","arguments":{"dryRun":true,"class":"com.magrathea.trustengine.x509.profile.PublicKeyAlgorithm"},"result":{"classification":"MISSING_PRODUCTION_TYPE","wouldGenerate":"src/main/java/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithm.java","filesWritten":0},"exitCode":1,"summary":"Structural RED proved the production enum remained absent and generation was pending."},
+    {"sequence":152,"timestamp":null,"eventType":"generation_and_executable_red","actor":"spec-driven","toolName":"bash","arguments":{"generate":true,"class":"com.magrathea.trustengine.x509.profile.PublicKeyAlgorithm","example":"it_defines_the_complete_v1_public_key_algorithm_vocabulary"},"result":{"productionCreationMode":"JAVASPEC_RUN_GENERATE","generatedLine":"Generated enum skeleton: src/main/java/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithm.java","classification":"EXPECTATION_FAILURE","message":"Expected equality([RSA_3072, EC_P256]) but got []","total":1,"failed":1,"pending":0},"exitCode":1,"summary":"JavaSpec first created the empty enum skeleton and immediately produced a meaningful expectation RED."},
+    {"sequence":162,"timestamp":null,"eventType":"generated_red_state","actor":"spec-driven","toolName":"bash","arguments":null,"result":{"productionSha256":"929dbb720f787e2faef65f493c062ef90144dd96f24a624eb743f7ea6179916f","specificationSha256":"f1a7aa1afe6a2d66883c36641ad2e6d8d76e42e6a3c648da350b5bc0c2896138","productionShape":"empty enum"},"exitCode":0,"summary":"Post-generation RED state and hashes were captured before GREEN."},
+    {"sequence":170,"timestamp":null,"eventType":"bounded_green_edit","actor":"spec-driven","toolName":"edit","arguments":{"constants":["EC_P256","RSA_3072"]},"result":{"productionChanges":"generated empty enum body replaced with exactly two constants"},"exitCode":0,"summary":"One bounded production edit supplied the complete vocabulary."},
+    {"sequence":182,"timestamp":null,"eventType":"selected_green","actor":"spec-driven","toolName":"bash","arguments":{"example":"it_defines_the_complete_v1_public_key_algorithm_vocabulary"},"result":{"total":1,"passed":1,"failed":0,"broken":0,"skipped":0,"pending":0},"exitCode":0,"summary":"Selected exact-vocabulary behavior passed 1/1."},
+    {"sequence":188,"timestamp":null,"eventType":"full_green","actor":"spec-driven","toolName":"bash","arguments":null,"result":{"total":4,"passed":4,"failed":0,"broken":0,"skipped":0,"pending":0},"exitCode":0,"summary":"Full domain JavaSpec passed 4/4 with zero pending."},
+    {"sequence":224,"timestamp":null,"eventType":"runtime_dependencies","actor":"spec-driven","toolName":"bash","arguments":{"profile":"dev-disabled","scope":"runtime"},"result":{"intrinsicRuntimeDependencies":0,"build":"SUCCESS"},"exitCode":0,"summary":"Domain module has no intrinsic runtime dependencies when the pre-existing dev injection is disabled."},
+    {"sequence":230,"timestamp":null,"eventType":"exact_public_shape","actor":"spec-driven","toolName":"bash","arguments":{"java":"21","tool":"javap"},"result":{"majorVersion":65,"kind":"enum","constants":["EC_P256","RSA_3072"],"otherPublicApi":["values()","valueOf(String)"]},"exitCode":0,"summary":"Java 21 bytecode exposes exactly the governed enum constants and standard enum API."},
+    {"sequence":236,"timestamp":null,"eventType":"maven_java21_green","actor":"spec-driven","toolName":"bash","arguments":{"java":"21","profile":"dev-disabled","goal":"verify"},"result":{"tests":4,"failures":0,"errors":0,"skipped":0,"javaspecPassed":4,"pending":0,"build":"SUCCESS"},"exitCode":0,"summary":"Java 21 Maven verify passed all tests and JavaSpec examples."},
+    {"sequence":266,"timestamp":null,"eventType":"generation_state_check","actor":"spec-driven","toolName":"bash","arguments":{"dryRun":true,"classpath":"compiled test/main classes plus test dependencies"},"result":{"total":1,"passed":1,"skipped":0,"pending":0,"pendingGenerationWork":0},"exitCode":0,"summary":"Classpath-correct dry-run found no pending generation/update work and executed 1/1."},
+    {"sequence":278,"timestamp":null,"eventType":"final_scope_and_hashes","actor":"spec-driven","toolName":"bash","arguments":null,"result":{"changedSourceFiles":2,"productionSha256":"0fc94ff23a3d298ff2ecb187c89935650d0fd7e30d39d46aa8d14a3e31dc3dfb","specificationSha256":"f1a7aa1afe6a2d66883c36641ad2e6d8d76e42e6a3c648da350b5bc0c2896138","generatedSupportSha256":"728901ff7ec10e288b8841e3484c4ac6ff4184c8ef775d83647a23c03a108f8d","pendingStubCount":0},"exitCode":0,"summary":"Final exact two-file source scope, hashes, and clean stub scan were captured."},
+    {"sequence":297,"timestamp":null,"eventType":"handoff","actor":"spec-driven","toolName":null,"arguments":null,"result":{"outcome":"BEHAVIOR_VERIFIED","productionCreationMode":"JAVASPEC_RUN_GENERATE","examplesAdded":1,"pendingStubCount":0},"exitCode":null,"summary":"Structured verified implementation handoff emitted before harness sealing."}
+  ],
+  "patches": [
+    {"path":"docs/dataset/artifacts/0004-public-key-algorithm-v1-vocabulary/worktree.patch","sha256":"5b2d683a08c2258f89c3561a602b6c665c57edc4538d7e60ed8f8a96bdac5a04","byteSize":1576,"description":"Independently materialized exact two-file base-to-implementation patch; matches sealed describe/generate/edit/final-file evidence and the implementation commit."}
+  ],
+  "verification": {
+    "commands": [
+      {"command":"./bin/javaspec --launcher-fingerprint","exitCode":0,"summary":"Successful pre-baseline launcher version, exact selected JAR path, and SHA-256."},
+      {"command":"cd trust-engine-domain && ../bin/javaspec run --compile --formatter progress --profile java21","exitCode":0,"summary":"Existing domain baseline passed 3/3 before new-subject describe."},
+      {"command":"cd trust-engine-domain && ../bin/javaspec describe com.magrathea.trustengine.x509.profile.PublicKeyAlgorithm","exitCode":0,"summary":"Generated initial specification/support and explicitly no production class."},
+      {"command":"cd trust-engine-domain && ../bin/javaspec run --compile --dry-run --profile java21 --class com.magrathea.trustengine.x509.profile.PublicKeyAlgorithm --example it_defines_the_complete_v1_public_key_algorithm_vocabulary","exitCode":1,"summary":"Structural RED proposed the exact enum skeleton and wrote no files."},
+      {"command":"cd trust-engine-domain && ../bin/javaspec run --generate --compile --profile java21 --class com.magrathea.trustengine.x509.profile.PublicKeyAlgorithm --example it_defines_the_complete_v1_public_key_algorithm_vocabulary","exitCode":1,"summary":"First production creation generated the exact empty enum skeleton; executable RED expected the two-token set but got empty."},
+      {"command":"cd trust-engine-domain && ../bin/javaspec run --compile --profile java21 --class com.magrathea.trustengine.x509.profile.PublicKeyAlgorithm --example it_defines_the_complete_v1_public_key_algorithm_vocabulary","exitCode":0,"summary":"Selected behavior passed 1/1 with zero pending after GREEN."},
+      {"command":"cd trust-engine-domain && ../bin/javaspec run --compile --profile java21","exitCode":0,"summary":"Full domain JavaSpec passed 4/4 with zero pending."},
+      {"command":"cd trust-engine-domain && ../bin/javaspec run --dry-run --profile java21 --classpath <compiled-domain-test-classpath> --class com.magrathea.trustengine.x509.profile.PublicKeyAlgorithm","exitCode":0,"summary":"Classpath-correct dry-run passed 1/1 with no pending generation/update work."},
+      {"command":"pending-stub scan over production, specification, and generated JavaSpec support","exitCode":0,"summary":"Zero pending stub markers."},
+      {"command":"JAVA_HOME=<java-21-home> PATH=<java-21-bin>:$PATH mvn -P!dev -pl trust-engine-domain -am verify","exitCode":0,"summary":"Captured Java 21 Maven verify passed four tests and JavaSpec 4/4 with BUILD SUCCESS."},
+      {"command":"JAVA_HOME=<java-21-home> PATH=<java-21-bin>:$PATH mvn -P!dev -pl trust-engine-domain dependency:tree -Dscope=runtime","exitCode":0,"summary":"No intrinsic domain runtime dependencies; BUILD SUCCESS."},
+      {"command":"independent replay: subject/full JavaSpec, Java 21 Maven verify, dependency tree, and javap at implementation commit","exitCode":0,"summary":"Reproduced subject 1/1, full 4/4, zero pending, Maven success, no intrinsic runtime dependencies, and exact class-version-65 enum shape with disclosed post-seal JAR drift."},
+      {"command":"./scripts/validate-dataset && ./scripts/validate-agent-contracts","exitCode":0,"summary":"Authoritative schema, dataset references, privacy scan, and agent contracts pass."}
+    ],
+    "outcome": "PASSED",
+    "evidence": [
+      {"path":"docs/dataset/artifacts/0004-public-key-algorithm-v1-vocabulary/trace-validation.json","sha256":"71a26107c19019be3f633239263eda2238a135df34f79008bf7592db4223cecd","mediaType":"application/json","byteSize":3749,"description":"Independent seal, hash-chain, provenance, chronology, creation-boundary, scope, commit, and privacy validation."},
+      {"path":"docs/dataset/artifacts/0004-public-key-algorithm-v1-vocabulary/verification-evidence.json","sha256":"614e1198bdc58453370ba3a210d6e0ae241cc59d89c28f55f1012aad61be4fcc","mediaType":"application/json","byteSize":3822,"description":"Sanitized authorization, new-subject, RED/GREEN, Java 21, dependency, replay, commit, and source-hash evidence."},
+      {"path":"docs/dataset/artifacts/0004-public-key-algorithm-v1-vocabulary/worktree.patch","sha256":"5b2d683a08c2258f89c3561a602b6c665c57edc4538d7e60ed8f8a96bdac5a04","mediaType":"text/x-patch","byteSize":1576,"description":"Exact bounded implementation patch."},
+      {"path":"docs/dataset/artifacts/0004-public-key-algorithm-v1-vocabulary/evidence-summary.md","sha256":"97049d564be17a9c370cb5d57e1dd89b03f530f0efafd4c6719f1782ceeab579","mediaType":"text/markdown","byteSize":2579,"description":"Human-readable evidence summary."},
+      {"path":"docs/dataset/artifacts/0004-public-key-algorithm-v1-vocabulary/resume-capsule.md","sha256":"e49d037f10ccdbdd8fe05d5b28b982fd5a7ffe5234d1d64e7a382076fcc8a6fc","mediaType":"text/markdown","byteSize":1948,"description":"Compact safe-resume state."}
+    ]
+  },
+  "termination": {
+    "type": "VERIFIED_SUCCESS",
+    "suspectedOwner": "SPEC_DRIVEN",
+    "summary": "PublicKeyAlgorithm defines exactly EC_P256 and RSA_3072 as the complete case-sensitive v1 vocabulary without declaration-order semantics; all captured and independent behavior-verification gates pass."
+  },
+  "contextMetrics": {
+    "metricCollectionStatus": "PARTIAL",
+    "maximumContextTokens": null,
+    "peakContextTokens": null,
+    "totalInputTokens": 62938,
+    "cachedInputTokens": 1203712,
+    "outputTokens": 11330,
+    "uniqueSourceBytesRead": null,
+    "repeatedSourceBytesRead": null,
+    "toolOutputBytesPresentedToModel": null,
+    "compactionCount": 0,
+    "iterationCount": 59
+  },
+  "curation": {
+    "status": "CURATED_SFT_CANDIDATE",
+    "reviewers": ["dataset-writer"],
+    "knownIssues": [
+      "The seal patchSha256 is null because both new source files were untracked at seal time; complete describe/generate/edit/final-file/hash events preserve their provenance and bytes, and the independently materialized commit patch matches them exactly.",
+      "The initial Maven baseline command ran under Java 25 despite a property override and failed on pre-existing JaCoCo compatibility; it was not used as baseline evidence. JavaSpec baseline was green before describe, and explicit Java 21 test/verify later passed.",
+      "The first final dry-run omitted the compiled specification classpath and skipped one example; it was not used as executable evidence, and the corrected classpath dry-run passed 1/1 with no pending generation work.",
+      "The launcher JAR at the selected path changed after sealing. Independent behavior replay passed with the later JAR but was not bit-identical executable replay; exact sealed pre-baseline provenance remains captured.",
+      "Mechanically and behaviorally validated candidate still requires independent approval for final CURATED_SFT."
+    ],
+    "sftEligibility": {"status":"CANDIDATE","reason":"RAW_EVENT_STREAM contains exactly one ADR-authorized new-subject behavior with qualified requirement traceability, complete describe/generate/RED/GREEN chronology, exact sealed executable provenance, bounded scope, matching commit/hash evidence, privacy sanitization, authoritative schema validation, and independent behavior replay."},
+    "evaluationEligibility": {"status":"NOT_ELIGIBLE","reason":"No independent evaluation-case approval has been performed."}
+  },
+  "artifacts": [
+    {"path":"docs/dataset/artifacts/0004-public-key-algorithm-v1-vocabulary/trace-validation.json","sha256":"71a26107c19019be3f633239263eda2238a135df34f79008bf7592db4223cecd","mediaType":"application/json","byteSize":3749,"description":"Independent trace validation."},
+    {"path":"docs/dataset/artifacts/0004-public-key-algorithm-v1-vocabulary/verification-evidence.json","sha256":"614e1198bdc58453370ba3a210d6e0ae241cc59d89c28f55f1012aad61be4fcc","mediaType":"application/json","byteSize":3822,"description":"Sanitized verification evidence."},
+    {"path":"docs/dataset/artifacts/0004-public-key-algorithm-v1-vocabulary/worktree.patch","sha256":"5b2d683a08c2258f89c3561a602b6c665c57edc4538d7e60ed8f8a96bdac5a04","mediaType":"text/x-patch","byteSize":1576,"description":"Exact bounded implementation patch."},
+    {"path":"docs/dataset/artifacts/0004-public-key-algorithm-v1-vocabulary/evidence-summary.md","sha256":"97049d564be17a9c370cb5d57e1dd89b03f530f0efafd4c6719f1782ceeab579","mediaType":"text/markdown","byteSize":2579,"description":"Human-readable evidence summary."},
+    {"path":"docs/dataset/artifacts/0004-public-key-algorithm-v1-vocabulary/resume-capsule.md","sha256":"e49d037f10ccdbdd8fe05d5b28b982fd5a7ffe5234d1d64e7a382076fcc8a6fc","mediaType":"text/markdown","byteSize":1948,"description":"Compact safe-resume state."}
+  ],
+  "resumeCapsule": {
+    "currentCommit": "e033166222a324620e6ecfb2026db0e0b6bb0d67",
+    "currentTree": "2dd4ee31ec87695e9eb96e4619f39d06a46f29a6",
+    "requirementIds": ["REQ-X509-PROFILE-INTEGRITY-001", "REQ-X509-PROFILE-INTEGRITY-011"],
+    "scenarioIds": ["req-x509-profile-integrity-001", "req-x509-profile-integrity-011"],
+    "currentBehavior": "PublicKeyAlgorithm defines exactly the case-sensitive CertificateProfile v1 tokens EC_P256 and RSA_3072; the behavior assigns no declaration-order semantics and does not implement YAML admission.",
+    "owningAgent": "spec-driven",
+    "fileHashes": [
+      {"path":"trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithm.java","sha256":"0fc94ff23a3d298ff2ecb187c89935650d0fd7e30d39d46aa8d14a3e31dc3dfb","byteSize":110},
+      {"path":"trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithmSpec.java","sha256":"f1a7aa1afe6a2d66883c36641ad2e6d8d76e42e6a3c648da350b5bc0c2896138","byteSize":641}
+    ],
+    "lastVerifiedResult": "Selected 1/1, full JavaSpec 4/4, zero pending/stubs, exact Java 21 enum shape, Java 21 Maven verify, and dependency checks passed; independently replayed behavior at the implementation commit.",
+    "lastFailureOrStop": "Meaningful JavaSpec RED on the generated empty enum: expected the exact two-token set but got an empty set.",
+    "unresolvedWork": ["YAML admission and unknown/miscased token rejection remain unimplemented.","Parsing, set duplicates/order normalization, profile aggregate, JCS/hashing, manifests/audit, lifecycle, and issuance policy require separate authorized slices.","Independent approval is required before CURATED_SFT promotion.","Bit-identical replay would require recovery of the sealed SHA-256 0a6affa0... launcher JAR; behavior replay used the later JAR."],
+    "allowedFiles": [
+      "trust-engine-domain/src/main/java/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithm.java",
+      "trust-engine-domain/src/test/java/spec/com/magrathea/trustengine/x509/profile/PublicKeyAlgorithmSpec.java",
+      "docs/dataset/**"
+    ],
+    "javaspecFingerprint": "launcher=1.0.0-RC1; jarSha256=0a6affa008f5452f851b711755237075b1ce1172a1b056d459f7201d5a16128a",
+    "nextPermittedAction": "Parent reviews and may commit dataset artifacts; any next domain change must be one separately authorized JavaSpec continuation slice, and javaspec describe must not be repeated for PublicKeyAlgorithm."
+  }
+}
