@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "trajectory-validation-v1",
+  "validatedAt": "2026-07-11T03:27:56Z",
+  "traceId": "1d500fa6-0db9-4607-bb7e-015cb0a377f6",
+  "status": "PASS",
+  "captureMode": "RAW_EVENT_STREAM",
+  "checks": [
+    {"name":"eventsFileSha256","status":"PASS","evidence":"59ae3161c917816ee9400bf4fda061d648ea7c18faee7f42d84ceab11771777c matches the delegated expected hash and seal."},
+    {"name":"sealCompleteness","status":"PASS","evidence":"Complete seal, process exit 0, 332 events, final event hash 869ff02b033a656ca486d9d5b29ce8b6db2b8f57f5325053a1ed55a4c1fd2891."},
+    {"name":"eventHashChainAndToolPairs","status":"PASS","evidence":"Sequences 0-331, every previousHash link, canonical sorted-key event hash, and all 56 tool start/end pairs verified."},
+    {"name":"canonicalEnglishTask","status":"PASS","evidence":"Delegated user task exactly equals metadata canonicalTask; canonicalTaskLanguage=en."},
+    {"name":"agentPromptToolModelProvenance","status":"PASS","evidence":"agent=spec-driven; prompt=bdd-java-spec-driven-v6; tool registry SHA-256 58f9fb4ff63c4ac748fcf030b843b8687a38b4aab2362dd8974d2b5b32f7776b; model openai-codex/gpt-5.6-sol."},
+    {"name":"javaspecPreBaselineFingerprint","status":"PASS","evidence":"Successful --launcher-fingerprint at sequences 43-44 preceded baseline and edits and reported launcher 1.0.0-RC1, exact selected in-container JAR path /root/.m2/repository/io/github/jvmspec/javaspec/1.0.0-RC1/javaspec-1.0.0-RC1.jar, and SHA-256 8522dc72ab0ca87a508436419c4ed430e0ad470375445c689fa871218a8ab501."},
+    {"name":"javaspecSourceCorrelation","status":"PASS","evidence":"RC1 source commit cd7ff8d1379aabdfcfadc964b3a6473f38383c66 and required fix 5662797 ancestry verified."},
+    {"name":"gitStateAndPatch","status":"PASS","evidence":"Clean initial HEAD/tree 6c56b961/3681c871; final tracked tree c94cd8f6; exact two authorized files; sealed patch SHA-256 bd63db744763ebf8540aa7854e0ad0a239fb7425848ce9ecb944bb6fb95c44b4 matches current implementation diff."},
+    {"name":"singleBehaviorScope","status":"PASS","evidence":"Exactly one correlationId example and one eighth String record component/accessor; no independent behavior batched."},
+    {"name":"chronologicalStructuralRed","status":"PASS","evidence":"No-write dry run at sequences 190-191 exited 1 before production mutation, reported pending support/method/constructor work, and the production hash remained unchanged."},
+    {"name":"boundedGreen","status":"PASS","evidence":"Generation produced String arg7 and one null pending correlationId accessor; coherent GREEN renamed arg7 to correlationId and removed the redundant stub."},
+    {"name":"greenVerification","status":"PASS","evidence":"Selected 1/1, envelope 8/8, full 37/37, zero stubs, ordered eight-argument constructor, and exactly one String correlationId accessor passed."},
+    {"name":"java21Maven","status":"PASS","evidence":"Official OpenJDK 21.0.11 container Maven verification passed 37 tests with zero unsupported-class warnings; dataset-writer independently reran it successfully."},
+    {"name":"privacyAndSanitization","status":"PASS","evidence":"No credential, token, private key, or secret found. Machine-local paths are omitted from the derived training view; immutable raw source remains external."},
+    {"name":"repositoryValidators","status":"PASS","evidence":"scripts/validate-dataset and scripts/validate-agent-contracts passed before dataset writing; final post-write validation is recorded separately."}
+  ],
+  "eventStatistics":{"eventCount":332,"turnCount":52,"toolExecutionCount":56,"toolExecutionPairErrors":0,"processExitCode":0},
+  "rawTraceRetention":{"copiedToDataset":false,"reason":"Immutable sealed source remains external; derived artifacts omit private machine-local paths."}
+}

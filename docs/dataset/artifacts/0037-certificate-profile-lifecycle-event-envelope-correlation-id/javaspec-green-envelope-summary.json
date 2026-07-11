@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "javaspec-summary-v1",
+  "phase": "envelope-green",
+  "sourceReportSha256": "4701b960ec13b58ae75791af8ea067ae8874a8dda0c1c2a79d79f798034de35f",
+  "total": 8,
+  "passed": 8,
+  "failed": 0,
+  "broken": 0,
+  "skipped": 0,
+  "pending": 0,
+  "successful": true
+}

@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "javaspec-summary-v1",
+  "phase": "baseline",
+  "sourceReportSha256": "3c3488b06a673e39e5f349c790f72855507914e6e015d86851c987827766741a",
+  "total": 36,
+  "passed": 36,
+  "failed": 0,
+  "broken": 0,
+  "skipped": 0,
+  "pending": 0,
+  "successful": true
+}
